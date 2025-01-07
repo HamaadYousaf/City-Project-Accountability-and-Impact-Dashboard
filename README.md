@@ -1,0 +1,5 @@
+# City Project Accountability and Impact Dashboard
+
+The inefficiency and waste of public funds in city infrastructure projects, such as roads, bridges, and subways, has become a growing concern. In Toronto, the infamous LRT project is a well-known example of such a project with billions of dollars of public money at stake, delayed for many years, and no one knows exactly why and who is responsible for it. Delays in the completion of these projects are often attributed to poor management and lack of accountability, resulting in significant cost overruns and extended disruption to public services. One of the most pressing issues is the lack of transparency from city officials, who frequently fail to inform taxpayers about the reasons for delays and the parties responsible. This lack of communication creates a barrier for taxpayers seeking accountability, leaving them uninformed about the management of public resources.
+
+This project proposes the development of a comprehensive web-based application to enhance transparency, accountability, and community involvement in city infrastructure projects.
