@@ -11,57 +11,43 @@ import axios from 'axios';
 
 
 export default function DetailedPages() {
-    //will prob need axios and when i do use the .data.data
-
     const { id } = useParams(); // This extracts the "id" from the URL like "/projects/:id"
-    {/*const project = projectData.find(p => p.id === parseInt(id)); // check if the id of the project matches the id obtained from URL and id from URL is a string so we parse it to convert to a number*/ }
-
     const [project, setProject] = useState(null); // State to hold project data
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
-    {/*useEffect(() => {
-        // Fetch the project data by ID
-        axios.get(`/api/projects/${id}`)
-            .then(response => {
-                setProject(response.data.data); // Assign fetched project data
-                setLoading(false);
-            })
-            .catch(error => {
-                setError(error.message);
-                setLoading(false);
-            });
-    }, [id]); */}
 
     useEffect(() => {
         const fetchProjects = async () => {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/projects/${id}`);
-                console.log(response.data.data)
                 setProject(response.data.data);
             } catch (error) {
                 console.error("Error fetching project data:", error);
             }
         };
+        setLoading(false);
         fetchProjects();
     }, [id]);
 
-    const municipalFunding = project.municipal_funding;
-    const provincialFunding = project.provincial_funding;
-    const federalFunding = project.federal_funding;
-    const otherFunding = project.other_funding;
+    const municipalFunding = project ? project.municipal_funding : false;
+    const provincialFunding = project ? project.provincial_funding : false;
+    const federalFunding = project ? project.federal_funding : false;
+    const otherFunding = project ? project.other_funding : false;
 
     const renderYesBox = (funding) => {
-        return funding ?
+        return funding ? (
             <ImCheckboxChecked className='checkbox-icon' />
-            : <ImCheckboxUnchecked className='checkbox-icon' />
+        ) : (
+            <ImCheckboxUnchecked className='checkbox-icon' />
+        )
     }
 
     const renderNoBox = (funding) => {
-        return funding ?
+        return !funding ? (
             <ImCheckboxChecked className='checkbox-icon' />
-            :
+        ) : (
             <ImCheckboxUnchecked className='checkbox-icon' />
+        )
 
     }
 
@@ -106,9 +92,9 @@ export default function DetailedPages() {
                                     <th>Efficiency</th>
                                 </tr>
                                 <tr>
-                                    <td style={{ color: getPerformanceColor(project.Performance) }}>{project.Performance}/100</td>
+                                    <td style={{ color: getPerformanceColor(project.performance_metric) }}>{project.performance_metric}/100</td>
                                     <td>{project.Delay_Trends} <span>days</span></td>
-                                    <td style={{ color: getEfficiencyColor(project.Efficiency) }}>{project.Efficiency}</td>
+                                    <td style={{ color: getEfficiencyColor(project.efficiency) }}>{project.efficiency}</td>
                                 </tr>
                             </table>
                         </div>
