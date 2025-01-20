@@ -1,6 +1,7 @@
 import './Dashboard.css';
 import React, { useState, useEffect } from 'react';
 import { IoIosArrowUp } from "react-icons/io";
+import { IoArrowDownSharp } from "react-icons/io5";
 import { Link } from 'react-router-dom';
 import { FaCircle } from "react-icons/fa6";
 import { GoGraph } from "react-icons/go";
@@ -31,6 +32,16 @@ export default function Dashboard({ projects }) {
             </span>
         );
     };
+
+    const getArrowIcon = (value) => {
+        const color = value >= 50 ? 'rgb(74, 191, 74' : 'red';
+        const Icon = value >= 50 ? IoIosArrowUp : IoArrowDownSharp
+        return (
+            <span style={{ color }}>
+                <Icon />
+            </span>
+        )
+    }
 
     const getEfficiencyColor = (value) => {
         return value === "Improving" ? 'rgb(74, 191, 74)' : 'red';
@@ -85,9 +96,9 @@ export default function Dashboard({ projects }) {
                                             </td>
                                             <td style={{ color: getPerformanceColor(cityData.budget_change * 100) }}>
                                                 {Math.round(cityData.budget_change * 100)}%
-                                                <IoIosArrowUp className='arrow' />
+                                                {getArrowIcon(cityData.budget_change)}
                                             </td>
-                                            <td>{Number(cityData.delays).toFixed(1)} months</td>
+                                            <td>{Number(cityData.delays).toFixed(1)} <span>months</span></td>
                                             <td style={{ color: getEfficiencyColor(cityData.efficiency) }}>
                                                 {cityData.efficiency}
                                             </td>
