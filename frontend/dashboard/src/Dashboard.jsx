@@ -115,7 +115,7 @@ export default function Dashboard({ projects }) {
                     <h2 className='dashboard-header'>Projects</h2>
                     <ul className="project-list">
                         {projects.map((project) => ( //this was projectData.map
-                            <li key={project.id} className='project'>
+                            <li key={project._id} className='project'>
                                 <h4 className='project-header'>
                                     <FaCircle className='circle' />
                                     {project.project_name}
@@ -136,15 +136,50 @@ export default function Dashboard({ projects }) {
                                     <p><strong>Status:</strong></p>
                                     <p>{project.status}</p>
                                 </section>
-                                {/*<section className='project-info'>
+                                <section className='project-info'>
                                     <p><strong>Completion Date:</strong></p>
-                                    <p>{project.Target_Completion_Date}</p>
-                                </section>*/}
+                                    <p>{project.current_completion_date}</p>
+                                </section>
                                 <div className='project-button'>
                                     <Link to={`/projects/${project.id}`}><button>{project.project_name}</button></Link>
                                 </div>
                             </li>
                         ))}
+                        {projects && projects.length > 0 ? (
+                            projects.map(project => (
+                                <li key={project._id} className='project'>
+                                    <h4 className='project-header'>
+                                        <FaCircle className='circle' />
+                                        {project.project_name}
+                                    </h4>
+                                    <section className='project-info'>
+                                        <p><strong>Type:</strong></p>
+                                        <p>{project.category}</p>
+                                    </section>
+                                    <section className='project-info'>
+                                        <p><strong>Location:</strong></p>
+                                        <p>{project.address}</p>
+                                    </section>
+                                    <section className='project-info'>
+                                        <p><strong>Region:</strong></p>
+                                        <p>{project.region}</p>
+                                    </section>
+                                    <section className='project-info'>
+                                        <p><strong>Status:</strong></p>
+                                        <p>{project.status}</p>
+                                    </section>
+                                    <section className='project-info'>
+                                        <p><strong>Completion Date:</strong></p>
+                                        <p>{project.current_completion_date}</p>
+                                    </section>
+                                    <div className='project-button'>
+                                        <Link to={`/projects/${project.id}`}><button>{project.project_name}</button></Link>
+                                    </div>
+                                </li>
+                            ))
+                        ) : (
+                            <p>No projects found.</p>
+                        )}
                     </ul>
                 </div>
             </div>

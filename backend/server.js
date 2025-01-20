@@ -10,7 +10,9 @@ import commentRoutes from './routes/comment.route.js'
 const app = express()
 const PORT = process.env.PORT || 3000;
 
-app.use(cors())
+app.use(cors({
+    origin: "*"
+}))
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
