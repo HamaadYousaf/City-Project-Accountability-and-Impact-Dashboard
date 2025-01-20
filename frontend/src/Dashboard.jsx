@@ -36,6 +36,7 @@ export default function Dashboard({ projects }) {
         return value === "Improving" ? 'rgb(74, 191, 74)' : 'red';
     };
 
+    console.log('test')
     return (
         <>
             <div className='dashboard'>
