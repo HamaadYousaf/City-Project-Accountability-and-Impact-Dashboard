@@ -103,7 +103,7 @@ export default function DetailedPages() {
                                     </tr>
                                     <tr>
                                         <td style={{ color: getPerformanceColor(project.performance_metric) }}>{project.performance_metric}/100</td>
-                                        <td>{project.delay} <span>days</span></td>
+                                        <td>{project.delay} <span>months</span></td>
                                         <td style={{ color: getEfficiencyColor(project.efficiency) }}>{project.efficiency}</td>
                                     </tr>
                                 </tbody>
