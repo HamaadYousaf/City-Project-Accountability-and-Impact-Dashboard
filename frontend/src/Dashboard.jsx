@@ -8,37 +8,9 @@ import { BsGraphDown } from "react-icons/bs";
 import axios from 'axios';
 
 export default function Dashboard({ projects }) {
-
-    /*const [isChecked, setIsChecked] = useState(false);
-    const toggleTheme = () => {
-        setIsChecked(!isChecked);
-    }; 
-    useEffect(() => {
-        if (isChecked) {
-            document.body.classList.add('dark-theme');
-            document.body.classList.remove('light-theme');
-        } else {
-            document.body.classList.add('light-theme');
-            document.body.classList.remove('dark-theme'); 
-        }
-    }, [isChecked]); */
     /*const [cityData, setCityData] = useState(null); */
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    /*useEffect(() => {
-        const fetchCityData = async () => {
-            try {
-                const response = await axios.get(`${process.env.API_URL}/api/projects`);
-                setCityData(response.data);
-            } catch (error) {
-                setError("Error fetching city data: " + error.message);
-            }
-            finally {
-                setLoading(false);
-            }
-        };
-        fetchCityData();
-    }, []); */
 
     const getPerformanceColor = (value) => {
         if (value >= 70) {
@@ -141,10 +113,11 @@ export default function Dashboard({ projects }) {
                                     <p>{project.current_completion_date}</p>
                                 </section>
                                 <div className='project-button'>
-                                    <Link to={`/projects/${project.id}`}><button>{project.project_name}</button></Link>
+                                    <Link to={`/projects/${project._id}`}><button>{project.project_name}</button></Link>
                                 </div>
                             </li>
                         ))}
+                        {/*
                         {projects && projects.length > 0 ? (
                             projects.map(project => (
                                 <li key={project._id} className='project'>
@@ -173,13 +146,13 @@ export default function Dashboard({ projects }) {
                                         <p>{project.current_completion_date}</p>
                                     </section>
                                     <div className='project-button'>
-                                        <Link to={`/projects/${project.id}`}><button>{project.project_name}</button></Link>
+                                        <Link to={`/projects/${project._id}`}><button>{project.project_name}</button></Link>
                                     </div>
                                 </li>
                             ))
                         ) : (
                             <p>No projects found.</p>
-                        )}
+                        )} */}
                     </ul>
                 </div>
             </div>
