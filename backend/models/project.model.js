@@ -27,7 +27,9 @@ const ProjectSchema = mongoose.Schema({
     federal_funding: { type: Boolean },
     other_funding: { type: Boolean },
     performance_metric: { type: Number },
-    efficiency: { type: String },
+    efficiency: {
+        type: String, enum: ['Improving', 'Moderate', 'Declining'], required: true, default: 'Moderate'
+    },
 }, {
     timestamps: true // Adds `createdAt` and `updatedAt` fields
 })
