@@ -18,7 +18,15 @@ export const getProject = async (req, res) => {
             res.status(404).json({ msg: `project with id ${id} not found` });
         }
         else {
-            res.status(200).json({ data: project });
+            const yearDiff = project.current_completion_date.getFullYear() - project.original_completion_date.getFullYear();
+            const monthDiff = project.current_completion_date.getMonth() - project.original_completion_date.getMonth();
+            const delay = yearDiff * 12 + monthDiff;
+
+            const projectObject = project.toObject();
+            projectObject.delay = delay;
+            projectObject.budget_change = project.current_budget - project.original_budget
+
+            res.status(200).json({ data: projectObject });
         }
     } catch (error) {
         res.status(500).json({ msg: error.message });
