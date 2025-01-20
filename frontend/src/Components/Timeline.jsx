@@ -4,11 +4,11 @@ import { useParams } from 'react-router-dom'
 
 
 export default function Timeline() {
-    {/*
+
     const { id } = useParams()
     const project = projectData.find(p => p.id === parseInt(id));
     const status = project.Status;
-
+    //will prob need axios and when i do use the .data.data
 
     return (
         <>
@@ -46,5 +46,5 @@ export default function Timeline() {
                 </li>
             </ul>
         </>
-    ) */}
+    )
 }

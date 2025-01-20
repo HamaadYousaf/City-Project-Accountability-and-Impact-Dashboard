@@ -10,8 +10,8 @@ import { ImCheckboxChecked, ImCheckboxUnchecked } from "react-icons/im";
 
 
 export default function DetailedPages() {
-    {/*
-    
+    //will prob need axios and when i do use the .data.data
+
     const { id } = useParams(); // This extracts the "id" from the URL like "/projects/:id"
     const project = projectData.find(p => p.id === parseInt(id)); // check if the id of the project matches the id obtained from URL and id from URL is a string so we parse it to convert to a number
 
@@ -45,7 +45,7 @@ export default function DetailedPages() {
             return 'red'
         }
         else {
-            return 'black' 
+            return 'black'
         }
     }
 
@@ -129,10 +129,10 @@ export default function DetailedPages() {
 
                 </div>
                 <div className='project-right'>
-                    <Timeline className="timeline" />
+                    {/*<Timeline className="timeline" /> */}
                 </div>
             </div>
         </>
     )
-        */}
+
 }
