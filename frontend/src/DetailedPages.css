@@ -1,0 +1,171 @@
+.project-details {
+    margin-left: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    padding: 0px 40px 30px 60px;
+    gap: 30px;
+}
+
+.project-left {
+    flex: 0 0 60%;
+    max-width: 60%;
+    height: auto;
+    box-sizing: border-box;
+    /*display: flex;
+    justify-content: space-between;
+    align-items: flex-start; */
+}
+
+.project-right {
+    flex: 0 0 40%;
+    /* 40% width */
+    max-width: 40%;
+    /* Ensure it doesn’t grow beyond 40% */
+    height: auto;
+    /* Let it grow based on content */
+    box-sizing: border-box;
+    /* Ensure padding doesn’t affect width */
+}
+
+.timeline {
+    width: 100%;
+    cursor: default;
+}
+
+.project-metrics-card {
+    width: 80%;
+    background-color: white;
+    border-radius: 15px;
+    border: none;
+    cursor: default;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    transition: transform 0.3s ease;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.05),
+        0px 0px 3px rgba(0, 0, 0, 0.08);
+}
+
+.project-metrics-card:hover {
+    transform: translateY(-5px);
+}
+
+.project-metrics-table table {
+    border-collapse: collapse;
+}
+
+.project-metrics-table td {
+    font-weight: bold;
+    font-size: large;
+}
+
+.project-metrics-table td span {
+    font-size: small;
+}
+
+.project-metrics-table td,
+th {
+    border-right: 2px solid lightgray;
+    padding: 8px;
+}
+
+.project-metrics-table td:nth-child(3),
+th:nth-child(3) {
+    border-right: none;
+}
+
+
+.detailed-page-header {
+    margin-left: 90px;
+    margin-bottom: 20px;
+    cursor: default;
+}
+
+.project-info {
+    display: flex;
+    width: 80%;
+    gap: 20px;
+}
+
+.project-description {
+    background-color: white;
+    border-radius: 15px;
+    border: none;
+    width: 50%;
+    padding: 8px;
+    cursor: default;
+    transition: transform 0.3s ease;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.05),
+        0px 0px 3px rgba(0, 0, 0, 0.08);
+}
+
+.project-description:hover {
+    transform: translateY(-5px);
+}
+
+.project-description p {
+    font-size: small;
+}
+
+.project-budget-change {
+    background-color: white;
+    border-radius: 15px;
+    border: none;
+    width: 50%;
+    padding: 8px;
+    cursor: default;
+    transition: transform 0.3s ease;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.05),
+        0px 0px 3px rgba(0, 0, 0, 0.08);
+}
+
+.project-budget-change:hover {
+    transform: translateY(-5px);
+}
+
+.project-budget-change p {
+    font-size: x-large;
+    font-weight: bold;
+    text-align: center;
+}
+
+.project-budget-change span {
+    font-size: small;
+    font-weight: normal;
+}
+
+.project-funding {
+    background-color: white;
+    border-radius: 15px;
+    border: none;
+    width: 80%;
+    padding: 8px;
+    transition: transform 0.3s ease;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.05),
+        0px 0px 3px rgba(0, 0, 0, 0.08);
+}
+
+.project-funding:hover {
+    transform: translateY(-5px);
+}
+
+.project-funding th {
+    border-right: none;
+}
+
+table {
+    border-spacing: 0 10px;
+    width: 100%;
+}
+
+th,
+td {
+    padding: 5px;
+    text-align: center;
+}
+
+.checkbox-icon {
+    color: #2a50cf;
+    font-size: larger;
+}

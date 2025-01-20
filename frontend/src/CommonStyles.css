@@ -1,0 +1,90 @@
+.card {
+    /*margin-top: 20px;
+    margin-left: 40%;*/
+    width: 25%;
+    margin: 0 auto;
+    margin-top: 50px;
+    background-color: white;
+    color: #2a50cf;
+    border: 1px solid white;
+    border-radius: 15px;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1),
+        0px 0px 3px rgba(0, 0, 0, 0.08);
+}
+
+.card-header {
+    text-align: center;
+    padding: 30px 0px 30px 0px;
+    cursor: default;
+}
+
+.card-inputs {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-input {
+    margin: 10px 40px 10px 40px;
+    outline: none;
+    border: 1px solid white;
+    border-radius: 8px;
+    background-color: rgba(234, 234, 241, 0.345);
+    padding: 15px;
+}
+
+.card-input:hover,
+.card-input:focus {
+    background-color: rgba(216, 216, 221, 0.345);
+}
+
+.card-submission {
+    text-align: center;
+}
+
+.signup-button {
+    background-color: #2a50cf;
+    color: white;
+    border: 1px solid #2b51cb;
+    border-radius: 15px;
+    padding: 8px 20px 8px 20px;
+    cursor: pointer;
+    text-align: center;
+    margin: 40px 0px 50px 0px;
+}
+
+.signup-button:hover {
+    background-color: #2447b9;
+}
+
+.login-input {
+    margin: 20px 40px 20px 40px;
+    outline: none;
+    border: 1px solid white;
+    border-radius: 8px;
+    background-color: rgba(234, 234, 241, 0.345);
+    padding: 15px;
+}
+
+.login-input:hover,
+.login-input:focus {
+    background-color: rgba(216, 216, 221, 0.345);
+}
+
+.card-submission {
+    text-align: center;
+}
+
+.login-button {
+    background-color: #2a50cf;
+    color: white;
+    border: 1px solid #2b51cb;
+    border-radius: 15px;
+    padding: 8px 30px 8px 30px;
+    cursor: pointer;
+    text-align: center;
+    margin: 60px 0px 70px 0px;
+}
+
+.login-button:hover {
+    background-color: #2447b9;
+}
