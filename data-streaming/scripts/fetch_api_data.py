@@ -1,5 +1,7 @@
 import urllib.request
 import json
+import random
+from datetime import datetime, timedelta
 
 def fetch_api_data(api_url):
     try:
@@ -10,7 +12,7 @@ def fetch_api_data(api_url):
         # Fetch data from the API
         with urllib.request.urlopen(req) as response:
             data = json.loads(response.read().decode())
-            # Limit to the first 10 records
+            # Limit to the first 100 records
             limited_data = data['result']['records'][:100]
             processed_data = transform_data(limited_data)
             return processed_data
@@ -29,9 +31,10 @@ def transform_data(data):
     for item in data:
         longitude = item.get("Longitude")
         latitude = item.get("Latitude")
+        original_budget = float(item.get("Estimated Total Budget ($)", 0))
 
-        # Skip projects with missing or invalid longitude and latitude
-        if not longitude or not latitude:
+        # Skip projects with missing or invalid longitude, latitude, or budget
+        if not longitude or not latitude or original_budget == 0:
             continue
 
         try:
@@ -49,8 +52,23 @@ def transform_data(data):
         description = item.get("Description") or "No description available."
         address = item.get("Address", "Unknown Address")
         postal_code = item.get("Postal Code", "Unknown Postal Code")
-        target_completion_date = item.get("Target Completion Date") or "Unknown"
-        estimated_budget = float(item.get("Estimated Total Budget ($)", 0))
+        original_completion_date_str = item.get("Target Completion Date") or "Unknown"
+
+        # Parse original_completion_date
+        try:
+            original_completion_date = datetime.strptime(original_completion_date_str, "%d-%b")
+            original_completion_date = original_completion_date.replace(year=datetime.now().year)
+        except (ValueError, TypeError):
+            original_completion_date = None
+
+        # Generate current_completion_date and current_budget
+        if original_completion_date:
+            months_to_add = random.randint(1, 12)
+            current_completion_date = original_completion_date + timedelta(days=30 * months_to_add)
+        else:
+            current_completion_date = None
+
+        current_budget = original_budget + random.randint(10000, 50000)
 
         project = {
             "project_name": project_name,
@@ -59,9 +77,11 @@ def transform_data(data):
                 "type": "Point",
                 "coordinates": [longitude, latitude],
             },
-            "target_completion_date": target_completion_date,
+            "original_completion_date": original_completion_date.strftime("%Y-%m-%d") if original_completion_date else "Unknown",
+            "current_completion_date": current_completion_date.strftime("%Y-%m-%d") if current_completion_date else "Unknown",
             "status": item.get("Status", "Planning"),
-            "estimated_budget": estimated_budget,
+            "original_budget": original_budget,
+            "current_budget": current_budget,
             "category": item.get("Category", "Other"),
             "result": item.get("Result", "No result available."),
             "area": item.get("Area", "Unknown Area"),
@@ -71,8 +91,7 @@ def transform_data(data):
             "municipal_funding": item.get("Municipal Funding", "No") == "Yes",
             "provincial_funding": item.get("Provincial Funding", "No") == "Yes",
             "federal_funding": item.get("Federal Funding", "No") == "Yes",
-            "other_funding": item.get("Other Funding", "No") == "Yes",
-            "website": item.get("Website", "Unknown Website")
+            "other_funding": item.get("Other Funding", "No") == "Yes"
         }
         projects.append(project)
     return projects

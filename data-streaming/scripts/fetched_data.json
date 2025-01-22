@@ -9,9 +9,11 @@
                 43.661701
             ]
         },
-        "target_completion_date": "23-Dec",
+        "original_completion_date": "2025-12-23",
+        "current_completion_date": "2026-12-18",
         "status": "Complete",
-        "estimated_budget": 82500000.0,
+        "original_budget": 82500000.0,
+        "current_budget": 82528335.0,
         "category": "Communities",
         "result": "Increased number of courtrooms and associated administrative spaces, as well as additional judicial parking spaces.",
         "area": "Peel",
@@ -21,33 +23,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": false,
-        "other_funding": false,
-        "website": null
-    },
-    {
-        "project_name": "Moving all Toronto-based Attorney General agencies and tribunals into one location",
-        "description": "Renovating building at 25 Grosvenor St.",
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                -79.385172,
-                43.662665
-            ]
-        },
-        "target_completion_date": "19-Jul",
-        "status": "Complete",
-        "estimated_budget": 0.0,
-        "category": "Communities",
-        "result": "Centralized Tribunal operations will reduce energy use and footprint of ministry in Toronto",
-        "area": "Toronto",
-        "region": "Central",
-        "address": "25 Grosvenor St",
-        "postal_code": null,
-        "municipal_funding": false,
-        "provincial_funding": true,
-        "federal_funding": false,
-        "other_funding": false,
-        "website": null
+        "other_funding": false
     },
     {
         "project_name": "New courthouse in Toronto",
@@ -59,9 +35,11 @@
                 43.653618
             ]
         },
-        "target_completion_date": "23-Jan",
+        "original_completion_date": "2025-01-23",
+        "current_completion_date": "2026-01-18",
         "status": "Complete",
-        "estimated_budget": 956400000.0,
+        "original_budget": 956400000.0,
+        "current_budget": 956421708.0,
         "category": "Communities",
         "result": "Improved justice services to Torontonians in state-of-the-art facility",
         "area": "Toronto",
@@ -71,8 +49,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": false,
-        "other_funding": false,
-        "website": "https://www.infrastructureontario.ca/en/what-we-do/projectssearch/new-toronto-courthouse/"
+        "other_funding": false
     },
     {
         "project_name": "Toronto Region Bail Centre",
@@ -84,9 +61,11 @@
                 43.752606
             ]
         },
-        "target_completion_date": "22-Dec",
+        "original_completion_date": "2025-12-22",
+        "current_completion_date": "2026-02-20",
         "status": "Complete",
-        "estimated_budget": 82500000.0,
+        "original_budget": 82500000.0,
+        "current_budget": 82515155.0,
         "category": "Communities",
         "result": "Accommodation of the bail program associated with the new Toronto courthouse. ",
         "area": "Toronto",
@@ -96,8 +75,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": false,
-        "other_funding": false,
-        "website": null
+        "other_funding": false
     },
     {
         "project_name": "Grandview Children's Centre",
@@ -109,9 +87,11 @@
                 43.879
             ]
         },
-        "target_completion_date": "24-Oct",
+        "original_completion_date": "2025-10-24",
+        "current_completion_date": "2026-02-21",
         "status": "Complete",
-        "estimated_budget": 31000000.0,
+        "original_budget": 31000000.0,
+        "current_budget": 31016228.0,
         "category": "Communities",
         "result": "The new centre will create more treatment spaces, shorter wait times and a modern facility so that families can access the care they need sooner.",
         "area": "Durham",
@@ -121,8 +101,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": true,
-        "other_funding": true,
-        "website": "https://www.news.ontario.ca/en/backgrounder/52484/grandview-childrens-centre-redevelopment-project"
+        "other_funding": true
     },
     {
         "project_name": "ErinoakKids Centre for Treatment and Development",
@@ -134,9 +113,11 @@
                 43.78324
             ]
         },
-        "target_completion_date": "18-Jan",
+        "original_completion_date": "2025-01-18",
+        "current_completion_date": "2025-05-18",
         "status": "Complete",
-        "estimated_budget": 64640000.0,
+        "original_budget": 64640000.0,
+        "current_budget": 64680189.0,
         "category": "Communities",
         "result": "At 121,000 sq. ft., new centre to include 26-bed respite house therapy pool and adapted fitness facility, two accessible playgrounds and more for children with special needs and their families",
         "area": "Peel",
@@ -146,8 +127,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": false,
-        "other_funding": false,
-        "website": "http://www.erinoakkids.ca/About-Us/Our-Future/Brampton-site.aspx"
+        "other_funding": false
     },
     {
         "project_name": "Repairs at Participation House (Farintosh House)",
@@ -159,9 +139,11 @@
                 43.845211
             ]
         },
-        "target_completion_date": "17-Mar",
+        "original_completion_date": "2025-03-17",
+        "current_completion_date": "2025-05-16",
         "status": "Complete",
-        "estimated_budget": 58103.0,
+        "original_budget": 58103.0,
+        "current_budget": 96088.0,
         "category": "Communities",
         "result": "Provide better, more secure and accessible facilities",
         "area": "York",
@@ -171,8 +153,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": false,
-        "other_funding": false,
-        "website": null
+        "other_funding": false
     },
     {
         "project_name": "Repairs and replacements at Participation House",
@@ -184,9 +165,11 @@
                 43.883436
             ]
         },
-        "target_completion_date": "17-Mar",
+        "original_completion_date": "2025-03-17",
+        "current_completion_date": "2025-06-15",
         "status": "Complete",
-        "estimated_budget": 414097.0,
+        "original_budget": 414097.0,
+        "current_budget": 428003.0,
         "category": "Communities",
         "result": "Provide better, more secure and accessible facilities",
         "area": "York",
@@ -196,8 +179,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": false,
-        "other_funding": false,
-        "website": null
+        "other_funding": false
     },
     {
         "project_name": "Repairs at Participation House (Henderson House)",
@@ -209,9 +191,11 @@
                 43.808412
             ]
         },
-        "target_completion_date": "17-Mar",
+        "original_completion_date": "2025-03-17",
+        "current_completion_date": "2025-11-12",
         "status": "Complete",
-        "estimated_budget": 8800.0,
+        "original_budget": 8800.0,
+        "current_budget": 34672.0,
         "category": "Communities",
         "result": "Provide better, more secure and accessible facilities",
         "area": "York",
@@ -221,8 +205,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": false,
-        "other_funding": false,
-        "website": null
+        "other_funding": false
     },
     {
         "project_name": "ErinoakKids Centre for Treatment and Development",
@@ -234,9 +217,11 @@
                 43.566536
             ]
         },
-        "target_completion_date": "18-Jan",
+        "original_completion_date": "2025-01-18",
+        "current_completion_date": "2025-02-17",
         "status": "Complete",
-        "estimated_budget": 51890000.0,
+        "original_budget": 51890000.0,
+        "current_budget": 51904159.0,
         "category": "Communities",
         "result": "At 93,000 sq. ft., new centre to include 20 treatment rooms,  snoezelen (multi-sensory) room, adapted fitness facility, two gyms for physiotherapy, youth drop-in and more for children with special needs and their families",
         "area": "Peel",
@@ -246,8 +231,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": false,
-        "other_funding": false,
-        "website": "http://www.erinoakkids.ca/About-Us/Our-Future/Mississauga-site.aspx"
+        "other_funding": false
     },
     {
         "project_name": "ErinoakKids Centre for Treatment and Development",
@@ -259,9 +243,11 @@
                 43.467517
             ]
         },
-        "target_completion_date": "18-Jan",
+        "original_completion_date": "2025-01-18",
+        "current_completion_date": "2025-10-15",
         "status": "Complete",
-        "estimated_budget": 46650000.0,
+        "original_budget": 46650000.0,
+        "current_budget": 46678851.0,
         "category": "Communities",
         "result": "At 73,000 sq. ft., new centre to include 20 treatment rooms,  snoezelen (multi-sensory) room, adapted fitness facility, two gyms for physiotherapy, youth drop-in and more for children with special needs and their families",
         "area": "Halton",
@@ -271,33 +257,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": false,
-        "other_funding": false,
-        "website": "http://www.erinoakkids.ca/About-Us/Our-Future/Oakville-site.aspx"
-    },
-    {
-        "project_name": "Ronald McDonald House Charities (RMHC) - Ottawa site",
-        "description": "New expansion of approximately 25,000 sq. ft. to add 22 new suites into the existing RMHC building in Ottawa to accommodate up to 36 families who are away from home, while their child is receiving care at the Children\u2019s Hospital of Eastern Ontario (CHEO).",
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                -79.03,
-                43.879
-            ]
-        },
-        "target_completion_date": "25-Apr",
-        "status": "Under construction",
-        "estimated_budget": 0.0,
-        "category": "Communities",
-        "result": "The project will add 22 more suites to create a 36-suite facility that can accommodate families travelling 80 km and further with a sick child at Children Hospital of Eastern Ontario (CHEO). The project will expand the building envelope, and install life systems and outdoor enhancements.",
-        "area": "Ottawa",
-        "region": "East",
-        "address": null,
-        "postal_code": null,
-        "municipal_funding": false,
-        "provincial_funding": true,
-        "federal_funding": true,
-        "other_funding": true,
-        "website": null
+        "other_funding": false
     },
     {
         "project_name": "Christian Horizons Upgrades and Repairs",
@@ -309,9 +269,11 @@
                 43.857619
             ]
         },
-        "target_completion_date": "17-Mar",
+        "original_completion_date": "2025-03-17",
+        "current_completion_date": "2026-01-11",
         "status": "Complete",
-        "estimated_budget": 55000.0,
+        "original_budget": 55000.0,
+        "current_budget": 97750.0,
         "category": "Communities",
         "result": "Provide better, more secure and accessible facilities",
         "area": "York",
@@ -321,8 +283,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": false,
-        "other_funding": false,
-        "website": null
+        "other_funding": false
     },
     {
         "project_name": "Community Living York South Upgrades and Repairs",
@@ -334,9 +295,11 @@
                 43.882638
             ]
         },
-        "target_completion_date": "17-Mar",
+        "original_completion_date": "2025-03-17",
+        "current_completion_date": "2025-08-14",
         "status": "Complete",
-        "estimated_budget": 15000.0,
+        "original_budget": 15000.0,
+        "current_budget": 37576.0,
         "category": "Communities",
         "result": "Provide better, more secure and accessible facilities",
         "area": "York",
@@ -346,8 +309,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": false,
-        "other_funding": false,
-        "website": null
+        "other_funding": false
     },
     {
         "project_name": "Community Living York South Upgrades and Repairs",
@@ -359,9 +321,11 @@
                 43.955075
             ]
         },
-        "target_completion_date": "17-Mar",
+        "original_completion_date": "2025-03-17",
+        "current_completion_date": "2025-10-13",
         "status": "Complete",
-        "estimated_budget": 6500.0,
+        "original_budget": 6500.0,
+        "current_budget": 42776.0,
         "category": "Communities",
         "result": "Provide better, more secure and accessible facilities",
         "area": "York",
@@ -371,8 +335,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": false,
-        "other_funding": false,
-        "website": null
+        "other_funding": false
     },
     {
         "project_name": "Repairs to Aptus Treatment Centre",
@@ -384,9 +347,11 @@
                 43.760026
             ]
         },
-        "target_completion_date": "17-Mar",
+        "original_completion_date": "2025-03-17",
+        "current_completion_date": "2025-12-12",
         "status": "Complete",
-        "estimated_budget": 13800.0,
+        "original_budget": 13800.0,
+        "current_budget": 62683.0,
         "category": "Communities",
         "result": "Provide better, more secure and accessible facilities",
         "area": "Toronto",
@@ -396,8 +361,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": false,
-        "other_funding": false,
-        "website": null
+        "other_funding": false
     },
     {
         "project_name": "Repairs to Aptus Treatment Centre",
@@ -409,9 +373,11 @@
                 43.730964
             ]
         },
-        "target_completion_date": "17-Mar",
+        "original_completion_date": "2025-03-17",
+        "current_completion_date": "2025-05-16",
         "status": "Complete",
-        "estimated_budget": 18900.0,
+        "original_budget": 18900.0,
+        "current_budget": 57063.0,
         "category": "Communities",
         "result": "Provide better, more secure and accessible facilities",
         "area": "Toronto",
@@ -421,8 +387,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": false,
-        "other_funding": false,
-        "website": null
+        "other_funding": false
     },
     {
         "project_name": "Repairs to Aptus Treatment Centre",
@@ -434,9 +399,11 @@
                 43.726082
             ]
         },
-        "target_completion_date": "17-Mar",
+        "original_completion_date": "2025-03-17",
+        "current_completion_date": "2025-07-15",
         "status": "Complete",
-        "estimated_budget": 14300.0,
+        "original_budget": 14300.0,
+        "current_budget": 31903.0,
         "category": "Communities",
         "result": "Provide better, more secure and accessible facilities",
         "area": "Toronto",
@@ -446,8 +413,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": false,
-        "other_funding": false,
-        "website": null
+        "other_funding": false
     },
     {
         "project_name": "Repairs to Aptus Treatment Centre",
@@ -459,9 +425,11 @@
                 43.776978
             ]
         },
-        "target_completion_date": "17-Mar",
+        "original_completion_date": "2025-03-17",
+        "current_completion_date": "2026-03-12",
         "status": "Complete",
-        "estimated_budget": 22300.0,
+        "original_budget": 22300.0,
+        "current_budget": 39676.0,
         "category": "Communities",
         "result": "Provide better, more secure and accessible facilities",
         "area": "Toronto",
@@ -471,33 +439,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": false,
-        "other_funding": false,
-        "website": null
-    },
-    {
-        "project_name": "Seneca College - King Campus Expansion",
-        "description": "Campus expansion",
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                -79.51003,
-                43.955689
-            ]
-        },
-        "target_completion_date": "18-May",
-        "status": "Complete",
-        "estimated_budget": 0.0,
-        "category": "Education",
-        "result": "200,000 sq. ft. of new space, including classrooms, library, learning commons and more to support  1,500 more students",
-        "area": "York",
-        "region": "Central",
-        "address": "13990 Dufferin St",
-        "postal_code": "L7B 1B3",
-        "municipal_funding": false,
-        "provincial_funding": true,
-        "federal_funding": false,
-        "other_funding": true,
-        "website": "http://www.infrastructureontario.ca/Seneca-College-King-Campus-Expansion/"
+        "other_funding": false
     },
     {
         "project_name": "Sheridan College - Hazel McCallion Campus Expansion Phase II",
@@ -509,9 +451,11 @@
                 43.59109
             ]
         },
-        "target_completion_date": "16-Nov",
+        "original_completion_date": "2025-11-16",
+        "current_completion_date": "2026-06-14",
         "status": "Complete",
-        "estimated_budget": 67700000.0,
+        "original_budget": 67700000.0,
+        "current_budget": 67721253.0,
         "category": "Education",
         "result": "3,200 additional fulltime students to use new classrooms, studios, labs, production and gallery space and more",
         "area": "Peel",
@@ -521,8 +465,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": false,
-        "other_funding": true,
-        "website": "http://www.infrastructureontario.ca/Sheridan-College-Hazel-McCallion-Campus-Expansion/"
+        "other_funding": true
     },
     {
         "project_name": "University of Toronto at Mississauga - North Building Reconstruction ",
@@ -534,9 +477,11 @@
                 43.54864
             ]
         },
-        "target_completion_date": "16-Dec",
+        "original_completion_date": "2025-12-16",
+        "current_completion_date": "2026-12-11",
         "status": "Complete",
-        "estimated_budget": 52500000.0,
+        "original_budget": 52500000.0,
+        "current_budget": 52512684.0,
         "category": "Education",
         "result": "6-storey, 210,000-sq. ft.-space to house several departments and provide more flexible learning and social spaces",
         "area": "Peel",
@@ -546,8 +491,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": false,
-        "other_funding": true,
-        "website": null
+        "other_funding": true
     },
     {
         "project_name": "Sheridan College - Partnering Across Boundaries: Bringing Global Leadership to Academic-Municipal Collaboration on District Energy",
@@ -559,9 +503,11 @@
                 43.468486
             ]
         },
-        "target_completion_date": "18-Oct",
+        "original_completion_date": "2025-10-18",
+        "current_completion_date": "2026-07-15",
         "status": "Complete",
-        "estimated_budget": 21400000.0,
+        "original_budget": 21400000.0,
+        "current_budget": 21443649.0,
         "category": "Education",
         "result": "District Energy Centre to be used for developing and testing local energy production",
         "area": "Halton",
@@ -571,8 +517,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": true,
-        "other_funding": true,
-        "website": null
+        "other_funding": true
     },
     {
         "project_name": "Centennial College - Downsview Park Aerospace Campus",
@@ -584,9 +529,11 @@
                 43.747763
             ]
         },
-        "target_completion_date": "18-Nov",
+        "original_completion_date": "2025-11-18",
+        "current_completion_date": "2026-09-14",
         "status": "Complete",
-        "estimated_budget": 72428380.0,
+        "original_budget": 72428380.0,
+        "current_budget": 72464311.0,
         "category": "Education",
         "result": "New classrooms, workshops, hangars with access to working runways",
         "area": "Toronto",
@@ -596,58 +543,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": true,
-        "other_funding": true,
-        "website": null
-    },
-    {
-        "project_name": "George Brown College - Design Centre for the Smart Economy",
-        "description": "Construction of new building",
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                -79.36555,
-                43.64396
-            ]
-        },
-        "target_completion_date": "18-Mar",
-        "status": "Complete",
-        "estimated_budget": 0.0,
-        "category": "Education",
-        "result": "Adding incubator, laboratory and research space",
-        "area": "Toronto",
-        "region": "Central",
-        "address": "51 Dockside Drive",
-        "postal_code": "M5A 0B6",
-        "municipal_funding": false,
-        "provincial_funding": false,
-        "federal_funding": true,
-        "other_funding": true,
-        "website": null
-    },
-    {
-        "project_name": "Humber College - Centre for Technology and Innovation",
-        "description": "Construction of new building ",
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                -79.605584,
-                43.72858
-            ]
-        },
-        "target_completion_date": "18-Nov",
-        "status": "Complete",
-        "estimated_budget": 0.0,
-        "category": "Education",
-        "result": "Adding 69,000 sq. ft. to support research and product-development in science, engineering, technology and math (STEM)",
-        "area": "Toronto",
-        "region": "Central",
-        "address": "205 Humber College Blvd",
-        "postal_code": "M9W 5L7",
-        "municipal_funding": false,
-        "provincial_funding": false,
-        "federal_funding": true,
-        "other_funding": true,
-        "website": null
+        "other_funding": true
     },
     {
         "project_name": "Humber College - Learning Resource Commons",
@@ -659,9 +555,11 @@
                 43.729229
             ]
         },
-        "target_completion_date": "15-Apr",
+        "original_completion_date": "2025-04-15",
+        "current_completion_date": "2025-12-11",
         "status": "Complete",
-        "estimated_budget": 74700000.0,
+        "original_budget": 74700000.0,
+        "current_budget": 74737445.0,
         "category": "Education",
         "result": "Adding 6 storeys, 260,000 sq. ft. of space for academic support and student services",
         "area": "Toronto",
@@ -671,8 +569,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": false,
-        "other_funding": true,
-        "website": null
+        "other_funding": true
     },
     {
         "project_name": "Ryerson University - Campus Research and Innovation Renewal",
@@ -684,9 +581,11 @@
                 43.657877
             ]
         },
-        "target_completion_date": "19-Feb",
+        "original_completion_date": "2025-02-19",
+        "current_completion_date": "2025-10-17",
         "status": "Complete",
-        "estimated_budget": 28613343.0,
+        "original_budget": 28613343.0,
+        "current_budget": 28661177.0,
         "category": "Education",
         "result": "Improving environmental sustainability of science, design and engineering research labs",
         "area": "Toronto",
@@ -696,33 +595,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": true,
-        "other_funding": true,
-        "website": null
-    },
-    {
-        "project_name": "Ryerson University - Centre for Urban Innovation",
-        "description": "Renovation of existing building",
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                -79.379686,
-                43.659619
-            ]
-        },
-        "target_completion_date": "18-Nov",
-        "status": "Complete",
-        "estimated_budget": 0.0,
-        "category": "Education",
-        "result": "Will house researchers and labs in energy, water, data, infrastructure and food",
-        "area": "Toronto",
-        "region": "Central",
-        "address": "44 Gerrard St E",
-        "postal_code": "M5B 1G3",
-        "municipal_funding": false,
-        "provincial_funding": false,
-        "federal_funding": true,
-        "other_funding": true,
-        "website": null
+        "other_funding": true
     },
     {
         "project_name": "Ryerson University - Daphne Cockwell Health Sciences Complex",
@@ -734,9 +607,11 @@
                 43.657519
             ]
         },
-        "target_completion_date": "19-Aug",
+        "original_completion_date": "2025-08-19",
+        "current_completion_date": "2025-12-17",
         "status": "Complete",
-        "estimated_budget": 115100000.0,
+        "original_budget": 115100000.0,
+        "current_budget": 115116435.0,
         "category": "Education",
         "result": "Combining residential tower (100 units for 332 students), academic programs (e.g. nursing, public health) and administrative offices",
         "area": "Toronto",
@@ -746,8 +621,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": false,
-        "other_funding": true,
-        "website": null
+        "other_funding": true
     },
     {
         "project_name": "Seneca College - Centre for Innovation, Technology and Entrepreneurship",
@@ -759,9 +633,11 @@
                 43.794823
             ]
         },
-        "target_completion_date": "18-Dec",
+        "original_completion_date": "2025-12-18",
+        "current_completion_date": "2026-11-13",
         "status": "Complete",
-        "estimated_budget": 84970000.0,
+        "original_budget": 84970000.0,
+        "current_budget": 84995812.0,
         "category": "Education",
         "result": "Will house a living lab, training, business incubation, applied research and commercialization",
         "area": "Toronto",
@@ -771,8 +647,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": true,
-        "other_funding": true,
-        "website": null
+        "other_funding": true
     },
     {
         "project_name": "Seneca College - Mechatronics Simulation and Demonstration Centre",
@@ -784,9 +659,11 @@
                 43.795147
             ]
         },
-        "target_completion_date": "15-Dec",
+        "original_completion_date": "2025-12-15",
+        "current_completion_date": "2026-01-14",
         "status": "Complete",
-        "estimated_budget": 651000.0,
+        "original_budget": 651000.0,
+        "current_budget": 685747.0,
         "category": "Education",
         "result": "New workstations with full-simulation capability and a digital factory manufacturing-line training system",
         "area": "Toronto",
@@ -796,8 +673,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": false,
-        "other_funding": true,
-        "website": null
+        "other_funding": true
     },
     {
         "project_name": "University of Toronto - Centre for Engineering Innovation & Entrepreneurship",
@@ -809,9 +685,11 @@
                 43.659829
             ]
         },
-        "target_completion_date": "18-Aug",
+        "original_completion_date": "2025-08-18",
+        "current_completion_date": "2026-07-14",
         "status": "Complete",
-        "estimated_budget": 99920000.0,
+        "original_budget": 99920000.0,
+        "current_budget": 99962326.0,
         "category": "Education",
         "result": "Almost 80,000 sq. ft. of new space for teaching, creative design, student space and a 500-seat auditorium, to be used for learning, collaboration and events",
         "area": "Toronto",
@@ -821,8 +699,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": false,
-        "other_funding": true,
-        "website": null
+        "other_funding": true
     },
     {
         "project_name": "University of Toronto - Lab Innovation for Toronto (LIFT) Project",
@@ -834,9 +711,11 @@
                 43.664964
             ]
         },
-        "target_completion_date": "18-Apr",
+        "original_completion_date": "2025-04-18",
+        "current_completion_date": "2025-06-17",
         "status": "Complete",
-        "estimated_budget": 189800000.0,
+        "original_budget": 189800000.0,
+        "current_budget": 189819396.0,
         "category": "Education",
         "result": "580,000 sq. ft. of new space to be redesigned for improved collaboration and research, as well as energy efficiency",
         "area": "Toronto",
@@ -846,8 +725,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": true,
-        "other_funding": true,
-        "website": null
+        "other_funding": true
     },
     {
         "project_name": "York University - Bergeron Centre for Engineering Excellence",
@@ -859,9 +737,11 @@
                 43.772352
             ]
         },
-        "target_completion_date": "16-Apr",
+        "original_completion_date": "2025-04-16",
+        "current_completion_date": "2026-01-11",
         "status": "Complete",
-        "estimated_budget": 50000000.0,
+        "original_budget": 50000000.0,
+        "current_budget": 50010034.0,
         "category": "Education",
         "result": "5-storey building adds 169,500 sq. ft., including learning areas, research labs, classrooms and offices for civil, mechanical and electrical engineering programs",
         "area": "Toronto",
@@ -871,8 +751,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": false,
-        "other_funding": true,
-        "website": null
+        "other_funding": true
     },
     {
         "project_name": "York University - Major science building renewal",
@@ -884,9 +763,11 @@
                 43.77284
             ]
         },
-        "target_completion_date": "18-Nov",
+        "original_completion_date": "2025-11-18",
+        "current_completion_date": "2026-09-14",
         "status": "Complete",
-        "estimated_budget": 48000000.0,
+        "original_budget": 48000000.0,
+        "current_budget": 48033704.0,
         "category": "Education",
         "result": "Enhancing research productivity, innovation and experiential learning",
         "area": "Toronto",
@@ -896,8 +777,7 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": true,
-        "other_funding": true,
-        "website": null
+        "other_funding": true
     },
     {
         "project_name": "York University - Schulich School of Business expansion",
@@ -909,9 +789,11 @@
                 43.774103
             ]
         },
-        "target_completion_date": "19-Feb",
+        "original_completion_date": "2025-02-19",
+        "current_completion_date": "2026-01-15",
         "status": "Complete",
-        "estimated_budget": 46682103.0,
+        "original_budget": 46682103.0,
+        "current_budget": 46731794.0,
         "category": "Education",
         "result": "Expand global programs and provide facilities, infrastructure and services to support more student and faculty cutting-edge research",
         "area": "Toronto",
@@ -921,8 +803,7 @@
         "municipal_funding": false,
         "provincial_funding": false,
         "federal_funding": true,
-        "other_funding": true,
-        "website": null
+        "other_funding": true
     },
     {
         "project_name": "Universit\u00e9 de l\u2019Ontario fran\u00e7ais",
@@ -934,9 +815,11 @@
                 43.64425
             ]
         },
-        "target_completion_date": "21-Oct",
+        "original_completion_date": "2025-10-21",
+        "current_completion_date": "2026-08-17",
         "status": "Complete",
-        "estimated_budget": 126000000.0,
+        "original_budget": 126000000.0,
+        "current_budget": 126028827.0,
         "category": "Education",
         "result": "UOF signed a lease with Daniels DQ Corporation for 50,000 square feet of space in downtown Toronto. The 10-year lease commenced when UOF welcomed its inaugural class in September, 2021. Captital funding went towards fit-up of the space.",
         "area": "Toronto",
@@ -946,7 +829,6 @@
         "municipal_funding": false,
         "provincial_funding": true,
         "federal_funding": true,
-        "other_funding": false,
-        "website": "https://www.uontario.ca/"
+        "other_funding": false
     }
 ]
