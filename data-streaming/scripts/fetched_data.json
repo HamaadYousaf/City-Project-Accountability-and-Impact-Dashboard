@@ -1,35 +1,7 @@
 [
     {
-        "project_name": null,
-        "description": null,
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                0.0,
-                0.0
-            ]
-        },
-        "original_completion_date": null,
-        "current_completion_date": null,
-        "status": "Planning",
-        "original_budget": 0.0,
-        "current_budget": 0.0,
-        "category": "Communities",
-        "result": "Improved accessibility to public areas.",
-        "area": "Simcoe",
-        "region": "Central",
-        "address": "75 Mulcaster Street",
-        "postal_code": "L4M 3P2",
-        "municipal_funding": false,
-        "provincial_funding": true,
-        "federal_funding": false,
-        "other_funding": false,
-        "performance_metric": 50.0,
-        "efficiency": "Moderate"
-    },
-    {
-        "project_name": null,
-        "description": null,
+        "project_name": "Brampton (A. Grenville and William Davis) Courthouse Addition - Phase 2",
+        "description": "Fit-out of the top four floors of the building addition, as well as renovations to the Land Registry Office. This project is being  delivered  with the Toronto Region Bail Centre as a P3 bundle, and the project budget of $82.3M includes both projects.",
         "location": {
             "type": "Point",
             "coordinates": [
@@ -37,11 +9,9 @@
                 43.661701
             ]
         },
-        "original_completion_date": null,
-        "current_completion_date": null,
+        "target_completion_date": "23-Dec",
         "status": "Complete",
-        "original_budget": 0.0,
-        "current_budget": 0.0,
+        "estimated_budget": 82500000.0,
         "category": "Communities",
         "result": "Increased number of courtrooms and associated administrative spaces, as well as additional judicial parking spaces.",
         "area": "Peel",
@@ -52,68 +22,11 @@
         "provincial_funding": true,
         "federal_funding": false,
         "other_funding": false,
-        "performance_metric": 50.0,
-        "efficiency": "Moderate"
+        "website": null
     },
     {
-        "project_name": null,
-        "description": null,
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                0.0,
-                0.0
-            ]
-        },
-        "original_completion_date": null,
-        "current_completion_date": null,
-        "status": "Planning",
-        "original_budget": 0.0,
-        "current_budget": 0.0,
-        "category": "Communities",
-        "result": "Improved security as all courthouse users will have to be screened before entry into courthouse.",
-        "area": "Rainy River",
-        "region": "Northwest",
-        "address": "333 Church Street",
-        "postal_code": "P9A 1C9",
-        "municipal_funding": false,
-        "provincial_funding": true,
-        "federal_funding": false,
-        "other_funding": false,
-        "performance_metric": 50.0,
-        "efficiency": "Moderate"
-    },
-    {
-        "project_name": null,
-        "description": null,
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                0.0,
-                0.0
-            ]
-        },
-        "original_completion_date": null,
-        "current_completion_date": null,
-        "status": "Planning",
-        "original_budget": 0.0,
-        "current_budget": 0.0,
-        "category": "Communities",
-        "result": "Improved access to justice.",
-        "area": "Manitoulin",
-        "region": "Northeast",
-        "address": "27 Phipps Street",
-        "postal_code": "P0P 1H0",
-        "municipal_funding": false,
-        "provincial_funding": true,
-        "federal_funding": false,
-        "other_funding": false,
-        "performance_metric": 50.0,
-        "efficiency": "Moderate"
-    },
-    {
-        "project_name": null,
-        "description": null,
+        "project_name": "Planning for new courthouse in Peterborough",
+        "description": "Plan to replace old courthouse",
         "location": {
             "type": "Point",
             "coordinates": [
@@ -121,11 +34,9 @@
                 44.304996
             ]
         },
-        "original_completion_date": null,
-        "current_completion_date": null,
+        "target_completion_date": "17-Nov",
         "status": "Complete",
-        "original_budget": 0.0,
-        "current_budget": 0.0,
+        "estimated_budget": 0.0,
         "category": "Communities",
         "result": "Plan will inform future Ontario Court of Justice and Superior Court of Justice needs in the community",
         "area": "Peterborough",
@@ -136,68 +47,11 @@
         "provincial_funding": true,
         "federal_funding": false,
         "other_funding": false,
-        "performance_metric": 50.0,
-        "efficiency": "Moderate"
+        "website": null
     },
     {
-        "project_name": null,
-        "description": null,
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                0.0,
-                0.0
-            ]
-        },
-        "original_completion_date": null,
-        "current_completion_date": null,
-        "status": "Planning",
-        "original_budget": 0.0,
-        "current_budget": 0.0,
-        "category": "Communities",
-        "result": "Improved accessibility, security and access to justice with an additional courtroom.",
-        "area": "Peterborough",
-        "region": "East",
-        "address": "70 Simcoe St",
-        "postal_code": "K9H 7G9",
-        "municipal_funding": false,
-        "provincial_funding": true,
-        "federal_funding": false,
-        "other_funding": false,
-        "performance_metric": 50.0,
-        "efficiency": "Moderate"
-    },
-    {
-        "project_name": null,
-        "description": null,
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                0.0,
-                0.0
-            ]
-        },
-        "original_completion_date": null,
-        "current_completion_date": null,
-        "status": "Planning",
-        "original_budget": 0.0,
-        "current_budget": 0.0,
-        "category": "Communities",
-        "result": "Improved security as all courthouse users will have to be screened before entry into courthouse.",
-        "area": "Sudbury",
-        "region": "Northeast",
-        "address": "155 Elm Street",
-        "postal_code": "P3C 1T6",
-        "municipal_funding": false,
-        "provincial_funding": true,
-        "federal_funding": false,
-        "other_funding": false,
-        "performance_metric": 50.0,
-        "efficiency": "Moderate"
-    },
-    {
-        "project_name": null,
-        "description": null,
+        "project_name": "Moving all Toronto-based Attorney General agencies and tribunals into one location",
+        "description": "Renovating building at 25 Grosvenor St.",
         "location": {
             "type": "Point",
             "coordinates": [
@@ -205,11 +59,9 @@
                 43.662665
             ]
         },
-        "original_completion_date": null,
-        "current_completion_date": null,
+        "target_completion_date": "19-Jul",
         "status": "Complete",
-        "original_budget": 0.0,
-        "current_budget": 0.0,
+        "estimated_budget": 0.0,
         "category": "Communities",
         "result": "Centralized Tribunal operations will reduce energy use and footprint of ministry in Toronto",
         "area": "Toronto",
@@ -220,12 +72,11 @@
         "provincial_funding": true,
         "federal_funding": false,
         "other_funding": false,
-        "performance_metric": 50.0,
-        "efficiency": "Moderate"
+        "website": null
     },
     {
-        "project_name": null,
-        "description": null,
+        "project_name": "New courthouse in Toronto",
+        "description": "New provincial courthouse",
         "location": {
             "type": "Point",
             "coordinates": [
@@ -233,11 +84,9 @@
                 43.653618
             ]
         },
-        "original_completion_date": null,
-        "current_completion_date": null,
+        "target_completion_date": "23-Jan",
         "status": "Complete",
-        "original_budget": 0.0,
-        "current_budget": 0.0,
+        "estimated_budget": 956400000.0,
         "category": "Communities",
         "result": "Improved justice services to Torontonians in state-of-the-art facility",
         "area": "Toronto",
@@ -248,12 +97,11 @@
         "provincial_funding": true,
         "federal_funding": false,
         "other_funding": false,
-        "performance_metric": 50.0,
-        "efficiency": "Moderate"
+        "website": "https://www.infrastructureontario.ca/en/what-we-do/projectssearch/new-toronto-courthouse/"
     },
     {
-        "project_name": null,
-        "description": null,
+        "project_name": "Toronto Region Bail Centre",
+        "description": "Renovation of existing courthouse at 2201 Finch Ave. W.  This project is being  delivered  with the Brampton Courthouse Addition Phase 2 as a P3 bundle, and the project budget of $82.3M includes both projects.",
         "location": {
             "type": "Point",
             "coordinates": [
@@ -261,11 +109,9 @@
                 43.752606
             ]
         },
-        "original_completion_date": null,
-        "current_completion_date": null,
+        "target_completion_date": "22-Dec",
         "status": "Complete",
-        "original_budget": 0.0,
-        "current_budget": 0.0,
+        "estimated_budget": 82500000.0,
         "category": "Communities",
         "result": "Accommodation of the bail program associated with the new Toronto courthouse. ",
         "area": "Toronto",
@@ -276,7 +122,581 @@
         "provincial_funding": true,
         "federal_funding": false,
         "other_funding": false,
-        "performance_metric": 50.0,
-        "efficiency": "Moderate"
+        "website": null
+    },
+    {
+        "project_name": "Grandview Children's Centre",
+        "description": "New construction of a children's treatment centre in Ajax.",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.03,
+                43.879
+            ]
+        },
+        "target_completion_date": "24-Oct",
+        "status": "Complete",
+        "estimated_budget": 31000000.0,
+        "category": "Communities",
+        "result": "The new centre will create more treatment spaces, shorter wait times and a modern facility so that families can access the care they need sooner.",
+        "area": "Durham",
+        "region": "Central",
+        "address": "1461 Harwood Ave North",
+        "postal_code": "L1T 4T9",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": true,
+        "other_funding": true,
+        "website": "https://www.news.ontario.ca/en/backgrounder/52484/grandview-childrens-centre-redevelopment-project"
+    },
+    {
+        "project_name": "Attawapiskat Youth Centre",
+        "description": "Convert old band office into a youth centre",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -82.26,
+                52.55
+            ]
+        },
+        "target_completion_date": "18-Apr",
+        "status": "Complete",
+        "estimated_budget": 1200000.0,
+        "category": "Communities",
+        "result": "Improve outcomes for youth in Attawapiskat",
+        "area": "Kenora",
+        "region": "Northwest",
+        "address": null,
+        "postal_code": null,
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "website": "http://www.attawapiskat.org/"
+    },
+    {
+        "project_name": "ErinoakKids Centre for Treatment and Development",
+        "description": "Construction of new building",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.701581,
+                43.78324
+            ]
+        },
+        "target_completion_date": "18-Jan",
+        "status": "Complete",
+        "estimated_budget": 64640000.0,
+        "category": "Communities",
+        "result": "At 121,000 sq. ft., new centre to include 26-bed respite house therapy pool and adapted fitness facility, two accessible playgrounds and more for children with special needs and their families",
+        "area": "Peel",
+        "region": "Central",
+        "address": "10145 McVean Dr",
+        "postal_code": "L6P 4K7",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "website": "http://www.erinoakkids.ca/About-Us/Our-Future/Brampton-site.aspx"
+    },
+    {
+        "project_name": "Children's Treatment Centre of Chatham-Kent Redevelopment Project",
+        "description": "New construction of an approx. 58,000 sq.ft. Children's Treatment Centre (CTC) in Chatham.",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -82.22730515,
+                42.39653112
+            ]
+        },
+        "target_completion_date": "26-Sep",
+        "status": "Under construction",
+        "estimated_budget": 0.0,
+        "category": "Communities",
+        "result": "The new facility will improve service capacity and provision for children and youth with special needs in the Chatham-Kent area.",
+        "area": "Chatham-Kent",
+        "region": "Southwest",
+        "address": "901 McNaughton Avenue West(McNaughton Ave W & Bear Line Rd)",
+        "postal_code": "N7L 5P7",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": true,
+        "website": "https://www.news.ontario.ca/en/release/1001527/ontario-building-new-childrens-treatment-centre-in-chatham-kent "
+    },
+    {
+        "project_name": "Five Counties Children's Treatment Centre ",
+        "description": "Retrofit of building",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -78.17,
+                43.9748
+            ]
+        },
+        "target_completion_date": "17-Jul",
+        "status": "Complete",
+        "estimated_budget": 490000.0,
+        "category": "Communities",
+        "result": "Consolidate and enhance community hub",
+        "area": "Northumberland",
+        "region": "East",
+        "address": "800 Division St.",
+        "postal_code": "K9A 5V2",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": true,
+        "website": "http://www.fivecounties.on.ca/"
+    },
+    {
+        "project_name": "Dan Pine Healing Lodge ",
+        "description": "Upgrades and renovations to existing building",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -84.161024,
+                46.531489
+            ]
+        },
+        "target_completion_date": "16-Mar",
+        "status": "Complete",
+        "estimated_budget": 562147.0,
+        "category": "Communities",
+        "result": "Space to provide programs and services combining traditional healing and contemporary therapeutic interventions",
+        "area": "Algoma",
+        "region": "Northeast",
+        "address": "200 Anishnabe Point Rd",
+        "postal_code": "P0S 1C0",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "website": null
+    },
+    {
+        "project_name": "Improvements to Community Living Guelph Wellington",
+        "description": "Renovation of bathrooms and adding sprinkler systems",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -80.276365,
+                43.537647
+            ]
+        },
+        "target_completion_date": "17-Mar",
+        "status": "Complete",
+        "estimated_budget": 20000.0,
+        "category": "Communities",
+        "result": "Provide better, more secure and accessible facilities",
+        "area": "Wellington",
+        "region": "Southwest",
+        "address": "87 Silvercreek Parkway",
+        "postal_code": "N1H 6S4",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "website": null
+    },
+    {
+        "project_name": "McMaster Children's Hospital - New Ron Joyce Children's Health Centre",
+        "description": "New building",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.855355,
+                43.263655
+            ]
+        },
+        "target_completion_date": "15-Oct",
+        "status": "Complete",
+        "estimated_budget": 86000000.0,
+        "category": "Communities",
+        "result": "Accessible treatment centre delivers autism services, child/youth mental health services, developmental pediatrics and rehab, fitting and manufacturing of prosthetics/orthotics for children and adults",
+        "area": "Hamilton",
+        "region": "Central",
+        "address": "325 Wellington St N",
+        "postal_code": "L8L 0A4",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "website": "http://www.infrastructureontario.ca/Ron-Joyce-Children%E2%80%99s-Health-Centre/"
+    },
+    {
+        "project_name": "Christian Horizons Rebuild",
+        "description": "Partial demolition and reconstruction of existing building",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -80.220977,
+                43.305094
+            ]
+        },
+        "target_completion_date": "18-Mar",
+        "status": "Complete",
+        "estimated_budget": 1500000.0,
+        "category": "Communities",
+        "result": "4,800 sq. ft. group home with 6 beds, providing better, more secure and accessibility facilities",
+        "area": "Hamilton",
+        "region": "Central",
+        "address": "Concession 6",
+        "postal_code": "N0B1L0",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "website": "https://www.christian-horizons.org/article/2593-ontario-supporting-rebuild-of-branchton-residence"
+    },
+    {
+        "project_name": "Boys & Girls Club of Kawartha Lakes Community Hub Enhancement",
+        "description": "Expansion of building and two parking lots",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -78.7326,
+                44.3493
+            ]
+        },
+        "target_completion_date": "17-Nov",
+        "status": "Complete",
+        "estimated_budget": 1975000.0,
+        "category": "Communities",
+        "result": "Construction of a 5,775 sq. ft. suite and a 2,200 sq. ft. section 23 classroom",
+        "area": "Kawartha Lakes",
+        "region": "East",
+        "address": "107 Lindsay St",
+        "postal_code": "K9V 2M5",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": true,
+        "website": "http://www.bgckl.com/"
+    },
+    {
+        "project_name": "North Eastern Ontario Family and Children's Services",
+        "description": "Expansion and renovation of existing building",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -80.03,
+                48.1549
+            ]
+        },
+        "target_completion_date": "17-Jun",
+        "status": "Complete",
+        "estimated_budget": 3600000.0,
+        "category": "Communities",
+        "result": "Multi-service community hub",
+        "area": "Timiskaming",
+        "region": "Northeast",
+        "address": "6 Tweedsmuir Rd",
+        "postal_code": "P2N 1A3",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": true,
+        "website": "http://www.neofacs.org/"
+    },
+    {
+        "project_name": "Repairs at Participation House (Farintosh House)",
+        "description": "Prepare, prime and paint 14 vertical structural posts ",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.304821,
+                43.845211
+            ]
+        },
+        "target_completion_date": "17-Mar",
+        "status": "Complete",
+        "estimated_budget": 58103.0,
+        "category": "Communities",
+        "result": "Provide better, more secure and accessible facilities",
+        "area": "York",
+        "region": "Central",
+        "address": "7811 Kennedy Rd",
+        "postal_code": "L3R 2C8",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "website": null
+    },
+    {
+        "project_name": "Repairs and replacements at Participation House",
+        "description": "Includes resurfaced driveway, walkway and back patio; repainted structural posts; repaired foundation; new roof, magnetic locking, smoke-barrier door, cooling units, flooring and walls in five shower rooms",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.235061,
+                43.883436
+            ]
+        },
+        "target_completion_date": "17-Mar",
+        "status": "Complete",
+        "estimated_budget": 414097.0,
+        "category": "Communities",
+        "result": "Provide better, more secure and accessible facilities",
+        "area": "York",
+        "region": "Central",
+        "address": "9 Butternut Lane",
+        "postal_code": "L3P 3M1",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "website": null
+    },
+    {
+        "project_name": "Repairs at Participation House (Henderson House)",
+        "description": "Replace driveway and interlocking walkway to wheelchair ramp",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.409406,
+                43.808412
+            ]
+        },
+        "target_completion_date": "17-Mar",
+        "status": "Complete",
+        "estimated_budget": 8800.0,
+        "category": "Communities",
+        "result": "Provide better, more secure and accessible facilities",
+        "area": "York",
+        "region": "Central",
+        "address": "113 Henderson Ave",
+        "postal_code": "L3T 2L3",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "website": null
+    },
+    {
+        "project_name": "ErinoakKids Centre for Treatment and Development",
+        "description": "Construction of new building",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.65746,
+                43.566536
+            ]
+        },
+        "target_completion_date": "18-Jan",
+        "status": "Complete",
+        "estimated_budget": 51890000.0,
+        "category": "Communities",
+        "result": "At 93,000 sq. ft., new centre to include 20 treatment rooms,  snoezelen (multi-sensory) room, adapted fitness facility, two gyms for physiotherapy, youth drop-in and more for children with special needs and their families",
+        "area": "Peel",
+        "region": "Central",
+        "address": "1230 Central Parkway W",
+        "postal_code": "L5C 0A5",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "website": "http://www.erinoakkids.ca/About-Us/Our-Future/Mississauga-site.aspx"
+    },
+    {
+        "project_name": "HANDS The Family Help Network - North Eastern Ontario Family Help and Treatment Centre",
+        "description": "Construction of a new building",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.4608,
+                46.3091
+            ]
+        },
+        "target_completion_date": "18-Feb",
+        "status": "Complete",
+        "estimated_budget": 8800000.0,
+        "category": "Communities",
+        "result": "18,000 sq. ft. of clinical and administrative space, with the ability to add 2 floors in the future for colocation and community hub partnerships",
+        "area": "Nipissing",
+        "region": "Northeast",
+        "address": "391 Oak St",
+        "postal_code": "P1B 1A3",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": true,
+        "website": "https://news.ontario.ca/mcys/en/2016/12/helping-more-children-and-families-in-north-bay.html https://www.thefamilyhelpnetwork.ca/"
+    },
+    {
+        "project_name": "ErinoakKids Centre for Treatment and Development",
+        "description": "Construction of a new treatment centre, next to the new Oakville hospital",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.687666,
+                43.467517
+            ]
+        },
+        "target_completion_date": "18-Jan",
+        "status": "Complete",
+        "estimated_budget": 46650000.0,
+        "category": "Communities",
+        "result": "At 73,000 sq. ft., new centre to include 20 treatment rooms,  snoezelen (multi-sensory) room, adapted fitness facility, two gyms for physiotherapy, youth drop-in and more for children with special needs and their families",
+        "area": "Halton",
+        "region": "Central",
+        "address": "2000 Glenorchy Rd",
+        "postal_code": "L6M 0X4",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "website": "http://www.erinoakkids.ca/About-Us/Our-Future/Oakville-site.aspx"
+    },
+    {
+        "project_name": "CHEO Integrated Treatment Centre",
+        "description": "Construct a new state-of-the-art children\u2019s treatment centre on the CHEO campus, to offer critical services for children and youth with special needs.",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -75.651314,
+                45.400974
+            ]
+        },
+        "target_completion_date": "27-Nov",
+        "status": "Under construction",
+        "estimated_budget": 371370000.0,
+        "category": "Communities",
+        "result": "Consolidation of services and improved support for developmental, rehabilitation, behavioural and mental health.. ",
+        "area": "Ottawa",
+        "region": "East",
+        "address": "401 Smyth Rd",
+        "postal_code": "K1H 8L1",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": true,
+        "website": "https://www.news.ontario.ca/en/release/52689/ontario-supports-the-childrens-hospital-of-eastern-ontario"
+    },
+    {
+        "project_name": "Ronald McDonald House Charities (RMHC) - Ottawa site",
+        "description": "New expansion of approximately 25,000 sq. ft. to add 22 new suites into the existing RMHC building in Ottawa to accommodate up to 36 families who are away from home, while their child is receiving care at the Children\u2019s Hospital of Eastern Ontario (CHEO).",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.03,
+                43.879
+            ]
+        },
+        "target_completion_date": "25-Apr",
+        "status": "Under construction",
+        "estimated_budget": 0.0,
+        "category": "Communities",
+        "result": "The project will add 22 more suites to create a 36-suite facility that can accommodate families travelling 80 km and further with a sick child at Children Hospital of Eastern Ontario (CHEO). The project will expand the building envelope, and install life systems and outdoor enhancements.",
+        "area": "Ottawa",
+        "region": "East",
+        "address": null,
+        "postal_code": null,
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": true,
+        "other_funding": true,
+        "website": null
+    },
+    {
+        "project_name": "Valoris for Children and Adults of Prescott-Russell Multi-Service Building",
+        "description": "Construction of new building",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -75.357609,
+                45.259265
+            ]
+        },
+        "target_completion_date": "16-Oct",
+        "status": "Complete",
+        "estimated_budget": 4000000.0,
+        "category": "Communities",
+        "result": "Wide range of community and social services programs under one roof (e.g. mental health, family violence, child/adult development)",
+        "area": "Prescott and Russell",
+        "region": "East",
+        "address": "8 rue Valoris",
+        "postal_code": "K0A 1W0",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": true,
+        "website": "http://www.valorispr.ca/en/"
+    },
+    {
+        "project_name": "Christian Horizons Upgrades and Repairs",
+        "description": "Includes new roof, fixing and extending driveway, repairs and renovations to bathrooms, bedrooms and recreation areas",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.448352,
+                43.857619
+            ]
+        },
+        "target_completion_date": "17-Mar",
+        "status": "Complete",
+        "estimated_budget": 55000.0,
+        "category": "Communities",
+        "result": "Provide better, more secure and accessible facilities",
+        "area": "York",
+        "region": "Central",
+        "address": "148 Weldrick Rd W",
+        "postal_code": "L4C 3V1",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "website": null
+    },
+    {
+        "project_name": "Community Living York South Upgrades and Repairs",
+        "description": "Replacement of pavement on driveway and curbs",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.421899,
+                43.882638
+            ]
+        },
+        "target_completion_date": "17-Mar",
+        "status": "Complete",
+        "estimated_budget": 15000.0,
+        "category": "Communities",
+        "result": "Provide better, more secure and accessible facilities",
+        "area": "York",
+        "region": "Central",
+        "address": "376 Balkan Rd",
+        "postal_code": "L4C 2P1",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "website": null
+    },
+    {
+        "project_name": "Community Living York South Upgrades and Repairs",
+        "description": "Replace furnace and air conditioning",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.458392,
+                43.955075
+            ]
+        },
+        "target_completion_date": "17-Mar",
+        "status": "Complete",
+        "estimated_budget": 6500.0,
+        "category": "Communities",
+        "result": "Provide better, more secure and accessible facilities",
+        "area": "York",
+        "region": "Central",
+        "address": "8 Blackforest Dr",
+        "postal_code": "L4E 2P6",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "website": null
     }
 ]

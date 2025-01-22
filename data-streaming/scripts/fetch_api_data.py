@@ -1,7 +1,6 @@
 import urllib.request
 import json
 
-
 def fetch_api_data(api_url):
     try:
         # Set up a request with a User-Agent header
@@ -12,12 +11,11 @@ def fetch_api_data(api_url):
         with urllib.request.urlopen(req) as response:
             data = json.loads(response.read().decode())
             # Limit to the first 10 records
-            limited_data = data['result']['records'][:10]
+            limited_data = data['result']['records'][:40]
             processed_data = transform_data(limited_data)
             return processed_data
     except Exception as e:
         raise Exception(f"Failed to fetch data from {api_url}: {e}")
-
 
 def transform_data(data):
     projects = []
@@ -25,45 +23,50 @@ def transform_data(data):
         longitude = item.get("Longitude")
         latitude = item.get("Latitude")
 
-        # Ensure longitude and latitude are valid before conversion
-        if longitude is None or latitude is None:
-            longitude = 0.0
-            latitude = 0.0
+        # Skip projects with missing or invalid longitude and latitude
+        if not longitude or not latitude:
+            continue
+
+        try:
+            longitude = float(longitude)
+            latitude = float(latitude)
+        except (ValueError, TypeError):
+            continue
+
+        project_name = item.get("Project") or "Unknown Project Name"
+        description = item.get("Description") or "No description available."
+        address = item.get("Address", "Unknown Address")
+        postal_code = item.get("Postal Code", "Unknown Postal Code")
+        target_completion_date = item.get("Target Completion Date") or "Unknown"
+        estimated_budget = float(item.get("Estimated Total Budget ($)", 0))
 
         project = {
-            "project_name": item.get("Project Name"),
-            "description": item.get("Project Description"),
+            "project_name": project_name,
+            "description": description,
             "location": {
                 "type": "Point",
-                "coordinates": [
-                    float(longitude),
-                    float(latitude)
-                ],
+                "coordinates": [longitude, latitude],
             },
-            "original_completion_date": item.get("Original Completion Date"),
-            "current_completion_date": item.get("Current Completion Date"),
+            "target_completion_date": target_completion_date,
             "status": item.get("Status", "Planning"),
-            "original_budget": float(item.get("Original Budget", 0)),
-            "current_budget": float(item.get("Current Budget", 0)),
+            "estimated_budget": estimated_budget,
             "category": item.get("Category", "Other"),
-            "result": item.get("Result"),
-            "area": item.get("Area"),
-            "region": item.get("Region"),
-            "address": item.get("Address"),
-            "postal_code": item.get("Postal Code"),
-            "municipal_funding": bool(item.get("Municipal Funding", False)),
-            "provincial_funding": bool(item.get("Provincial Funding", False)),
-            "federal_funding": bool(item.get("Federal Funding", False)),
-            "other_funding": bool(item.get("Other Funding", False)),
-            "performance_metric": float(item.get("Performance Metric", 50)),
-            "efficiency": item.get("Efficiency", "Moderate"),
+            "result": item.get("Result", "No result available."),
+            "area": item.get("Area", "Unknown Area"),
+            "region": item.get("Region", "Unknown Region"),
+            "address": address,
+            "postal_code": postal_code,
+            "municipal_funding": item.get("Municipal Funding", "No") == "Yes",
+            "provincial_funding": item.get("Provincial Funding", "No") == "Yes",
+            "federal_funding": item.get("Federal Funding", "No") == "Yes",
+            "other_funding": item.get("Other Funding", "No") == "Yes",
+            "website": item.get("Website", "Unknown Website")
         }
         projects.append(project)
     return projects
 
-
 if __name__ == "__main__":
-    api_url = "https://data.ontario.ca/api/3/action/datastore_search?resource_id=35dc5416-2b86-4a79-b3e6-acbfe004c81a&limit=10"
+    api_url = "https://data.ontario.ca/api/3/action/datastore_search?resource_id=35dc5416-2b86-4a79-b3e6-acbfe004c81a&limit=40"
     fetched_data = fetch_api_data(api_url)
 
     # Save the data to a JSON file
