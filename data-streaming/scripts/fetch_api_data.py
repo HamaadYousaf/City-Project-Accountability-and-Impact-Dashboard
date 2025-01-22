@@ -1,11 +1,15 @@
 import urllib.request
-from config.settings import MONGO_URL
 import json
+
 
 def fetch_api_data(api_url):
     try:
+        # Set up a request with a User-Agent header
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
+        req = urllib.request.Request(api_url, headers=headers)
+
         # Fetch data from the API
-        with urllib.request.urlopen(api_url) as response:
+        with urllib.request.urlopen(req) as response:
             data = json.loads(response.read().decode())
             # Limit to the first 10 records
             limited_data = data['result']['records'][:10]
@@ -14,17 +18,26 @@ def fetch_api_data(api_url):
     except Exception as e:
         raise Exception(f"Failed to fetch data from {api_url}: {e}")
 
+
 def transform_data(data):
     projects = []
     for item in data:
+        longitude = item.get("Longitude")
+        latitude = item.get("Latitude")
+
+        # Ensure longitude and latitude are valid before conversion
+        if longitude is None or latitude is None:
+            longitude = 0.0
+            latitude = 0.0
+
         project = {
             "project_name": item.get("Project Name"),
             "description": item.get("Project Description"),
             "location": {
                 "type": "Point",
                 "coordinates": [
-                    float(item.get("Longitude", 0)),
-                    float(item.get("Latitude", 0))
+                    float(longitude),
+                    float(latitude)
                 ],
             },
             "original_completion_date": item.get("Original Completion Date"),
@@ -48,12 +61,13 @@ def transform_data(data):
         projects.append(project)
     return projects
 
+
 if __name__ == "__main__":
     api_url = "https://data.ontario.ca/api/3/action/datastore_search?resource_id=35dc5416-2b86-4a79-b3e6-acbfe004c81a&limit=10"
     fetched_data = fetch_api_data(api_url)
-     
+
+    # Save the data to a JSON file
     with open("fetched_data.json", "w") as json_file:
-        formatted_json = json.dump(fetched_data, json_file, indent=4)
-        print("Formatted JSON Data:/n")
-        print(formatted_json)
-        print("/n/nData saved to fetched_data.json")
+        json.dump(fetched_data, json_file, indent=4)
+
+    print("\nData saved to fetched_data.json")

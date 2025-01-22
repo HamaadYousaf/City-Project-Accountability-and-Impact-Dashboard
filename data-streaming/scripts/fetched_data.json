@@ -1,0 +1,282 @@
+[
+    {
+        "project_name": null,
+        "description": null,
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                0.0,
+                0.0
+            ]
+        },
+        "original_completion_date": null,
+        "current_completion_date": null,
+        "status": "Planning",
+        "original_budget": 0.0,
+        "current_budget": 0.0,
+        "category": "Communities",
+        "result": "Improved accessibility to public areas.",
+        "area": "Simcoe",
+        "region": "Central",
+        "address": "75 Mulcaster Street",
+        "postal_code": "L4M 3P2",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "performance_metric": 50.0,
+        "efficiency": "Moderate"
+    },
+    {
+        "project_name": null,
+        "description": null,
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.726047,
+                43.661701
+            ]
+        },
+        "original_completion_date": null,
+        "current_completion_date": null,
+        "status": "Complete",
+        "original_budget": 0.0,
+        "current_budget": 0.0,
+        "category": "Communities",
+        "result": "Increased number of courtrooms and associated administrative spaces, as well as additional judicial parking spaces.",
+        "area": "Peel",
+        "region": "Central",
+        "address": "7755 Hurontario Street",
+        "postal_code": "L6W 4T1",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "performance_metric": 50.0,
+        "efficiency": "Moderate"
+    },
+    {
+        "project_name": null,
+        "description": null,
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                0.0,
+                0.0
+            ]
+        },
+        "original_completion_date": null,
+        "current_completion_date": null,
+        "status": "Planning",
+        "original_budget": 0.0,
+        "current_budget": 0.0,
+        "category": "Communities",
+        "result": "Improved security as all courthouse users will have to be screened before entry into courthouse.",
+        "area": "Rainy River",
+        "region": "Northwest",
+        "address": "333 Church Street",
+        "postal_code": "P9A 1C9",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "performance_metric": 50.0,
+        "efficiency": "Moderate"
+    },
+    {
+        "project_name": null,
+        "description": null,
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                0.0,
+                0.0
+            ]
+        },
+        "original_completion_date": null,
+        "current_completion_date": null,
+        "status": "Planning",
+        "original_budget": 0.0,
+        "current_budget": 0.0,
+        "category": "Communities",
+        "result": "Improved access to justice.",
+        "area": "Manitoulin",
+        "region": "Northeast",
+        "address": "27 Phipps Street",
+        "postal_code": "P0P 1H0",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "performance_metric": 50.0,
+        "efficiency": "Moderate"
+    },
+    {
+        "project_name": null,
+        "description": null,
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -78.32616,
+                44.304996
+            ]
+        },
+        "original_completion_date": null,
+        "current_completion_date": null,
+        "status": "Complete",
+        "original_budget": 0.0,
+        "current_budget": 0.0,
+        "category": "Communities",
+        "result": "Plan will inform future Ontario Court of Justice and Superior Court of Justice needs in the community",
+        "area": "Peterborough",
+        "region": "East",
+        "address": null,
+        "postal_code": null,
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "performance_metric": 50.0,
+        "efficiency": "Moderate"
+    },
+    {
+        "project_name": null,
+        "description": null,
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                0.0,
+                0.0
+            ]
+        },
+        "original_completion_date": null,
+        "current_completion_date": null,
+        "status": "Planning",
+        "original_budget": 0.0,
+        "current_budget": 0.0,
+        "category": "Communities",
+        "result": "Improved accessibility, security and access to justice with an additional courtroom.",
+        "area": "Peterborough",
+        "region": "East",
+        "address": "70 Simcoe St",
+        "postal_code": "K9H 7G9",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "performance_metric": 50.0,
+        "efficiency": "Moderate"
+    },
+    {
+        "project_name": null,
+        "description": null,
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                0.0,
+                0.0
+            ]
+        },
+        "original_completion_date": null,
+        "current_completion_date": null,
+        "status": "Planning",
+        "original_budget": 0.0,
+        "current_budget": 0.0,
+        "category": "Communities",
+        "result": "Improved security as all courthouse users will have to be screened before entry into courthouse.",
+        "area": "Sudbury",
+        "region": "Northeast",
+        "address": "155 Elm Street",
+        "postal_code": "P3C 1T6",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "performance_metric": 50.0,
+        "efficiency": "Moderate"
+    },
+    {
+        "project_name": null,
+        "description": null,
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.385172,
+                43.662665
+            ]
+        },
+        "original_completion_date": null,
+        "current_completion_date": null,
+        "status": "Complete",
+        "original_budget": 0.0,
+        "current_budget": 0.0,
+        "category": "Communities",
+        "result": "Centralized Tribunal operations will reduce energy use and footprint of ministry in Toronto",
+        "area": "Toronto",
+        "region": "Central",
+        "address": "25 Grosvenor St",
+        "postal_code": null,
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "performance_metric": 50.0,
+        "efficiency": "Moderate"
+    },
+    {
+        "project_name": null,
+        "description": null,
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.3862,
+                43.653618
+            ]
+        },
+        "original_completion_date": null,
+        "current_completion_date": null,
+        "status": "Complete",
+        "original_budget": 0.0,
+        "current_budget": 0.0,
+        "category": "Communities",
+        "result": "Improved justice services to Torontonians in state-of-the-art facility",
+        "area": "Toronto",
+        "region": "Central",
+        "address": "10 Armoury St",
+        "postal_code": null,
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "performance_metric": 50.0,
+        "efficiency": "Moderate"
+    },
+    {
+        "project_name": null,
+        "description": null,
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.536505,
+                43.752606
+            ]
+        },
+        "original_completion_date": null,
+        "current_completion_date": null,
+        "status": "Complete",
+        "original_budget": 0.0,
+        "current_budget": 0.0,
+        "category": "Communities",
+        "result": "Accommodation of the bail program associated with the new Toronto courthouse. ",
+        "area": "Toronto",
+        "region": "Central",
+        "address": "2201 Finch Ave. W.",
+        "postal_code": "M9M 2Y9",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "performance_metric": 50.0,
+        "efficiency": "Moderate"
+    }
+]
