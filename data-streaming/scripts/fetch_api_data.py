@@ -11,7 +11,7 @@ def fetch_api_data(api_url):
         with urllib.request.urlopen(req) as response:
             data = json.loads(response.read().decode())
             # Limit to the first 10 records
-            limited_data = data['result']['records'][:40]
+            limited_data = data['result']['records'][:100]
             processed_data = transform_data(limited_data)
             return processed_data
     except Exception as e:
@@ -19,6 +19,13 @@ def fetch_api_data(api_url):
 
 def transform_data(data):
     projects = []
+
+    # Define bounding box for Greater Toronto Area (approximate coordinates)
+    gta_bounds = {
+        "min_lat": 43.38, "max_lat": 44.10,
+        "min_lon": -80.00, "max_lon": -78.90
+    }
+
     for item in data:
         longitude = item.get("Longitude")
         latitude = item.get("Latitude")
@@ -31,6 +38,11 @@ def transform_data(data):
             longitude = float(longitude)
             latitude = float(latitude)
         except (ValueError, TypeError):
+            continue
+
+        # Exclude projects outside the GTA
+        if not (gta_bounds["min_lon"] <= longitude <= gta_bounds["max_lon"] and
+                gta_bounds["min_lat"] <= latitude <= gta_bounds["max_lat"]):
             continue
 
         project_name = item.get("Project") or "Unknown Project Name"
@@ -66,7 +78,7 @@ def transform_data(data):
     return projects
 
 if __name__ == "__main__":
-    api_url = "https://data.ontario.ca/api/3/action/datastore_search?resource_id=35dc5416-2b86-4a79-b3e6-acbfe004c81a&limit=40"
+    api_url = "https://data.ontario.ca/api/3/action/datastore_search?resource_id=35dc5416-2b86-4a79-b3e6-acbfe004c81a&limit=100"
     fetched_data = fetch_api_data(api_url)
 
     # Save the data to a JSON file

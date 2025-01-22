@@ -25,31 +25,6 @@
         "website": null
     },
     {
-        "project_name": "Planning for new courthouse in Peterborough",
-        "description": "Plan to replace old courthouse",
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                -78.32616,
-                44.304996
-            ]
-        },
-        "target_completion_date": "17-Nov",
-        "status": "Complete",
-        "estimated_budget": 0.0,
-        "category": "Communities",
-        "result": "Plan will inform future Ontario Court of Justice and Superior Court of Justice needs in the community",
-        "area": "Peterborough",
-        "region": "East",
-        "address": null,
-        "postal_code": null,
-        "municipal_funding": false,
-        "provincial_funding": true,
-        "federal_funding": false,
-        "other_funding": false,
-        "website": null
-    },
-    {
         "project_name": "Moving all Toronto-based Attorney General agencies and tribunals into one location",
         "description": "Renovating building at 25 Grosvenor St.",
         "location": {
@@ -150,31 +125,6 @@
         "website": "https://www.news.ontario.ca/en/backgrounder/52484/grandview-childrens-centre-redevelopment-project"
     },
     {
-        "project_name": "Attawapiskat Youth Centre",
-        "description": "Convert old band office into a youth centre",
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                -82.26,
-                52.55
-            ]
-        },
-        "target_completion_date": "18-Apr",
-        "status": "Complete",
-        "estimated_budget": 1200000.0,
-        "category": "Communities",
-        "result": "Improve outcomes for youth in Attawapiskat",
-        "area": "Kenora",
-        "region": "Northwest",
-        "address": null,
-        "postal_code": null,
-        "municipal_funding": false,
-        "provincial_funding": true,
-        "federal_funding": false,
-        "other_funding": false,
-        "website": "http://www.attawapiskat.org/"
-    },
-    {
         "project_name": "ErinoakKids Centre for Treatment and Development",
         "description": "Construction of new building",
         "location": {
@@ -198,206 +148,6 @@
         "federal_funding": false,
         "other_funding": false,
         "website": "http://www.erinoakkids.ca/About-Us/Our-Future/Brampton-site.aspx"
-    },
-    {
-        "project_name": "Children's Treatment Centre of Chatham-Kent Redevelopment Project",
-        "description": "New construction of an approx. 58,000 sq.ft. Children's Treatment Centre (CTC) in Chatham.",
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                -82.22730515,
-                42.39653112
-            ]
-        },
-        "target_completion_date": "26-Sep",
-        "status": "Under construction",
-        "estimated_budget": 0.0,
-        "category": "Communities",
-        "result": "The new facility will improve service capacity and provision for children and youth with special needs in the Chatham-Kent area.",
-        "area": "Chatham-Kent",
-        "region": "Southwest",
-        "address": "901 McNaughton Avenue West(McNaughton Ave W & Bear Line Rd)",
-        "postal_code": "N7L 5P7",
-        "municipal_funding": false,
-        "provincial_funding": true,
-        "federal_funding": false,
-        "other_funding": true,
-        "website": "https://www.news.ontario.ca/en/release/1001527/ontario-building-new-childrens-treatment-centre-in-chatham-kent "
-    },
-    {
-        "project_name": "Five Counties Children's Treatment Centre ",
-        "description": "Retrofit of building",
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                -78.17,
-                43.9748
-            ]
-        },
-        "target_completion_date": "17-Jul",
-        "status": "Complete",
-        "estimated_budget": 490000.0,
-        "category": "Communities",
-        "result": "Consolidate and enhance community hub",
-        "area": "Northumberland",
-        "region": "East",
-        "address": "800 Division St.",
-        "postal_code": "K9A 5V2",
-        "municipal_funding": false,
-        "provincial_funding": true,
-        "federal_funding": false,
-        "other_funding": true,
-        "website": "http://www.fivecounties.on.ca/"
-    },
-    {
-        "project_name": "Dan Pine Healing Lodge ",
-        "description": "Upgrades and renovations to existing building",
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                -84.161024,
-                46.531489
-            ]
-        },
-        "target_completion_date": "16-Mar",
-        "status": "Complete",
-        "estimated_budget": 562147.0,
-        "category": "Communities",
-        "result": "Space to provide programs and services combining traditional healing and contemporary therapeutic interventions",
-        "area": "Algoma",
-        "region": "Northeast",
-        "address": "200 Anishnabe Point Rd",
-        "postal_code": "P0S 1C0",
-        "municipal_funding": false,
-        "provincial_funding": true,
-        "federal_funding": false,
-        "other_funding": false,
-        "website": null
-    },
-    {
-        "project_name": "Improvements to Community Living Guelph Wellington",
-        "description": "Renovation of bathrooms and adding sprinkler systems",
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                -80.276365,
-                43.537647
-            ]
-        },
-        "target_completion_date": "17-Mar",
-        "status": "Complete",
-        "estimated_budget": 20000.0,
-        "category": "Communities",
-        "result": "Provide better, more secure and accessible facilities",
-        "area": "Wellington",
-        "region": "Southwest",
-        "address": "87 Silvercreek Parkway",
-        "postal_code": "N1H 6S4",
-        "municipal_funding": false,
-        "provincial_funding": true,
-        "federal_funding": false,
-        "other_funding": false,
-        "website": null
-    },
-    {
-        "project_name": "McMaster Children's Hospital - New Ron Joyce Children's Health Centre",
-        "description": "New building",
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                -79.855355,
-                43.263655
-            ]
-        },
-        "target_completion_date": "15-Oct",
-        "status": "Complete",
-        "estimated_budget": 86000000.0,
-        "category": "Communities",
-        "result": "Accessible treatment centre delivers autism services, child/youth mental health services, developmental pediatrics and rehab, fitting and manufacturing of prosthetics/orthotics for children and adults",
-        "area": "Hamilton",
-        "region": "Central",
-        "address": "325 Wellington St N",
-        "postal_code": "L8L 0A4",
-        "municipal_funding": false,
-        "provincial_funding": true,
-        "federal_funding": false,
-        "other_funding": false,
-        "website": "http://www.infrastructureontario.ca/Ron-Joyce-Children%E2%80%99s-Health-Centre/"
-    },
-    {
-        "project_name": "Christian Horizons Rebuild",
-        "description": "Partial demolition and reconstruction of existing building",
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                -80.220977,
-                43.305094
-            ]
-        },
-        "target_completion_date": "18-Mar",
-        "status": "Complete",
-        "estimated_budget": 1500000.0,
-        "category": "Communities",
-        "result": "4,800 sq. ft. group home with 6 beds, providing better, more secure and accessibility facilities",
-        "area": "Hamilton",
-        "region": "Central",
-        "address": "Concession 6",
-        "postal_code": "N0B1L0",
-        "municipal_funding": false,
-        "provincial_funding": true,
-        "federal_funding": false,
-        "other_funding": false,
-        "website": "https://www.christian-horizons.org/article/2593-ontario-supporting-rebuild-of-branchton-residence"
-    },
-    {
-        "project_name": "Boys & Girls Club of Kawartha Lakes Community Hub Enhancement",
-        "description": "Expansion of building and two parking lots",
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                -78.7326,
-                44.3493
-            ]
-        },
-        "target_completion_date": "17-Nov",
-        "status": "Complete",
-        "estimated_budget": 1975000.0,
-        "category": "Communities",
-        "result": "Construction of a 5,775 sq. ft. suite and a 2,200 sq. ft. section 23 classroom",
-        "area": "Kawartha Lakes",
-        "region": "East",
-        "address": "107 Lindsay St",
-        "postal_code": "K9V 2M5",
-        "municipal_funding": false,
-        "provincial_funding": true,
-        "federal_funding": false,
-        "other_funding": true,
-        "website": "http://www.bgckl.com/"
-    },
-    {
-        "project_name": "North Eastern Ontario Family and Children's Services",
-        "description": "Expansion and renovation of existing building",
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                -80.03,
-                48.1549
-            ]
-        },
-        "target_completion_date": "17-Jun",
-        "status": "Complete",
-        "estimated_budget": 3600000.0,
-        "category": "Communities",
-        "result": "Multi-service community hub",
-        "area": "Timiskaming",
-        "region": "Northeast",
-        "address": "6 Tweedsmuir Rd",
-        "postal_code": "P2N 1A3",
-        "municipal_funding": false,
-        "provincial_funding": true,
-        "federal_funding": false,
-        "other_funding": true,
-        "website": "http://www.neofacs.org/"
     },
     {
         "project_name": "Repairs at Participation House (Farintosh House)",
@@ -500,31 +250,6 @@
         "website": "http://www.erinoakkids.ca/About-Us/Our-Future/Mississauga-site.aspx"
     },
     {
-        "project_name": "HANDS The Family Help Network - North Eastern Ontario Family Help and Treatment Centre",
-        "description": "Construction of a new building",
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                -79.4608,
-                46.3091
-            ]
-        },
-        "target_completion_date": "18-Feb",
-        "status": "Complete",
-        "estimated_budget": 8800000.0,
-        "category": "Communities",
-        "result": "18,000 sq. ft. of clinical and administrative space, with the ability to add 2 floors in the future for colocation and community hub partnerships",
-        "area": "Nipissing",
-        "region": "Northeast",
-        "address": "391 Oak St",
-        "postal_code": "P1B 1A3",
-        "municipal_funding": false,
-        "provincial_funding": true,
-        "federal_funding": false,
-        "other_funding": true,
-        "website": "https://news.ontario.ca/mcys/en/2016/12/helping-more-children-and-families-in-north-bay.html https://www.thefamilyhelpnetwork.ca/"
-    },
-    {
         "project_name": "ErinoakKids Centre for Treatment and Development",
         "description": "Construction of a new treatment centre, next to the new Oakville hospital",
         "location": {
@@ -550,31 +275,6 @@
         "website": "http://www.erinoakkids.ca/About-Us/Our-Future/Oakville-site.aspx"
     },
     {
-        "project_name": "CHEO Integrated Treatment Centre",
-        "description": "Construct a new state-of-the-art children\u2019s treatment centre on the CHEO campus, to offer critical services for children and youth with special needs.",
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                -75.651314,
-                45.400974
-            ]
-        },
-        "target_completion_date": "27-Nov",
-        "status": "Under construction",
-        "estimated_budget": 371370000.0,
-        "category": "Communities",
-        "result": "Consolidation of services and improved support for developmental, rehabilitation, behavioural and mental health.. ",
-        "area": "Ottawa",
-        "region": "East",
-        "address": "401 Smyth Rd",
-        "postal_code": "K1H 8L1",
-        "municipal_funding": false,
-        "provincial_funding": true,
-        "federal_funding": false,
-        "other_funding": true,
-        "website": "https://www.news.ontario.ca/en/release/52689/ontario-supports-the-childrens-hospital-of-eastern-ontario"
-    },
-    {
         "project_name": "Ronald McDonald House Charities (RMHC) - Ottawa site",
         "description": "New expansion of approximately 25,000 sq. ft. to add 22 new suites into the existing RMHC building in Ottawa to accommodate up to 36 families who are away from home, while their child is receiving care at the Children\u2019s Hospital of Eastern Ontario (CHEO).",
         "location": {
@@ -598,31 +298,6 @@
         "federal_funding": true,
         "other_funding": true,
         "website": null
-    },
-    {
-        "project_name": "Valoris for Children and Adults of Prescott-Russell Multi-Service Building",
-        "description": "Construction of new building",
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                -75.357609,
-                45.259265
-            ]
-        },
-        "target_completion_date": "16-Oct",
-        "status": "Complete",
-        "estimated_budget": 4000000.0,
-        "category": "Communities",
-        "result": "Wide range of community and social services programs under one roof (e.g. mental health, family violence, child/adult development)",
-        "area": "Prescott and Russell",
-        "region": "East",
-        "address": "8 rue Valoris",
-        "postal_code": "K0A 1W0",
-        "municipal_funding": false,
-        "provincial_funding": true,
-        "federal_funding": false,
-        "other_funding": true,
-        "website": "http://www.valorispr.ca/en/"
     },
     {
         "project_name": "Christian Horizons Upgrades and Repairs",
@@ -698,5 +373,580 @@
         "federal_funding": false,
         "other_funding": false,
         "website": null
+    },
+    {
+        "project_name": "Repairs to Aptus Treatment Centre",
+        "description": "New canopy over front entrance",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.462488,
+                43.760026
+            ]
+        },
+        "target_completion_date": "17-Mar",
+        "status": "Complete",
+        "estimated_budget": 13800.0,
+        "category": "Communities",
+        "result": "Provide better, more secure and accessible facilities",
+        "area": "Toronto",
+        "region": "Central",
+        "address": "174 Kennard Ave",
+        "postal_code": "M3H 4M7",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "website": null
+    },
+    {
+        "project_name": "Repairs to Aptus Treatment Centre",
+        "description": "Replacing fence, curbs and driveway",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.429606,
+                43.730964
+            ]
+        },
+        "target_completion_date": "17-Mar",
+        "status": "Complete",
+        "estimated_budget": 18900.0,
+        "category": "Communities",
+        "result": "Provide better, more secure and accessible facilities",
+        "area": "Toronto",
+        "region": "Central",
+        "address": "379 Brooke Ave",
+        "postal_code": "M4M 2L5",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "website": null
+    },
+    {
+        "project_name": "Repairs to Aptus Treatment Centre",
+        "description": "Replacing driveway and walkway",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.426837,
+                43.726082
+            ]
+        },
+        "target_completion_date": "17-Mar",
+        "status": "Complete",
+        "estimated_budget": 14300.0,
+        "category": "Communities",
+        "result": "Provide better, more secure and accessible facilities",
+        "area": "Toronto",
+        "region": "Central",
+        "address": "524 Fairlawn Ave",
+        "postal_code": "M5M 1V2",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "website": null
+    },
+    {
+        "project_name": "Repairs to Aptus Treatment Centre",
+        "description": "New roof, raised window wells",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.42111,
+                43.776978
+            ]
+        },
+        "target_completion_date": "17-Mar",
+        "status": "Complete",
+        "estimated_budget": 22300.0,
+        "category": "Communities",
+        "result": "Provide better, more secure and accessible facilities",
+        "area": "Toronto",
+        "region": "Central",
+        "address": "64 Lorraine Dr",
+        "postal_code": "M2N 3E7",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": false,
+        "website": null
+    },
+    {
+        "project_name": "Seneca College - King Campus Expansion",
+        "description": "Campus expansion",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.51003,
+                43.955689
+            ]
+        },
+        "target_completion_date": "18-May",
+        "status": "Complete",
+        "estimated_budget": 0.0,
+        "category": "Education",
+        "result": "200,000 sq. ft. of new space, including classrooms, library, learning commons and more to support  1,500 more students",
+        "area": "York",
+        "region": "Central",
+        "address": "13990 Dufferin St",
+        "postal_code": "L7B 1B3",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": true,
+        "website": "http://www.infrastructureontario.ca/Seneca-College-King-Campus-Expansion/"
+    },
+    {
+        "project_name": "Sheridan College - Hazel McCallion Campus Expansion Phase II",
+        "description": "Expansion of building ",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.6471,
+                43.59109
+            ]
+        },
+        "target_completion_date": "16-Nov",
+        "status": "Complete",
+        "estimated_budget": 67700000.0,
+        "category": "Education",
+        "result": "3,200 additional fulltime students to use new classrooms, studios, labs, production and gallery space and more",
+        "area": "Peel",
+        "region": "Central",
+        "address": "4180 Duke of York Blvd",
+        "postal_code": "L5B 0G5",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": true,
+        "website": "http://www.infrastructureontario.ca/Sheridan-College-Hazel-McCallion-Campus-Expansion/"
+    },
+    {
+        "project_name": "University of Toronto at Mississauga - North Building Reconstruction ",
+        "description": "Renovating North Building in three phases",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.6621,
+                43.54864
+            ]
+        },
+        "target_completion_date": "16-Dec",
+        "status": "Complete",
+        "estimated_budget": 52500000.0,
+        "category": "Education",
+        "result": "6-storey, 210,000-sq. ft.-space to house several departments and provide more flexible learning and social spaces",
+        "area": "Peel",
+        "region": "Central",
+        "address": "3359 Mississauga Rd",
+        "postal_code": "L5L 1C6",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": true,
+        "website": null
+    },
+    {
+        "project_name": "Sheridan College - Partnering Across Boundaries: Bringing Global Leadership to Academic-Municipal Collaboration on District Energy",
+        "description": "Partnering with municipalities (Brampton and Oakville) to generate and share energy",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.700134,
+                43.468486
+            ]
+        },
+        "target_completion_date": "18-Oct",
+        "status": "Complete",
+        "estimated_budget": 21400000.0,
+        "category": "Education",
+        "result": "District Energy Centre to be used for developing and testing local energy production",
+        "area": "Halton",
+        "region": "Central",
+        "address": "1430 Trafalgar Rd",
+        "postal_code": "L6H 2L1",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": true,
+        "other_funding": true,
+        "website": null
+    },
+    {
+        "project_name": "Centennial College - Downsview Park Aerospace Campus",
+        "description": "Renovating former de Havilland Building in partnership with Parc Downsview Park Inc. and City of Toronto",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.475341,
+                43.747763
+            ]
+        },
+        "target_completion_date": "18-Nov",
+        "status": "Complete",
+        "estimated_budget": 72428380.0,
+        "category": "Education",
+        "result": "New classrooms, workshops, hangars with access to working runways",
+        "area": "Toronto",
+        "region": "Central",
+        "address": "65 Carl Hall Rd",
+        "postal_code": "M3K 2C1",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": true,
+        "other_funding": true,
+        "website": null
+    },
+    {
+        "project_name": "George Brown College - Design Centre for the Smart Economy",
+        "description": "Construction of new building",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.36555,
+                43.64396
+            ]
+        },
+        "target_completion_date": "18-Mar",
+        "status": "Complete",
+        "estimated_budget": 0.0,
+        "category": "Education",
+        "result": "Adding incubator, laboratory and research space",
+        "area": "Toronto",
+        "region": "Central",
+        "address": "51 Dockside Drive",
+        "postal_code": "M5A 0B6",
+        "municipal_funding": false,
+        "provincial_funding": false,
+        "federal_funding": true,
+        "other_funding": true,
+        "website": null
+    },
+    {
+        "project_name": "Humber College - Centre for Technology and Innovation",
+        "description": "Construction of new building ",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.605584,
+                43.72858
+            ]
+        },
+        "target_completion_date": "18-Nov",
+        "status": "Complete",
+        "estimated_budget": 0.0,
+        "category": "Education",
+        "result": "Adding 69,000 sq. ft. to support research and product-development in science, engineering, technology and math (STEM)",
+        "area": "Toronto",
+        "region": "Central",
+        "address": "205 Humber College Blvd",
+        "postal_code": "M9W 5L7",
+        "municipal_funding": false,
+        "provincial_funding": false,
+        "federal_funding": true,
+        "other_funding": true,
+        "website": null
+    },
+    {
+        "project_name": "Humber College - Learning Resource Commons",
+        "description": "New entrance to main campus and added student space",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.606738,
+                43.729229
+            ]
+        },
+        "target_completion_date": "15-Apr",
+        "status": "Complete",
+        "estimated_budget": 74700000.0,
+        "category": "Education",
+        "result": "Adding 6 storeys, 260,000 sq. ft. of space for academic support and student services",
+        "area": "Toronto",
+        "region": "Central",
+        "address": "205 Humber College Blvd",
+        "postal_code": "M9W 5L7",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": true,
+        "website": null
+    },
+    {
+        "project_name": "Ryerson University - Campus Research and Innovation Renewal",
+        "description": "Renovation of existing labs, addition of incubators",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.380456,
+                43.657877
+            ]
+        },
+        "target_completion_date": "19-Feb",
+        "status": "Complete",
+        "estimated_budget": 28613343.0,
+        "category": "Education",
+        "result": "Improving environmental sustainability of science, design and engineering research labs",
+        "area": "Toronto",
+        "region": "Central",
+        "address": "350 Victoria St",
+        "postal_code": "M5B 2K3",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": true,
+        "other_funding": true,
+        "website": null
+    },
+    {
+        "project_name": "Ryerson University - Centre for Urban Innovation",
+        "description": "Renovation of existing building",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.379686,
+                43.659619
+            ]
+        },
+        "target_completion_date": "18-Nov",
+        "status": "Complete",
+        "estimated_budget": 0.0,
+        "category": "Education",
+        "result": "Will house researchers and labs in energy, water, data, infrastructure and food",
+        "area": "Toronto",
+        "region": "Central",
+        "address": "44 Gerrard St E",
+        "postal_code": "M5B 1G3",
+        "municipal_funding": false,
+        "provincial_funding": false,
+        "federal_funding": true,
+        "other_funding": true,
+        "website": null
+    },
+    {
+        "project_name": "Ryerson University - Daphne Cockwell Health Sciences Complex",
+        "description": "Construction of new building",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.377563,
+                43.657519
+            ]
+        },
+        "target_completion_date": "19-Aug",
+        "status": "Complete",
+        "estimated_budget": 115100000.0,
+        "category": "Education",
+        "result": "Combining residential tower (100 units for 332 students), academic programs (e.g. nursing, public health) and administrative offices",
+        "area": "Toronto",
+        "region": "Central",
+        "address": "300 Church St",
+        "postal_code": "M5B 1Z2",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": true,
+        "website": null
+    },
+    {
+        "project_name": "Seneca College - Centre for Innovation, Technology and Entrepreneurship",
+        "description": "Construction of new centre ",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.348712,
+                43.794823
+            ]
+        },
+        "target_completion_date": "18-Dec",
+        "status": "Complete",
+        "estimated_budget": 84970000.0,
+        "category": "Education",
+        "result": "Will house a living lab, training, business incubation, applied research and commercialization",
+        "area": "Toronto",
+        "region": "Central",
+        "address": "1750 Finch Ave E",
+        "postal_code": "M2J 2X5",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": true,
+        "other_funding": true,
+        "website": null
+    },
+    {
+        "project_name": "Seneca College - Mechatronics Simulation and Demonstration Centre",
+        "description": "Construction of a new research and training centre",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.349619,
+                43.795147
+            ]
+        },
+        "target_completion_date": "15-Dec",
+        "status": "Complete",
+        "estimated_budget": 651000.0,
+        "category": "Education",
+        "result": "New workstations with full-simulation capability and a digital factory manufacturing-line training system",
+        "area": "Toronto",
+        "region": "Central",
+        "address": "1750 Finch Ave E",
+        "postal_code": "M2J 2X5",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": true,
+        "website": null
+    },
+    {
+        "project_name": "University of Toronto - Centre for Engineering Innovation & Entrepreneurship",
+        "description": "Construction of new building",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.396361,
+                43.659829
+            ]
+        },
+        "target_completion_date": "18-Aug",
+        "status": "Complete",
+        "estimated_budget": 99920000.0,
+        "category": "Education",
+        "result": "Almost 80,000 sq. ft. of new space for teaching, creative design, student space and a 500-seat auditorium, to be used for learning, collaboration and events",
+        "area": "Toronto",
+        "region": "Central",
+        "address": "47 - 55 St. George St",
+        "postal_code": "M5S 2E5",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": true,
+        "website": null
+    },
+    {
+        "project_name": "University of Toronto - Lab Innovation for Toronto (LIFT) Project",
+        "description": "Renewal of 546 research labs on all three U of T campuses ",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.39833,
+                43.664964
+            ]
+        },
+        "target_completion_date": "18-Apr",
+        "status": "Complete",
+        "estimated_budget": 189800000.0,
+        "category": "Education",
+        "result": "580,000 sq. ft. of new space to be redesigned for improved collaboration and research, as well as energy efficiency",
+        "area": "Toronto",
+        "region": "Central",
+        "address": "27 King's College Circle",
+        "postal_code": "M5S 1A1",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": true,
+        "other_funding": true,
+        "website": null
+    },
+    {
+        "project_name": "York University - Bergeron Centre for Engineering Excellence",
+        "description": "Construction of new building",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.506476,
+                43.772352
+            ]
+        },
+        "target_completion_date": "16-Apr",
+        "status": "Complete",
+        "estimated_budget": 50000000.0,
+        "category": "Education",
+        "result": "5-storey building adds 169,500 sq. ft., including learning areas, research labs, classrooms and offices for civil, mechanical and electrical engineering programs",
+        "area": "Toronto",
+        "region": "Central",
+        "address": "4700 Keele Street, 11 Arboretum Ln",
+        "postal_code": "M3J 1P3",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": false,
+        "other_funding": true,
+        "website": null
+    },
+    {
+        "project_name": "York University - Major science building renewal",
+        "description": "Renovating five major science research buildings",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.494995,
+                43.77284
+            ]
+        },
+        "target_completion_date": "18-Nov",
+        "status": "Complete",
+        "estimated_budget": 48000000.0,
+        "category": "Education",
+        "result": "Enhancing research productivity, innovation and experiential learning",
+        "area": "Toronto",
+        "region": "Central",
+        "address": "4700 Keele St",
+        "postal_code": "M3J 1P3",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": true,
+        "other_funding": true,
+        "website": null
+    },
+    {
+        "project_name": "York University - Schulich School of Business expansion",
+        "description": "Construction of new building",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.498907,
+                43.774103
+            ]
+        },
+        "target_completion_date": "19-Feb",
+        "status": "Complete",
+        "estimated_budget": 46682103.0,
+        "category": "Education",
+        "result": "Expand global programs and provide facilities, infrastructure and services to support more student and faculty cutting-edge research",
+        "area": "Toronto",
+        "region": "Central",
+        "address": "4700 Keele St",
+        "postal_code": "M3J 1P3",
+        "municipal_funding": false,
+        "provincial_funding": false,
+        "federal_funding": true,
+        "other_funding": true,
+        "website": null
+    },
+    {
+        "project_name": "Universit\u00e9 de l\u2019Ontario fran\u00e7ais",
+        "description": "The Universit\u00e9 de l\u2019Ontario fran\u00e7ais Act, 2017 (UOF Act), which came into force on April 9, 2018, established the first Francophone university in Ontario to be governed by and for Francophones. ",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -79.36858,
+                43.64425
+            ]
+        },
+        "target_completion_date": "21-Oct",
+        "status": "Complete",
+        "estimated_budget": 126000000.0,
+        "category": "Education",
+        "result": "UOF signed a lease with Daniels DQ Corporation for 50,000 square feet of space in downtown Toronto. The 10-year lease commenced when UOF welcomed its inaugural class in September, 2021. Captital funding went towards fit-up of the space.",
+        "area": "Toronto",
+        "region": "Central",
+        "address": "9 Lower Jarvis St.",
+        "postal_code": "M5E0C3",
+        "municipal_funding": false,
+        "provincial_funding": true,
+        "federal_funding": true,
+        "other_funding": false,
+        "website": "https://www.uontario.ca/"
     }
 ]
