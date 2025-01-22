@@ -1,0 +1,296 @@
+.dashboard {
+    margin-left: 20%;
+    margin-top: 20px;
+    width: 80%;
+}
+
+.dashboard-header {
+    color: rgb(13, 3, 54);
+    margin-bottom: 10px;
+    cursor: default;
+}
+
+.city-section {
+    display: flex;
+    gap: 30px;
+    padding-right: 30px;
+    margin-bottom: 20px;
+}
+
+.city-metrics {
+    width: 60%;
+    background-color: white;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.05),
+        0px 0px 3px rgba(0, 0, 0, 0.08);
+    cursor: default;
+    transition: transform 0.3s ease;
+}
+
+.city-metrics:hover {
+    transform: translateY(-5px);
+}
+
+.city-metrics-card:hover {
+    transform: translateY(-5px);
+}
+
+.city-metrics-table table {
+    border-collapse: collapse;
+}
+
+.city-metrics-table td {
+    font-weight: bold;
+    font-size: large;
+}
+
+.city-metrics-table td span {
+    font-size: small;
+}
+
+.city-metrics-table td,
+th {
+    border-right: 2px solid lightgray;
+    padding: 8px;
+}
+
+.city-metrics-table th:nth-child(3) {
+    border-right: 2px solid lightgray;
+}
+
+.city-metrics-table td:nth-child(4),
+th:nth-child(4) {
+    border-right: none;
+}
+
+
+.arrow {
+    color: rgb(74, 191, 74);
+}
+
+.budget-trends {
+    width: 40%;
+    background-color: white;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.05),
+        0px 0px 3px rgba(0, 0, 0, 0.08);
+    cursor: default;
+    transition: transform 0.3s ease;
+}
+
+.budget-trends:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    text-align: center;
+}
+
+.budget-trend {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.budget-trend p {
+    font-size: larger;
+    font-weight: bold;
+}
+
+.trends {
+    padding: 0px 60px 0px 20px;
+}
+
+/*
+.theme-controller {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+     
+    font-size: 0.875rem;
+    
+    cursor: pointer;
+    padding: 6px 12px;
+    
+    border: 1px solid #3490dc;
+
+    border-radius: 6px;
+
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+.theme-controller.light {
+    background-color: #fff;
+    color: #3490dc;
+    
+}
+
+
+.theme-controller.dark {
+    background-color: #333;
+    
+    color: #fff;
+
+}
+
+
+.theme-controller:hover {
+    background-color: #f0f9ff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.theme-toggle {
+    position: relative;
+    width: 40px;
+    height: 20px;
+    background-color: #ddd;
+
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+.theme-toggle.checked {
+    background-color: #3490dc;
+
+}
+
+
+.theme-toggle .slider {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    background-color: #fff;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+
+.theme-toggle.checked .slider {
+    transform: translateX(20px);
+  
+}
+
+
+.theme-controller svg:first-child {
+    width: 20px;
+    height: 20px;
+    stroke: #3490dc;
+
+}
+
+
+.theme-controller svg:last-child {
+    width: 20px;
+    height: 20px;
+    stroke: #3490dc;
+
+}
+
+
+.light-theme {
+    background-color: #fff;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+
+.dark-theme {
+    background-color: #333;
+    color: #fff;
+    transition: background-color 0.3s ease;
+} */
+
+
+.project-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+}
+
+.project-list a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+.project-button {
+    text-align: center;
+}
+
+.project-button button {
+    border-radius: 15px;
+    border: none;
+    padding: 8px 20px 8px 20px;
+    background-color: #2a50cf;
+    color: white;
+    cursor: pointer;
+}
+
+.project-button button:hover {
+    background-color: #2546b2;
+
+}
+
+.project {
+    background-color: white;
+    border-radius: 15px;
+    border: none;
+    width: 25%;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.05),
+        0px 0px 3px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    cursor: default;
+    margin: 10px 95px 10px 0px;
+    transition: transform 0.3s ease;
+}
+
+.project:hover {
+    transform: translateY(-5px);
+}
+
+.project-header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.circle {
+    color: #2a50cf;
+    margin-right: 5px;
+    font-size: smaller;
+}
+
+.project p {
+    font-size: small;
+}
+
+.project-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+/* I DONT THINK THESE ARE NEEDED
+.green {
+    color: green;
+}
+
+.orange {
+    color: orange;
+}
+
+.red {
+    color: red;
+}
+*/
