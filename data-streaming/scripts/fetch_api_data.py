@@ -51,4 +51,9 @@ def transform_data(data):
 if __name__ == "__main__":
     api_url = "https://data.ontario.ca/api/3/action/datastore_search?resource_id=35dc5416-2b86-4a79-b3e6-acbfe004c81a&limit=10"
     fetched_data = fetch_api_data(api_url)
-    print("Fetched and processed data:", fetched_data)
+     
+    with open("fetched_data.json", "w") as json_file:
+        formatted_json = json.dump(fetched_data, json_file, indent=4)
+        print("Formatted JSON Data:/n")
+        print(formatted_json)
+        print("/n/nData saved to fetched_data.json")
