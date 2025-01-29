@@ -1,5 +1,6 @@
 import { Project } from "../models/project.model.js";
 
+// Get all projects
 export const getProjects = async (req, res) => {
     try {
         const projects = await Project.find();
@@ -9,6 +10,7 @@ export const getProjects = async (req, res) => {
     }
 }
 
+// Get project by id
 export const getProject = async (req, res) => {
     try {
         let id = req.params.id
@@ -33,6 +35,7 @@ export const getProject = async (req, res) => {
     }
 }
 
+// Create project
 export const createProject = async (req, res) => {
     try {
         const project = await Project.create(req.body)
@@ -42,6 +45,7 @@ export const createProject = async (req, res) => {
     }
 }
 
+// Get summary of projects
 export const getSummary = async (req, res) => {
     try {
         const projects = await Project.find();
