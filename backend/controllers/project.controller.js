@@ -65,6 +65,72 @@ export const createProject = async (req, res) => {
     }
 }
 
+// Insert many projects
+export const insertManyProjects = async (req, res) => {
+    try {
+        let projects = []
+        const projectsInDB = await Project.find({}, { project_name: 1, _id: 0 })
+        let projectNames = []
+
+        for (const project of projectsInDB) {
+            projectNames.push(project.project_name)
+        }
+
+        for (const project of req.body) {
+            if (projectNames.includes(project.project_name)) {
+                continue
+            }
+
+            let status = "Planning Started"
+
+            if (project.status == "Planning") {
+                status = "Planning Started"
+            }
+            else if (project.status == "Under construction") {
+                status = "Construction Started"
+            }
+            else if (project.status == "Complete") {
+                status = "Completed"
+            }
+
+            projects.push({
+                project_name: project.project_name,
+                description: project.description,
+                location: project.location,
+                original_completion_date: project.original_completion_date,
+                current_completion_date: project.current_completion_date,
+                planning_start_date: project.planning_start_date,
+                planning_complete_date: project.planning_complete_date,
+                construction_start_date: project.construction_start_date,
+                status: status,
+                original_budget: project.original_budget,
+                current_budget: project.current_budget,
+                category: project.category,
+                result: project.result,
+                area: project.area,
+                region: project.region,
+                address: project.address,
+                postal_code: project.postal_code,
+                municipal_funding: project.municipal_funding,
+                provincial_funding: project.provincial_funding,
+                federal_funding: project.federal_funding,
+                other_funding: project.other_funding,
+                performance_metric: project.performance_metric,
+                efficiency: project.efficiency,
+                website: project.website
+            })
+        }
+
+        if (projects.length != 0) {
+            await Project.insertMany(projects)
+        }
+
+        res.status(200).json("Projects inserted successfully")
+    } catch (error) {
+        res.status(500).json({ msg: error.message })
+    }
+}
+
 // Get summary of projects
 export const getSummary = async (req, res) => {
     try {
