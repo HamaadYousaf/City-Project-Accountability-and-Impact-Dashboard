@@ -13,7 +13,10 @@ const ProjectSchema = mongoose.Schema({
     },
     original_completion_date: { type: Date, required: true },
     current_completion_date: { type: Date, required: true },
-    status: { type: String, enum: ['Planning', 'Under Construction', 'Completed'], required: true },
+    planning_start_date: { type: Date, required: true },
+    planning_complete_date: { type: Date, required: true },
+    construction_start_date: { type: Date, required: true },
+    status: { type: String, enum: ['Planning Started', 'Planning Complete', 'Construction Started', 'Completed'], required: true },
     original_budget: { type: Number, required: true },
     current_budget: { type: Number, required: true },
     category: { type: String, enum: ['Transit', 'Communities', 'Roads/Bridges', 'Recreation', 'Health Care', 'Education'], required: true },
@@ -30,6 +33,7 @@ const ProjectSchema = mongoose.Schema({
     efficiency: {
         type: String, enum: ['Improving', 'Moderate', 'Declining'], required: true, default: 'Moderate'
     },
+    website: { type: String }
 }, {
     timestamps: true // Adds `createdAt` and `updatedAt` fields
 })

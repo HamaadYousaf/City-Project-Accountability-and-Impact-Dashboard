@@ -1,14 +1,36 @@
 import { Project } from "../models/project.model.js";
 
+// Get all projects
 export const getProjects = async (req, res) => {
     try {
-        const projects = await Project.find();
+        const { status, category } = req.query; // Get query parameters
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 9;
+        const skip = (page - 1) * limit;
+
+
+        let filter = {};
+
+        // Add filtering conditions if query params exist
+        if (status) {
+            filter.status = { $regex: new RegExp(`^${status}$`, 'i') };
+        }
+        if (category) {
+            filter.category = { $regex: new RegExp(`^${category}$`, 'i') };
+        }
+
+        const projects = await Project.find(filter)
+            .skip(skip)
+            .limit(limit)
+            .exec();
+
         res.status(200).json({ data: projects });
     } catch (error) {
         res.status(500).json({ msg: error.message });
     }
 }
 
+// Get project by id
 export const getProject = async (req, res) => {
     try {
         let id = req.params.id
@@ -33,6 +55,7 @@ export const getProject = async (req, res) => {
     }
 }
 
+// Create project
 export const createProject = async (req, res) => {
     try {
         const project = await Project.create(req.body)
@@ -42,6 +65,7 @@ export const createProject = async (req, res) => {
     }
 }
 
+// Get summary of projects
 export const getSummary = async (req, res) => {
     try {
         const projects = await Project.find();
