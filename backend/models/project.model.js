@@ -19,7 +19,7 @@ const ProjectSchema = mongoose.Schema({
     status: { type: String, enum: ['Planning Started', 'Planning Complete', 'Construction Started', 'Completed'], required: true },
     original_budget: { type: Number, required: true },
     current_budget: { type: Number, required: true },
-    category: { type: String, enum: ['Transit', 'Communities', 'Roads/Bridges', 'Recreation', 'Health Care', 'Education'], required: true },
+    category: { type: String, enum: ['Transit', 'Communities', 'Roads and bridges', 'Recreation', 'Health care', 'Education'], required: true },
     result: { type: String }, // Impact of project to the community
     area: { type: String },
     region: { type: String },
