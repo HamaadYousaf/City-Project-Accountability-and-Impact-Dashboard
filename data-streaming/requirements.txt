@@ -4,3 +4,4 @@
 # jsonschema
 # pika
 # fitz
+python-dotenv
