@@ -187,3 +187,13 @@ export const getSummary = async (req, res) => {
         res.status(500).json({ msg: error.message });
     }
 }
+
+// Delete all projects
+export const deleteAll = async (req, res) => {
+    try {
+        await Project.deleteMany()
+        res.status(200).json("All projects deleted successfully")
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
+}
