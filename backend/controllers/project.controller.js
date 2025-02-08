@@ -5,7 +5,7 @@ export const getProjects = async (req, res) => {
     try {
         const { status, category } = req.query; // Get query parameters
         const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 9;
+        const limit = parseInt(req.query.limit) || 6;
         const skip = (page - 1) * limit;
 
 
