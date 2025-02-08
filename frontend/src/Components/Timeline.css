@@ -83,7 +83,6 @@
     z-index: 1;
     /* Higher z-index for checkmarks */
     /* Ensure background behind checkmark */
-
     border-radius: 50%;
     margin-bottom: 30px;
     background-color: white;
@@ -144,6 +143,10 @@ hr {
     /* Position right for even items */
 }
 
+.timeline li:nth-child(even) .timeline-start {
+    right: -165px;
+}
+
 .completed-status {
     color: blue;
 }
@@ -157,7 +160,7 @@ hr {
 }
 
 .gray {
-    color: lightgrey;
+    color: rgb(225, 224, 224);
 }
 
 .blue {
@@ -169,7 +172,7 @@ hr {
 }
 
 .bg-gray {
-    background-color: lightgrey;
+    background-color: rgb(225, 224, 224);
 }
 
 .bg-blue {
@@ -193,4 +196,16 @@ hr {
 .timeline-blue::before {
     background-color: #2a50cf;
     /* Blue color for Completed */
+}
+
+.label-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.timeline-text {
+    margin-bottom: 0.25rem;
+    color: white;
+    /*padding-right: 100px;*/
 }
