@@ -104,7 +104,7 @@ export default function Dashboard({ projects }) {
                                         </tr>
                                         <tr>
                                             <td style={{ color: getPerformanceColor(cityData.performance) }}>
-                                                {cityData.performance}/100
+                                                {parseFloat(cityData.performance).toFixed(1)}/100
                                             </td>
                                             <td style={{ color: getPerformanceColor(cityData.budget_change * 100) }}>
                                                 {Math.round(cityData.budget_change * 100)}%
