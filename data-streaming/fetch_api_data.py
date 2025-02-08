@@ -6,11 +6,13 @@ import requests
 from dotenv import load_dotenv
 import os
 
-# Load environment variables from .env file
+# Load environment variables
 load_dotenv()
 
 MONGO_API_URL = os.getenv("MONGO_URL")
 BACKEND_API_URL = "http://localhost:5000/api/projects/insertMany"
+
+DEFAULT_WEBSITE = "https://www.ontario.ca/page/building-ontario"
 
 def fetch_api_data(api_url):
     """Fetch data from the Ontario API."""
@@ -27,6 +29,8 @@ def fetch_api_data(api_url):
 
             limited_data = data["result"]["records"][:5000]
             processed_data = transform_data(limited_data)
+            # Add the manually defined Eglinton Crosstown LRT project
+            processed_data.append(add_manual_project())
             return processed_data
     except Exception as e:
         raise Exception(f"Failed to fetch data from {api_url}: {e}")
@@ -46,26 +50,40 @@ def transform_data(data):
     for item in data:
         project_name = item.get("Project", "Unknown Project Name")
         category = item.get("Category", "Other")  
-        website = item.get("Website", "")
-        # **Exclude projects with category "Child care"**
-        if category.lower() == "child care":
-            print(f"Skipping Project: {project_name} (Category: Child care)")
+        description = item.get("Description", "No description available.")
+        
+        # Handle missing address & postal code
+        address = item.get("Address", "Unknown Address")
+        postal_code = item.get("Postal Code", "Unknown Postal Code")
+
+        if address is None or address.strip() == "":
+            address = "Unknown Address"
+
+        if postal_code is None or postal_code.strip() == "":
+            postal_code = "Unknown Postal Code"
+
+        # **Ensure website is valid, otherwise set to DEFAULT_WEBSITE**
+        website = item.get("Website", "").strip() if item.get("Website") else DEFAULT_WEBSITE
+
+        # **Exclude projects with category "Child care" and "Health care"**
+        if category.lower() in ["child care", "health care"]:
+            print(f"Skipping Project: {project_name} (Category: {category})")
             continue
+        
+        # **Filter status to only include "Under construction" and "Planning"**
+        status = item.get("Status", "").strip().lower()
+        if status not in ["under construction", "planning"]:
+            print(f"Skipping Project: {project_name} (Invalid status: {status})")
+            continue
+
         print(f"Processing Project: {project_name}")
         
-        #  # **Exclude projects with NULL website**
-        # if not website in ["null"]:
-        #     print(f"Skipping Project: {project_name} (Missing Website)")
-        #     continue
-
-
         longitude = item.get("Longitude")
         latitude = item.get("Latitude")
         original_budget = float(item.get("Estimated Total Budget ($)", 0))
-        status = item.get("Status", "").lower()
 
         # Skip invalid projects
-        if not longitude or not latitude or original_budget == 0 or status == "complete":
+        if not longitude or not latitude or original_budget == 0:
             print(f"Skipping Project: {project_name} (Invalid criteria)")
             continue
 
@@ -81,10 +99,7 @@ def transform_data(data):
             and gta_bounds["min_lat"] <= latitude <= gta_bounds["max_lat"]
         ):
             continue
-
-        description = item.get("Description", "No description available.")
-        address = item.get("Address", "Unknown Address")
-        postal_code = item.get("Postal Code", "Unknown Postal Code")
+        
         original_completion_date_str = item.get("Target Completion Date") or None
 
         # Parse original_completion_date
@@ -115,10 +130,10 @@ def transform_data(data):
         # **Calculate Efficiency and Performance**
         delay = (current_completion_date - original_completion_date).days // 30  # Convert to months
 
-        if delay > 12:
+        if delay > 8:
             efficiency = "Declining"
             performance_metric = 60
-        elif delay < 5:
+        elif delay < 3:
             efficiency = "Improving"
             performance_metric = 90
         else:
@@ -150,12 +165,42 @@ def transform_data(data):
             "provincial_funding": item.get("Provincial Funding", "No") == "Yes",
             "federal_funding": item.get("Federal Funding", "No") == "Yes",
             "other_funding": item.get("Other Funding", "No") == "Yes",
-            "website": website,
+            "website": website,  # **Updated website handling**
             "efficiency": efficiency,
             "performance_metric": performance_metric
         }
         projects.append(project)
     return projects
+
+
+def add_manual_project():
+    """Create the Eglinton Crosstown LRT Project manually"""
+    return {
+        "project_name": "Eglinton Crosstown LRT Project",
+        "description": "A new light rail transit (LRT) system along Eglinton Avenue to improve connectivity in Toronto.",
+        "location": {"type": "Point", "coordinates": [-79.39861127113538, 43.70542969100466]},
+        "original_completion_date": "2022-12-31",
+        "current_completion_date": "2025-12-31",
+        "planning_start_date": "2011-06-01",
+        "planning_complete_date": "2013-12-31",
+        "construction_start_date": "2015-06-01",
+        "status": "Under construction",
+        "original_budget": 5600000000.0,
+        "current_budget": 6800000000.0,
+        "category": "Transit",
+        "result": "Improved transit access across Toronto's East & West ends.",
+        "area": "Toronto",
+        "region": "Central",
+        "address": "Eglinton Avenue, Toronto, ON",
+        "postal_code": "M4S2B8",
+        "municipal_funding": False,
+        "provincial_funding": True,
+        "federal_funding": True,
+        "other_funding": False,
+        "website": "https://www.metrolinx.com/en/projects-and-programs/eglinton-crosstown-lrt",
+        "efficiency": "Declining",
+        "performance_metric": 60
+    }
 
 def push_to_backend(projects):
     """Send projects to backend."""
