@@ -92,6 +92,9 @@ export const insertManyProjects = async (req, res) => {
             else if (project.status == "Complete") {
                 status = "Completed"
             }
+            else {
+                status = project.status
+            }
 
             projects.push({
                 project_name: project.project_name,
