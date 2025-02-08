@@ -51,7 +51,7 @@ export default function DetailedPages() {
 
     const getPerformanceColor = (value) => {
         if (value >= 70) {
-            return 'rgb(74, 191, 74)';
+            return 'rgb(7, 222, 140)';
         }
         else if (value >= 50 && value < 70) {
             return 'orange';
@@ -66,7 +66,7 @@ export default function DetailedPages() {
 
     const getEfficiencyColor = (value) => {
         if (value === "Improving") {
-            return 'rgb(74, 191, 74)';
+            return 'rgb(7, 222, 140)';
         }
         else if (value === "Moderate") {
             return 'orange';
@@ -128,16 +128,19 @@ export default function DetailedPages() {
                             <div className='budget-table'>
                                 <table>
                                     <tbody>
-
                                         <tr>
-                                            <td>${project.current_budget}</td>
-                                            <td>${project.original_budget}</td>
+                                            <td className='pricing'>${project.current_budget.toLocaleString()}</td>
+                                            <td className='pricing'>${project.original_budget.toLocaleString()}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><button className='current-price'>Current</button></td>
+                                            <td><button className='original-price'>Original</button></td>
                                         </tr>
                                         <tr></tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <p>${budget_change}<span> from initial plan</span></p>
+                            <p>${budget_change.toLocaleString()}<span> from initial plan</span></p>
                         </div>
                     </div>
                     <div className='project-funding'>

@@ -15,7 +15,7 @@ export default function Dashboard({ projects }) {
 
     const getPerformanceColor = (value) => {
         if (value >= 70) {
-            return 'rgb(74, 191, 74)';
+            return 'rgb(7, 222, 140)';
         } else if (value >= 50 && value < 70) {
             return 'orange';
         } else {
@@ -24,7 +24,7 @@ export default function Dashboard({ projects }) {
     };
 
     const getTrendIcon = (value) => {
-        const color = value >= 50 ? 'rgb(74, 191, 74)' : 'red';
+        const color = value >= 50 ? 'rgb(7, 222, 140)' : 'red';
         const Icon = value >= 50 ? GoGraph : BsGraphDown;
         return (
             <span style={{ color }}>
@@ -34,7 +34,7 @@ export default function Dashboard({ projects }) {
     };
 
     const getArrowIcon = (value) => {
-        const color = value >= 50 ? 'rgb(74, 191, 74' : 'red';
+        const color = value >= 50 ? 'rgb(7, 222, 140)' : 'red';
         const Icon = value >= 50 ? IoIosArrowUp : IoArrowDownSharp
         return (
             <span style={{ color }}>
@@ -45,7 +45,7 @@ export default function Dashboard({ projects }) {
 
     const getEfficiencyColor = (value) => {
         if (value === "Improving") {
-            return 'rgb(74, 191, 74)'
+            return 'rgb(7, 222, 140)'
         }
         else if (value === "Moderate") {
             return 'orange'

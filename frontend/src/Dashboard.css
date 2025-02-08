@@ -51,12 +51,12 @@
 
 .city-metrics-table td,
 th {
-    border-right: 2px solid lightgray;
+    border-right: 2px solid rgb(233, 231, 231);
     padding: 8px;
 }
 
 .city-metrics-table th:nth-child(3) {
-    border-right: 2px solid lightgray;
+    border-right: 2px solid rgb(233, 231, 231);
 }
 
 .city-metrics-table td:nth-child(4),
