@@ -66,7 +66,7 @@
 
 .project-metrics-table td,
 th {
-    border-right: 2px solid lightgray;
+    border-right: 2px solid rgb(233, 231, 231);
     padding: 8px;
 }
 
@@ -75,6 +75,49 @@ th:nth-child(3) {
     border-right: none;
 }
 
+.budget-table {
+    margin-bottom: 10px;
+}
+
+.budget-table .pricing {
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.budget-table .price-label {
+    font-size: smaller;
+}
+
+.budget-table .current-price {
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px 5px 10px;
+    color: rgb(7, 222, 140);
+    font-weight: bold;
+    background-color: #ccf5e1;
+}
+
+.budget-table .original-price {
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px 5px 10px;
+    color: red;
+    font-weight: bold;
+    background-color: #fde8e8;
+}
+
+.budget-table table {
+    border-collapse: collapse;
+}
+
+.budget-table td {
+    border-right: 2px solid rgb(233, 231, 231);
+    padding: 8px;
+}
+
+.budget-table td:nth-child(2) {
+    border-right: none;
+}
 
 .detailed-page-header {
     margin-left: 90px;
@@ -125,7 +168,6 @@ th:nth-child(3) {
 }
 
 .project-budget-change p {
-    font-size: x-large;
     font-weight: bold;
     text-align: center;
 }

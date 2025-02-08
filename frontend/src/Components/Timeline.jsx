@@ -35,8 +35,13 @@ export default function Timeline() {
             <ul className="timeline timeline-vertical">
                 <li>
                     <hr className="bg-primary" />
-                    <div className={`timeline-start timeline-box ${status === "Planning" ? "bg-gray" : status === "Under Construction" ? "bg-gray" : "bg-blue"}`}>Completed</div>
-                    <div className={`timeline-middle ${status === "Planning" ? "gray" : status === "Under Construction" ? "gray" : "blue"}`}>
+                    <div className={`timeline-start timeline-box ${status === "Planning Started" ? "bg-gray" : status === "Planning Complete" ? "bg-gray" : status === "Construction Started" ? "bg-gray" : "bg-blue"}`}>
+                        <div className="label-wrapper">
+                            <span>Complete</span>
+                            <span className="timeline-text">{new Date(project.current_completion_date).toISOString().split('T')[0]}</span>
+                        </div>
+                    </div>
+                    <div className={`timeline-middle ${status === "Planning Started" ? "gray" : status === "Planning Complete" ? "gray" : status === "Construction Started" ? "gray" : "blue"}`}>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="text-primary h-5 w-5">
                             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
                         </svg>
@@ -45,18 +50,42 @@ export default function Timeline() {
                 </li>
                 <li>
                     <hr />
-                    <div className={`timeline-middle ${status === "Planning" ? "gray" : status === "Under Construction" ? "lightblue" : "blue"}`}>
+                    <div className={`timeline-middle ${status === "Planning Started" ? "gray" : status === "Planning Complete" ? "lightblue" : status === "Construction Started" ? "lightblue" : "blue"}`}>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5">
                             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
                         </svg>
                     </div>
-                    <div className={`timeline-end timeline-box ${status === "Planning" ? "bg-gray" : status === "Under Construction" ? "bg-lightblue" : "bg-blue"}`}>Under Construction</div>
+                    <div className={`timeline-end timeline-box ${status === "Planning Started" ? "bg-gray" : status === "Planning Complete" ? "bg-lightblue" : status === "Construction Started" ? "bg-lightblue" : "bg-blue"}`}>
+                        <div className="label-wrapper">
+                            <span>Construction Start</span>
+                            <span className="timeline-text">{new Date(project.construction_start_date).toISOString().split('T')[0]}</span>
+                        </div>
+                    </div>
                     <hr />
                 </li>
                 <li>
                     <hr />
-                    <div className={`timeline-start timeline-box ${status === "Planning" ? "bg-lightblue" : status === "Under Construction" ? "bg-blue" : "bg-blue"}`}>Planning</div>
-                    <div className={`timeline-middle ${status === "Planning" ? "lightblue" : status === "Under Construction" ? "blue" : "blue"}`}>
+                    <div className={`timeline-start timeline-box ${status === "Planning Started" ? "bg-gray" : status === "Planning Complete" ? "bg-blue" : status === "Construction Started" ? "bg-blue" : "bg-blue"}`}>
+                        <div className="label-wrapper">
+                            <span>Planning Complete</span>
+                            <span className="timeline-text">{new Date(project.planning_complete_date).toISOString().split('T')[0]}</span>
+                        </div>
+                    </div>
+                    <div className={`timeline-middle ${status === "Planning Started" ? "gray" : status === "Planning Complete" ? "blue" : status === "Construction Started" ? "blue" : "blue"}`}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
+                        </svg>
+                    </div>
+                </li>
+                <li>
+                    <hr />
+                    <div className={`timeline-start timeline-box ${status === "Planning Started" ? "bg-lightblue" : status === "Planning Complete" ? "bg-blue" : status === "Construction Started" ? "bg-blue" : "bg-blue"}`}>
+                        <div className='label-wrapper'>
+                            <span>Planning Start</span>
+                            <span className="timeline-text">{new Date(project.planning_start_date).toISOString().split('T')[0]}</span>
+                        </div>
+                    </div>
+                    <div className={`timeline-middle ${status === "Planning Started" ? "lightblue" : status === "Planning Complete" ? "blue" : status === "Construction Started" ? "blue" : "blue"}`}>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5">
                             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
                         </svg>
@@ -65,4 +94,5 @@ export default function Timeline() {
             </ul>
         </>
     );
+
 }
