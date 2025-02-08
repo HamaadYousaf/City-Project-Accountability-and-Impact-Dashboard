@@ -83,6 +83,8 @@ export default function DetailedPages() {
         return <h2>Project not found</h2>;
     }
 
+    const budget_change = project.current_budget - project.original_budget
+
     return (
         <>
             <h1 className='detailed-page-header'>{project.project_name}</h1>
@@ -123,7 +125,19 @@ export default function DetailedPages() {
                                 <FaCircle className='circle' />
                                 Budget Change
                             </h4>
-                            <p>${project.current_budget}<span> from initial plan</span></p>
+                            <div className='budget-table'>
+                                <table>
+                                    <tbody>
+
+                                        <tr>
+                                            <td>${project.current_budget}</td>
+                                            <td>${project.original_budget}</td>
+                                        </tr>
+                                        <tr></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p>${budget_change}<span> from initial plan</span></p>
                         </div>
                     </div>
                     <div className='project-funding'>

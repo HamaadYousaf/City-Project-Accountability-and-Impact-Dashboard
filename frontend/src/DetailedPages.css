@@ -75,6 +75,11 @@ th:nth-child(3) {
     border-right: none;
 }
 
+.budget-table td {
+    font-size: x-large;
+    font-weight: bold;
+}
+
 
 .detailed-page-header {
     margin-left: 90px;
