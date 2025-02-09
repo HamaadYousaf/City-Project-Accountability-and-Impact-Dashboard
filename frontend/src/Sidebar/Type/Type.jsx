@@ -47,6 +47,13 @@ export default function Type({ handleChange, selectedOption }) {
                         heading="Health Care"
                         className="sidebar-input"
                         selectedOption={selectedOption} />
+                    <Input
+                        handleChange={handleChange}
+                        value="Education"
+                        name="category"
+                        heading="Education"
+                        className="sidebar-input"
+                        selectedOption={selectedOption} />
                 </div>
             </div>
         </>
