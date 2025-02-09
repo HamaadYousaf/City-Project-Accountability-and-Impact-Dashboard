@@ -30,7 +30,7 @@ export default function Type({ handleChange, selectedOption }) {
                         handleChange={handleChange}
                         value="Roads/Bridges"
                         name="category"
-                        heading="Roads/Bridges"
+                        heading="Roads and bridges"
                         className="sidebar-input"
                         selectedOption={selectedOption} />
                     <Input
