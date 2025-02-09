@@ -21,14 +21,14 @@ export default function Stauts({ handleChange, selectedOption }) {
                     />
                     <Input
                         handleChange={handleChange}
-                        value="In Progress"
+                        value="Construction Started"
                         name="status"
                         heading="In Progress"
                         className="sidebar-input"
                         selectedOption={selectedOption} />
                     <Input
                         handleChange={handleChange}
-                        value="Not Started"
+                        value="Planning Started"
                         name="status"
                         heading="Not Started"
                         className="sidebar-input"

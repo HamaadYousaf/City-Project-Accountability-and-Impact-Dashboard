@@ -6,19 +6,43 @@ import { useState, useEffect } from "react";
 import Dashboard from "../Dashboard";
 import axios from "axios";
 
-
 export default function Sidebar() {
     const [searchInput, setSearchInput] = useState("");
     const [selectedOption, setSelectedOption] = useState("");
     const [filteredProjects, setFilteredProjects] = useState([]);
     const [projects, setProjects] = useState([]);
 
+    // Fetch all projects initially
     useEffect(() => {
         const fetchProjects = async () => {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/projects`);
                 setProjects(response.data.data);
-                //setFilteredProjects(response.data);
+                setFilteredProjects(response.data.data); // Set filteredProjects to the full list initially
+            } catch (error) {
+                console.error("Error fetching project data:", error);
+            }
+        };
+        fetchProjects();
+    }, []);
+
+    useEffect(() => {
+        const fetchProjects = async () => {
+            try {
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/projects?status=under%20construction`);
+                setProjects(response.data.data);
+            } catch (error) {
+                console.error("Error fetching project data:", error);
+            }
+        };
+        fetchProjects();
+    }, []);
+
+    useEffect(() => {
+        const fetchProjects = async () => {
+            try {
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/projects?status=complete`);
+                setProjects(response.data.data);
             } catch (error) {
                 console.error("Error fetching project data:", error);
             }
@@ -52,13 +76,11 @@ export default function Sidebar() {
         setSearchInput(input);
         const filteredByInput = projects.filter(project => project.project_name.toLowerCase().startsWith(input));
         setFilteredProjects(filteredByInput);
-    }
+    };
 
     return (
         <>
-            {/*<div className="sidebar">*/}
             <div className="inner-sidebar">
-
                 <div className="sidebar-logo">
                     <h2 className="logo">LOGO</h2>
                 </div>
@@ -73,9 +95,7 @@ export default function Sidebar() {
                 <Status handleChange={handleStatusChange} selectedOption={selectedOption} />
                 <Type handleChange={handleTypeChange} selectedOption={selectedOption} />
             </div>
-            <Dashboard projects={projects} /> {/*filteredProjects comes from the useState above*/}
-            {/*</div>*/}
+            <Dashboard projects={filteredProjects} /> {/* Display filtered projects */}
         </>
-    )
+    );
 }
-
