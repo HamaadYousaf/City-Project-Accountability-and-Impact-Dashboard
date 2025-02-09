@@ -13,28 +13,33 @@ export default function Region({ handleChange, selectedOption }) {
                 <div className="sidebar-list">
                     <Input
                         handleChange={handleChange}
-                        value="Toronto" //this will align with the value of Region (aka either downtown or a place in downtown, depending on table provided)
-                        name="area" //this aligns with Region from table
-                        heading="Toronto"
+                        value="Central"
+                        name="area"
+                        heading="Central"
                         className="sidebar-input"
                         selectedOption={selectedOption}
+                        filterType="region"
                     />
                     <Input
                         handleChange={handleChange}
-                        value="Etobicoke"
+                        value="Peel"
                         name="area"
-                        heading="Etobicoke"
+                        heading="Peel"
                         className="sidebar-input"
-                        selectedOption={selectedOption} />
+                        selectedOption={selectedOption}
+                        filterType="region"
+                    />
                     <Input
                         handleChange={handleChange}
-                        value="Scarborough"
+                        value="Downtown"
                         name="area"
-                        heading="Scarborough"
+                        heading="Downtown"
                         className="sidebar-input"
-                        selectedOption={selectedOption} />
+                        selectedOption={selectedOption}
+                        filterType="region"
+                    />
                 </div>
             </div>
         </>
-    )
-} 
+    );
+}

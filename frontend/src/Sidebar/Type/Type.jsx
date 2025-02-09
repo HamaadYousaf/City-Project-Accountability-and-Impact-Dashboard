@@ -18,6 +18,7 @@ export default function Type({ handleChange, selectedOption }) {
                         heading="Transit"
                         className="sidebar-input"
                         selectedOption={selectedOption}
+                        filterType="type"
                     />
                     <Input
                         handleChange={handleChange}
@@ -25,28 +26,40 @@ export default function Type({ handleChange, selectedOption }) {
                         name="category"
                         heading="Communities"
                         className="sidebar-input"
-                        selectedOption={selectedOption} />
+                        selectedOption={selectedOption}
+                        filterType="type" />
                     <Input
                         handleChange={handleChange}
                         value="Roads/Bridges"
                         name="category"
                         heading="Roads and bridges"
                         className="sidebar-input"
-                        selectedOption={selectedOption} />
+                        selectedOption={selectedOption}
+                        filterType="type" />
                     <Input
                         handleChange={handleChange}
                         value="Recreation"
                         name="category"
                         heading="Recreation"
                         className="sidebar-input"
-                        selectedOption={selectedOption} />
+                        selectedOption={selectedOption}
+                        filterType="type" />
                     <Input
                         handleChange={handleChange}
                         value="Health Care"
                         name="category"
                         heading="Health Care"
                         className="sidebar-input"
-                        selectedOption={selectedOption} />
+                        selectedOption={selectedOption}
+                        filterType="type" />
+                    <Input
+                        handleChange={handleChange}
+                        value="Education"
+                        name="category"
+                        heading="Education"
+                        className="sidebar-input"
+                        selectedOption={selectedOption}
+                        filterType="type" />
                 </div>
             </div>
         </>

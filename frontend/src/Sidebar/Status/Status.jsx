@@ -18,6 +18,7 @@ export default function Stauts({ handleChange, selectedOption }) {
                         heading="Completed"
                         className="sidebar-input"
                         selectedOption={selectedOption}
+                        filterType="status"
                     />
                     <Input
                         handleChange={handleChange}
@@ -25,14 +26,16 @@ export default function Stauts({ handleChange, selectedOption }) {
                         name="status"
                         heading="In Progress"
                         className="sidebar-input"
-                        selectedOption={selectedOption} />
+                        selectedOption={selectedOption}
+                        filterType="status" />
                     <Input
                         handleChange={handleChange}
                         value="Planning Started"
                         name="status"
                         heading="Not Started"
                         className="sidebar-input"
-                        selectedOption={selectedOption} />
+                        selectedOption={selectedOption}
+                        filterType="status" />
                 </div>
             </div>
         </>
