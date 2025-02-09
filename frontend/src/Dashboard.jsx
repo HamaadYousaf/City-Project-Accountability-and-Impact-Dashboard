@@ -119,6 +119,7 @@ export default function Dashboard({ projects }) {
                                 </table>
                             </div>
                         </div>
+
                     </div>
                 )}
                 <div className='projects-section'>
