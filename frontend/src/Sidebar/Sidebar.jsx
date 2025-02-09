@@ -51,10 +51,8 @@ export default function Sidebar() {
                     }
                 });
             }
-
             setFilteredProjects(updatedProjects);
         };
-
         applyFilters();
     }, [searchInput, selectedFilter, projects]);
 

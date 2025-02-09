@@ -13,6 +13,14 @@ export default function Stauts({ handleChange, selectedOption }) {
                 <div className="sidebar-list">
                     <Input
                         handleChange={handleChange}
+                        value=""  // "All" option
+                        name="status"
+                        heading="All"
+                        className="sidebar-input"
+                        selectedOption={selectedOption}
+                    />
+                    <Input
+                        handleChange={handleChange}
                         value="Completed" //this will align with the value of Region (aka either downtown or a place in downtown, depending on table provided)
                         name="status" //this aligns with Region from table
                         heading="Completed"
