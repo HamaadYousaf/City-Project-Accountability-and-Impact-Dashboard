@@ -8,9 +8,7 @@ import axios from "axios";
 
 export default function Sidebar() {
     const [searchInput, setSearchInput] = useState("");
-    const [selectedRegion, setSelectedRegion] = useState("");
-    const [selectedStatus, setSelectedStatus] = useState("");
-    const [selectedType, setSelectedType] = useState("");
+    const [selectedFilter, setSelectedFilter] = useState({ type: "", value: "" });
     const [filteredProjects, setFilteredProjects] = useState([]);
     const [projects, setProjects] = useState([]);
 
@@ -39,28 +37,32 @@ export default function Sidebar() {
                 );
             }
 
-            if (selectedRegion) {
-                updatedProjects = updatedProjects.filter(project => project.region === selectedRegion);
-            }
-
-            if (selectedStatus) {
-                updatedProjects = updatedProjects.filter(project => project.status === selectedStatus);
-            }
-
-            if (selectedType) {
-                updatedProjects = updatedProjects.filter(project => project.category === selectedType);
+            if (selectedFilter.value) {
+                updatedProjects = updatedProjects.filter(project => {
+                    switch (selectedFilter.type) {
+                        case 'region':
+                            return project.region === selectedFilter.value;
+                        case 'status':
+                            return project.status === selectedFilter.value;
+                        case 'type':
+                            return project.category === selectedFilter.value;
+                        default:
+                            return true;
+                    }
+                });
             }
 
             setFilteredProjects(updatedProjects);
         };
 
         applyFilters();
-    }, [searchInput, selectedRegion, selectedStatus, selectedType, projects]);
+    }, [searchInput, selectedFilter, projects]);
 
-    // Filter change handlers
-    const handleRegionChange = (e) => setSelectedRegion(e.target.value);
-    const handleStatusChange = (e) => setSelectedStatus(e.target.value);
-    const handleTypeChange = (e) => setSelectedType(e.target.value);
+    // Filter change handler
+    const handleFilterChange = (type, value) => {
+        setSelectedFilter({ type, value });
+    };
+
     const handleInputChange = (e) => setSearchInput(e.target.value);
 
     return (
@@ -73,9 +75,9 @@ export default function Sidebar() {
                     value={searchInput}
                     onChange={handleInputChange}
                 />
-                <Region handleChange={handleRegionChange} selectedOption={selectedRegion} />
-                <Status handleChange={handleStatusChange} selectedOption={selectedStatus} />
-                <Type handleChange={handleTypeChange} selectedOption={selectedType} />
+                <Region handleChange={handleFilterChange} selectedOption={selectedFilter} />
+                <Status handleChange={handleFilterChange} selectedOption={selectedFilter} />
+                <Type handleChange={handleFilterChange} selectedOption={selectedFilter} />
             </div>
             <Dashboard projects={filteredProjects} /> {/* Display filtered projects */}
         </>

@@ -1,20 +1,18 @@
-
-
-export default function Input({ handleChange, name, value, heading, className, selectedOption }) {
+export default function Input({ handleChange, name, value, heading, className, selectedOption, filterType }) {
 
     return (
         <>
-            <label className={`sidebar-label ${selectedOption === value ? 'active-label' : ''}`}>
+            <label className={`sidebar-label ${selectedOption.value === value ? 'active-label' : ''}`}>
                 <input
                     className={className}
-                    onChange={handleChange}
+                    onChange={() => handleChange(filterType, value)}
                     type="radio"
                     value={value}
                     name={name}
+                    checked={selectedOption.value === value}
                 />
                 {heading}
             </label>
         </>
-    )
+    );
 }
-
