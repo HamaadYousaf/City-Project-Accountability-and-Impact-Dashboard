@@ -6,6 +6,7 @@ import Timeline from './Components/Timeline';
 import { FaCircle } from "react-icons/fa6";
 import { ImCheckboxChecked, ImCheckboxUnchecked } from "react-icons/im";
 import { AiFillQuestionCircle } from "react-icons/ai";
+import { FaLink } from "react-icons/fa6";
 import axios from 'axios';
 
 export default function DetailedPages() {
@@ -197,7 +198,12 @@ export default function DetailedPages() {
                 </div>
                 <div className='project-right'>
                     <Timeline />
-                    <div>
+                    <div className='project-link'>
+                        <h4 className='card-header'>
+                            <FaCircle className='circle' />
+                            Project Website
+                        </h4>
+                        <FaLink className='link-icon' />
                         <a href={project.website} target='_blank'>{project.website}</a>
                     </div>
                 </div>
