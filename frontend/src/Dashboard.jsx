@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { FaCircle } from "react-icons/fa6";
 import { GoGraph } from "react-icons/go";
 import { BsGraphDown } from "react-icons/bs";
+import { AiFillQuestionCircle } from "react-icons/ai";
 import axios from 'axios';
 
 export default function Dashboard({ projects }) {
@@ -23,6 +24,15 @@ export default function Dashboard({ projects }) {
         }
     };
 
+    const getBudgetColor = (value) => {
+        if (value >= 50) {
+            return 'red'
+        }
+        else {
+            return 'rgb(7, 222, 140)'
+        }
+    }
+
     const getTrendIcon = (value) => {
         const color = value >= 50 ? 'rgb(7, 222, 140)' : 'red';
         const Icon = value >= 50 ? GoGraph : BsGraphDown;
@@ -34,7 +44,7 @@ export default function Dashboard({ projects }) {
     };
 
     const getArrowIcon = (value) => {
-        const color = value >= 50 ? 'rgb(7, 222, 140)' : 'red';
+        const color = value >= 50 ? 'red' : 'rgb(7, 222, 140)';
         const Icon = value >= 50 ? IoIosArrowUp : IoArrowDownSharp
         return (
             <span style={{ color }}>
@@ -97,16 +107,36 @@ export default function Dashboard({ projects }) {
                                 <table>
                                     <tbody>
                                         <tr>
-                                            <th>Performance</th>
-                                            <th>Budget Trends</th>
-                                            <th>Delay Trends</th>
-                                            <th>Efficiency</th>
+                                            <th>Performance
+                                                <div className="tooltip-container">
+                                                    <AiFillQuestionCircle className="question-mark" />
+                                                    <span className="tooltip-text">Represents the overall city performance score.</span>
+                                                </div>
+                                            </th>
+                                            <th>Budget Trends
+                                                <div className="tooltip-container">
+                                                    <AiFillQuestionCircle className="question-mark" />
+                                                    <span className="tooltip-text">Tracks changes in the city’s project budgets over time. A positive trend means projects are running under budget, while a negative trend indicates budget overruns.</span>
+                                                </div>
+                                            </th>
+                                            <th>Delay Trends
+                                                <div className="tooltip-container">
+                                                    <AiFillQuestionCircle className="question-mark" />
+                                                    <span className="tooltip-text">Indicates the average delay in months across all city projects. </span>
+                                                </div>
+                                            </th>
+                                            <th>Efficiency
+                                                <div className="tooltip-container">
+                                                    <AiFillQuestionCircle className="question-mark" />
+                                                    <span className="tooltip-text">Measures the overall productivity and resource management of city projects. Higher efficiency reflects projects being completed within budget and on time.</span>
+                                                </div>
+                                            </th>
                                         </tr>
                                         <tr>
                                             <td style={{ color: getPerformanceColor(cityData.performance) }}>
                                                 {parseFloat(cityData.performance).toFixed(1)}/100
                                             </td>
-                                            <td style={{ color: getPerformanceColor(cityData.budget_change * 100) }}>
+                                            <td style={{ color: getBudgetColor(cityData.budget_change * 100) }}>
                                                 {Math.round(cityData.budget_change * 100)}%
                                                 {getArrowIcon(cityData.budget_change)}
                                             </td>

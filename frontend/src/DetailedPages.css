@@ -220,3 +220,39 @@ td {
     color: #2a50cf;
     font-size: larger;
 }
+
+.tooltip-container {
+    position: relative;
+    display: inline-block;
+    cursor: default;
+}
+
+.project-metrics-table .question-mark {
+    color: #2a50cf;
+    margin-left: 5px;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    width: 180px;
+    background-color: #2a50cf;
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: smaller;
+    line-height: 1.4;
+    font-weight: 300;
+}
+
+.tooltip-container:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}

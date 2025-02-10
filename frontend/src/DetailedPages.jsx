@@ -5,6 +5,7 @@ import "./Components/Timeline.css";
 import Timeline from './Components/Timeline';
 import { FaCircle } from "react-icons/fa6";
 import { ImCheckboxChecked, ImCheckboxUnchecked } from "react-icons/im";
+import { AiFillQuestionCircle } from "react-icons/ai";
 import axios from 'axios';
 
 export default function DetailedPages() {
@@ -99,9 +100,24 @@ export default function DetailedPages() {
                             <table>
                                 <tbody>
                                     <tr>
-                                        <th>Performance</th>
-                                        <th>Delay Trends</th>
-                                        <th>Efficiency</th>
+                                        <th>Performance
+                                            <div className="tooltip-container">
+                                                <AiFillQuestionCircle className="question-mark" />
+                                                <span className="tooltip-text">Represents the overall project performance score.</span>
+                                            </div>
+                                        </th>
+                                        <th>Delay Trends
+                                            <div className="tooltip-container">
+                                                <AiFillQuestionCircle className="question-mark" />
+                                                <span className="tooltip-text">Indicates the delay in months of the project.</span>
+                                            </div>
+                                        </th>
+                                        <th>Efficiency
+                                            <div className="tooltip-container">
+                                                <AiFillQuestionCircle className="question-mark" />
+                                                <span className="tooltip-text">Measures the overall productivity and resource management of the project. Higher efficiency reflects the project being completed within budget and on time.</span>
+                                            </div>
+                                        </th>
                                     </tr>
                                     <tr>
                                         <td style={{ color: getPerformanceColor(project.performance_metric) }}>{project.performance_metric}/100</td>
@@ -181,6 +197,9 @@ export default function DetailedPages() {
                 </div>
                 <div className='project-right'>
                     <Timeline />
+                    <div>
+                        <a href={project.website} target='_blank'>{project.website}</a>
+                    </div>
                 </div>
             </div>
         </>
