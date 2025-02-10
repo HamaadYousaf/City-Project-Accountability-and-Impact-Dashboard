@@ -30,26 +30,19 @@ export default function Sidebar() {
     useEffect(() => {
         const applyFilters = () => {
             let updatedProjects = [...projects];
-
             if (searchInput) {
                 updatedProjects = updatedProjects.filter(project =>
                     project.project_name.toLowerCase().startsWith(searchInput.toLowerCase())
                 );
             }
-
             if (selectedFilter.value) {
-                updatedProjects = updatedProjects.filter(project => {
-                    switch (selectedFilter.type) {
-                        case 'region':
-                            return project.region === selectedFilter.value;
-                        case 'status':
-                            return project.status === selectedFilter.value;
-                        case 'type':
-                            return project.category === selectedFilter.value;
-                        default:
-                            return true;
-                    }
-                });
+                if (selectedFilter.type === 'region') {
+                    updatedProjects = updatedProjects.filter(project => project.region === selectedFilter.value);
+                } else if (selectedFilter.type === 'status') {
+                    updatedProjects = updatedProjects.filter(project => project.status === selectedFilter.value);
+                } else if (selectedFilter.type === 'type') {
+                    updatedProjects = updatedProjects.filter(project => project.category === selectedFilter.value);
+                }
             }
             setFilteredProjects(updatedProjects);
         };
@@ -73,8 +66,8 @@ export default function Sidebar() {
                     value={searchInput}
                     onChange={handleInputChange}
                 />
-                <Region handleChange={handleFilterChange} selectedOption={selectedFilter} />
                 <Status handleChange={handleFilterChange} selectedOption={selectedFilter} />
+                <Region handleChange={handleFilterChange} selectedOption={selectedFilter} />
                 <Type handleChange={handleFilterChange} selectedOption={selectedFilter} />
             </div>
             <Dashboard projects={filteredProjects} /> {/* Display filtered projects */}
