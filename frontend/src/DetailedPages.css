@@ -206,9 +206,14 @@ th:nth-child(3) {
     border-right: none;
 }
 
-table {
+.metrics-table {
     border-spacing: 0 10px;
     width: 100%;
+}
+
+.funding-table {
+    border-spacing: 0 10px;
+    width: 90%;
 }
 
 th,
@@ -247,7 +252,6 @@ td {
     left: 50%;
     transform: translateX(-50%);
     opacity: 0;
-    transition: opacity 0.3s;
     font-size: smaller;
     line-height: 1.4;
     font-weight: 300;

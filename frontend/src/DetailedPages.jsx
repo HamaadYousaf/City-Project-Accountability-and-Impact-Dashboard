@@ -98,7 +98,7 @@ export default function DetailedPages() {
                             Project Metrics
                         </h3>
                         <div className='project-metrics-table'>
-                            <table>
+                            <table className='metrics-table'>
                                 <tbody>
                                     <tr>
                                         <th>Performance
@@ -165,7 +165,7 @@ export default function DetailedPages() {
                             <FaCircle className='circle' />
                             Project Funding
                         </h3>
-                        <table>
+                        <table className='funding-table'>
                             <tbody>
                                 <tr>
                                     <th>Funding</th>

@@ -104,7 +104,7 @@ export default function Dashboard({ projects }) {
                                 City Metrics
                             </h3>
                             <div className='city-metrics-table'>
-                                <table>
+                                <table className='metrics-table'>
                                     <tbody>
                                         <tr>
                                             <th>Performance

@@ -38,7 +38,9 @@ export default function Timeline() {
                     <div className={`timeline-start timeline-box ${status === "Planning Started" ? "bg-gray" : status === "Planning Complete" ? "bg-gray" : status === "Construction Started" ? "bg-gray" : "bg-blue"}`}>
                         <div className="label-wrapper">
                             <span>Complete</span>
-                            <span className="timeline-text">{new Date(project.current_completion_date).toISOString().split('T')[0]}</span>
+                            {status === "Completed" ? (
+                                <span className="timeline-text">{new Date(project.current_completion_date).toISOString().split('T')[0]}</span>
+                            ) : null}
                         </div>
                     </div>
                     <div className={`timeline-middle ${status === "Planning Started" ? "gray" : status === "Planning Complete" ? "gray" : status === "Construction Started" ? "gray" : "blue"}`}>
@@ -58,7 +60,9 @@ export default function Timeline() {
                     <div className={`timeline-end timeline-box ${status === "Planning Started" ? "bg-gray" : status === "Planning Complete" ? "bg-lightblue" : status === "Construction Started" ? "bg-lightblue" : "bg-blue"}`}>
                         <div className="label-wrapper">
                             <span>Construction Start</span>
-                            <span className="timeline-text">{new Date(project.construction_start_date).toISOString().split('T')[0]}</span>
+                            {status === "Completed" ? (
+                                <span className="timeline-text">{new Date(project.construction_start_date).toISOString().split('T')[0]}</span>
+                            ) : null}
                         </div>
                     </div>
                     <hr />
@@ -68,7 +72,9 @@ export default function Timeline() {
                     <div className={`timeline-start timeline-box ${status === "Planning Started" ? "bg-gray" : status === "Planning Complete" ? "bg-blue" : status === "Construction Started" ? "bg-blue" : "bg-blue"}`}>
                         <div className="label-wrapper">
                             <span>Planning Complete</span>
-                            <span className="timeline-text">{new Date(project.planning_complete_date).toISOString().split('T')[0]}</span>
+                            {status === "Construction Started" || status === "Completed" ? (
+                                <span className="timeline-text">{new Date(project.planning_complete_date).toISOString().split('T')[0]}</span>
+                            ) : null}
                         </div>
                     </div>
                     <div className={`timeline-middle ${status === "Planning Started" ? "gray" : status === "Planning Complete" ? "blue" : status === "Construction Started" ? "blue" : "blue"}`}>
@@ -82,7 +88,9 @@ export default function Timeline() {
                     <div className={`timeline-start timeline-box ${status === "Planning Started" ? "bg-lightblue" : status === "Planning Complete" ? "bg-blue" : status === "Construction Started" ? "bg-blue" : "bg-blue"}`}>
                         <div className='label-wrapper'>
                             <span>Planning Start</span>
-                            <span className="timeline-text">{new Date(project.planning_start_date).toISOString().split('T')[0]}</span>
+                            {status === "Planning Complete" || status === "Construction Started" || status === "Completed" ? (
+                                <span className="timeline-text">{new Date(project.planning_start_date).toISOString().split('T')[0]}</span>
+                            ) : null}
                         </div>
                     </div>
                     <div className={`timeline-middle ${status === "Planning Started" ? "lightblue" : status === "Planning Complete" ? "blue" : status === "Construction Started" ? "blue" : "blue"}`}>
@@ -94,5 +102,4 @@ export default function Timeline() {
             </ul>
         </>
     );
-
 }
