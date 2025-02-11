@@ -12,18 +12,27 @@ type Report = {
   createdAt: string;
 };
 
-export default function ViewReportsPage() {
+export default function ViewReports() {
   const { projectId, projectName } = useLocalSearchParams();
   const [reports, setReports] = useState<Report[]>([]);
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
     const fetchReports = async () => {
       try {
         const response = await fetch(`http://192.168.2.38:5000/api/reports?project=${projectId}`);
         const data = await response.json();
-        setReports(data);
+        
+        // Check if data is an array
+        if (Array.isArray(data)) {
+          setReports(data);
+        } else {
+          setReports([]);
+          setError("No reports found");
+        }
       } catch (error) {
         console.error('Error fetching reports:', error);
+        setError("Failed to fetch reports");
       }
     };
 
@@ -33,15 +42,21 @@ export default function ViewReportsPage() {
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Reports for {projectName}</Text>
-      {reports.map((report, index) => (
-        <View key={index} style={styles.reportCard}>
-          <Text style={styles.reportTitle}>{report.title}</Text>
-          <Text style={styles.reportBody}>{report.body}</Text>
-          <Text style={styles.reportDate}>
-            Created: {new Date(report.createdAt).toLocaleDateString()}
-          </Text>
-        </View>
-      ))}
+      {error ? (
+        <Text style={styles.errorText}>{error}</Text>
+      ) : reports.length === 0 ? (
+        <Text style={styles.noReports}>No reports available</Text>
+      ) : (
+        reports.map((report, index) => (
+          <View key={index} style={styles.reportCard}>
+            <Text style={styles.reportTitle}>{report.title}</Text>
+            <Text style={styles.reportBody}>{report.body}</Text>
+            <Text style={styles.reportDate}>
+              Created: {new Date(report.createdAt).toLocaleDateString()}
+            </Text>
+          </View>
+        ))
+      )}
     </ScrollView>
   );
 }
@@ -78,5 +93,15 @@ const styles = StyleSheet.create({
   reportDate: {
     fontSize: 14,
     color: '#666',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 16,
+    marginBottom: 20,
+  },
+  noReports: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginTop: 20,
   },
 }); 

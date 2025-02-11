@@ -8,6 +8,16 @@ type Location = {
   longitude: number;
 };
 
+type ProjectData = {
+  _id: string;
+  name: string;
+  type: string;
+  location: string;
+  region: string;
+  status: string;
+  completionDate: string;
+};
+
 type PanelData = {
   id: string;
   heading: string;
@@ -36,7 +46,7 @@ type Report = {
 export default function App() {
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
   const [errorMsg, setErrorMsg] = useState<string>("");
-  const [reports, setReports] = useState<Report[]>([]);
+  const [projects, setProjects] = useState<ProjectData[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -55,56 +65,27 @@ export default function App() {
     })();
   }, []);
 
-  const fetchReports = async () => {
+  const fetchProjects = async () => {
     try {
-      const response = await fetch('http://192.168.2.38:5000/api/reports');
+      const response = await fetch('http://192.168.2.38:5000/api/projects');
       const data = await response.json();
-      console.log('All Reports:', data);
-      setReports(data);
+      console.log('Projects data:', data);
+      
+      if (Array.isArray(data)) {
+        setProjects(data);
+      } else {
+        console.error('Projects data is not an array:', data);
+        setProjects([]);
+      }
     } catch (error) {
-      console.error('Error fetching reports:', error);
+      console.error('Error fetching projects:', error);
+      setProjects([]);
     }
   };
 
   useEffect(() => {
-    fetchReports();
+    fetchProjects();
   }, []);
-
-  const panelData1: PanelData = {
-    id: "65f3c1d2f3c1d2f3c1d2f3c2",
-    heading: "TEST: Downtown Transit Expansion",
-    subheading: {
-      type: "Transit",
-      location: "123 Transit Avenue",
-      region: "Central",
-      status: "Under Construction",
-      completionDate: "2025-12-01",
-    },
-  };
-
-  const panelData2: PanelData = {
-    id: "65f3c1d2f3c1d2f3c1d2f3c3",
-    heading: "TEST: Building Construction",
-    subheading: {
-      type: "Communities",
-      location: "123 Transit Avenue",
-      region: "Central",
-      status: "Under Construction",
-      completionDate: "2025-05-01",
-    },
-  };
-
-  const panelData3: PanelData = {
-    id: "65f3c1d2f3c1d2f3c1d2f3c4",
-    heading: "TEST: Highway 401 Expansion",
-    subheading: {
-      type: "Roads/Bridges",
-      location: "Highway 401 between Markham and Kennedy Road",
-      region: "East",
-      status: "Under Construction",
-      completionDate: "2024-12-01",
-    },
-  };
 
   return (
     <View style={styles.container}>
@@ -121,9 +102,26 @@ export default function App() {
       )}
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <Panel panelData={panelData1} />
-        <Panel panelData={panelData2} />
-        <Panel panelData={panelData3} />
+        {Array.isArray(projects) && projects.length > 0 ? (
+          projects.map((project) => (
+            <Panel
+              key={project._id}
+              panelData={{
+                id: project._id,
+                heading: project.name,
+                subheading: {
+                  type: project.type,
+                  location: project.location,
+                  region: project.region,
+                  status: project.status,
+                  completionDate: project.completionDate,
+                }
+              }}
+            />
+          ))
+        ) : (
+          <Text style={styles.noProjects}>No projects available</Text>
+        )}
       </ScrollView>
     </View>
   );
@@ -133,13 +131,7 @@ const Panel = ({ panelData }: { panelData: PanelData }) => {
   const [panelReports, setPanelReports] = useState([]);
 
   const viewReports = () => {
-    router.push({
-      pathname: '/viewreports',
-      params: { 
-        projectId: panelData.id,
-        projectName: panelData.heading
-      }
-    });
+    router.push('/viewreports');
   };
 
   return (
@@ -280,5 +272,11 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 14,
     fontWeight: "normal",
+  },
+  noProjects: {
+    color: "#000",
+    fontSize: 18,
+    textAlign: "center",
+    marginBottom: 20,
   },
 });
