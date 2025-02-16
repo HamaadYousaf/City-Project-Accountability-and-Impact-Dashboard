@@ -12,10 +12,9 @@ const ReportSchema = new mongoose.Schema({
         },
         coordinates: { type: [Number], required: true }, // [longitude, latitude]
     },
-    image:
-    {
-        data: Buffer,
-        contentType: String
+    image: {
+        type: String,
+        default: null, // Stores image URL
     },
     project: {
         type: Schema.Types.ObjectId,
