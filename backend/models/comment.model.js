@@ -3,10 +3,9 @@ import { Schema } from 'mongoose';
 
 const CommentSchema = new mongoose.Schema({
     body: { type: String, required: true },
-    image:
-    {
-        data: Buffer,
-        contentType: String
+    image: {
+        type: String,
+        default: null, // Stores image URL
     },
     user: {
         type: Schema.Types.ObjectId,
