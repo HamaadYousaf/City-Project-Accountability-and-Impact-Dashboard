@@ -74,10 +74,18 @@ export default function App() {
 
   const fetchProjects = async () => {
     try {
+      console.log('Starting project fetch...');
       const response = await fetch('http://192.168.2.38:5000/api/projects');
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       const responseData = await response.json();
+      console.log('Raw API response:', responseData);
       
       if (responseData && Array.isArray(responseData.data)) {
+        console.log(`Found ${responseData.data.length} projects`);
         setProjects(responseData.data);
       } else {
         console.error('Invalid data format:', responseData);

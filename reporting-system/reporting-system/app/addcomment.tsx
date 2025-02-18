@@ -28,11 +28,13 @@ const AddCommentPage = () => {
       let result = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
         aspect: [4, 3],
-        quality: 1,
+        quality: 0.01,
+        base64: true,
+        exif: false,
       });
 
-      if (!result.canceled) {
-        setImage(result.assets[0].uri);
+      if (!result.canceled && result.assets[0].base64) {
+        setImage(`data:image/jpeg;base64,${result.assets[0].base64}`);
       }
     } else {
       alert("Camera permission is required to take photos.");
@@ -44,20 +46,28 @@ const AddCommentPage = () => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1,
+      quality: 0.01,
+      base64: true,
+      exif: false,
     });
 
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
+    if (!result.canceled && result.assets[0].base64) {
+      setImage(`data:image/jpeg;base64,${result.assets[0].base64}`);
     }
   };
 
   const handleCreateComment = async () => {
     try {
+      if (!commentText) {
+        alert("Comment text is required");
+        return;
+      }
+
       const requestData = {
         body: commentText,
         report: reportId,
         user: "65f3c1d2f3c1d2f3c1d2f3c1",
+        image: image || undefined
       };
 
       const response = await fetch(`${DEV_API_URL}/api/comments`, {
@@ -68,9 +78,25 @@ const AddCommentPage = () => {
         body: JSON.stringify(requestData)
       });
 
+      const rawResponse = await response.text();
+      console.log('Raw server response:', rawResponse);
+
+      // Check if response starts with '<' (indicating HTML)
+      if (rawResponse.trim().startsWith('<')) {
+        console.error('Received HTML instead of JSON:', rawResponse);
+        throw new Error('Server returned HTML instead of JSON. The request might be too large.');
+      }
+
+      let responseData;
+      try {
+        responseData = JSON.parse(rawResponse);
+      } catch (e) {
+        console.error('Parse error details:', e);
+        throw new Error('Failed to parse server response');
+      }
+
       if (!response.ok) {
-        const responseText = await response.text();
-        throw new Error(`Server error: ${response.status}\nDetails: ${responseText}`);
+        throw new Error(`Server error: ${response.status}\nDetails: ${JSON.stringify(responseData)}`);
       }
 
       alert("Comment Added Successfully!");
@@ -79,6 +105,7 @@ const AddCommentPage = () => {
         params: { projectId, projectName }
       });
     } catch (error: any) {
+      console.error('Error details:', error);
       setErrorMessage(`Error: ${error.message}`);
       alert(`Error: ${error.message}`);
     }

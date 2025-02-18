@@ -5,6 +5,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 type Comment = {
   _id: string;
   body: string;
+  image?: string;
   createdAt: string;
   user: string;
   report: string;
@@ -68,7 +69,7 @@ export default function ViewReports() {
   const handleDeleteReport = async (reportId: string) => {
     Alert.alert(
       "Delete Report",
-      "Are you sure you want to delete this report?",
+      "Are you sure you want to delete this report? This action cannot be undone.",
       [
         {
           text: "Cancel",
@@ -79,7 +80,7 @@ export default function ViewReports() {
           style: "destructive",
           onPress: async () => {
             try {
-              const response = await fetch(`http://192.168.2.38:5000/api/reports?id=${reportId}`, {
+              const response = await fetch(`http://192.168.2.38:5000/api/reports/${reportId}`, {
                 method: 'DELETE',
                 headers: {
                   'Content-Type': 'application/json',
@@ -87,16 +88,28 @@ export default function ViewReports() {
               });
 
               if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(`Failed to delete report: ${response.status}\n${errorText}`);
+                // Try to parse as JSON first
+                const contentType = response.headers.get("content-type");
+                let errorMessage = '';
+                
+                if (contentType && contentType.includes("application/json")) {
+                  const errorData = await response.json();
+                  errorMessage = errorData.message || 'Failed to delete report';
+                } else {
+                  // If not JSON, get the text response
+                  errorMessage = await response.text();
+                }
+                
+                throw new Error(errorMessage);
               }
 
-              // Refresh reports list after deletion
-              fetchReports();
+              // Remove the deleted report from the state
+              setReports(prevReports => prevReports.filter(report => report._id !== reportId));
               Alert.alert("Success", "Report deleted successfully");
             } catch (error) {
               const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
               Alert.alert("Error", `Failed to delete report: ${errorMessage}`);
+              console.error('Delete report error:', error);
             }
           }
         }
@@ -161,7 +174,8 @@ export default function ViewReports() {
           style: "destructive",
           onPress: async () => {
             try {
-              const response = await fetch(`http://192.168.2.38:5000/api/comments?id=${commentId}`, {
+              // Update URL to match backend route structure
+              const response = await fetch(`http://192.168.2.38:5000/api/comments/${commentId}`, {
                 method: 'DELETE',
                 headers: {
                   'Content-Type': 'application/json',
@@ -260,6 +274,15 @@ export default function ViewReports() {
                           <Text style={styles.deleteButtonText}>Delete</Text>
                         </TouchableOpacity>
                       </View>
+                      {comment.image && (
+                        <View style={styles.commentImageContainer}>
+                          <Image 
+                            source={{ uri: comment.image }} 
+                            style={styles.commentImage}
+                            resizeMode="cover"
+                          />
+                        </View>
+                      )}
                       <Text style={styles.commentDate}>
                         {new Date(comment.createdAt).toLocaleDateString()}
                       </Text>
@@ -411,10 +434,25 @@ const styles = StyleSheet.create({
   imageContainer: {
     marginVertical: 10,
     alignItems: 'center',
-  },
-  reportImage: {
     width: '100%',
     height: 200,
     borderRadius: 8,
+    overflow: 'hidden',
+  },
+  reportImage: {
+    width: '100%',
+    height: '100%',
+  },
+  commentImageContainer: {
+    marginVertical: 8,
+    alignItems: 'center',
+    width: '100%',
+    height: 150,
+    borderRadius: 6,
+    overflow: 'hidden',
+  },
+  commentImage: {
+    width: '100%',
+    height: '100%',
   },
 }); 
