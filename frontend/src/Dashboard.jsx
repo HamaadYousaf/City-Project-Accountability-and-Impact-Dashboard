@@ -163,31 +163,31 @@ export default function Dashboard({ projects }) {
                                 </h4>
                                 <section className='project-info'>
                                     <p><strong>Start Date:</strong></p>
-                                    <p>{new Date(project.planning_start_date).toISOString().split('T')[0]}</p>
+                                    <p className='info'>{new Date(project.planning_start_date).toISOString().split('T')[0]}</p>
                                 </section>
                                 <section className='project-info'>
                                     <p><strong>Type:</strong></p>
-                                    <p>{project.category}</p>
+                                    <p className='info'>{project.category}</p>
                                 </section>
                                 <section className='project-info'>
                                     <p><strong>Location:</strong></p>
-                                    <p>{project.address}</p>
+                                    <p className='info'>{project.address}</p>
                                 </section>
                                 <section className='project-info'>
                                     <p><strong>Region:</strong></p>
-                                    <p>{project.region}</p>
+                                    <p className='info'>{project.region}</p>
                                 </section>
                                 <section className='project-info'>
                                     <p><strong>Status:</strong></p>
-                                    <p>{project.status}</p>
+                                    <p className='info'>{project.status}</p>
                                 </section>
                                 <section className='project-info'>
                                     <p><strong>Original Completion Date:</strong></p>
-                                    <p>{new Date(project.original_completion_date).toISOString().split('T')[0]}</p>
+                                    <p className='info'>{new Date(project.original_completion_date).toISOString().split('T')[0]}</p>
                                 </section>
                                 <section className='project-info'>
                                     <p><strong>Current Completion Date:</strong></p>
-                                    <p>{new Date(project.current_completion_date).toISOString().split('T')[0]}</p>
+                                    <p className='info'>{new Date(project.current_completion_date).toISOString().split('T')[0]}</p>
                                 </section>
                                 <div className='project-button'>
                                     <Link to={`/projects/${project._id}`}><button>{project.project_name}</button></Link>

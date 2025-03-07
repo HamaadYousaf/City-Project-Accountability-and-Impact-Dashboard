@@ -10,6 +10,18 @@
     cursor: default;
 }
 
+.projects-section:nth-of-type(2) .dashboard-header {
+    color: orange;
+}
+
+.projects-section:nth-of-type(3) .dashboard-header {
+    color: red;
+}
+
+.projects-section:nth-of-type(4) .dashboard-header {
+    color: rgb(7, 222, 140);
+}
+
 .city-section {
     display: flex;
     gap: 30px;
@@ -99,8 +111,6 @@ th:nth-child(4) {
     visibility: visible;
     opacity: 1;
 }
-
-
 
 .arrow {
     color: rgb(74, 191, 74);
@@ -292,6 +302,7 @@ th:nth-child(4) {
     cursor: default;
     margin: 10px 95px 10px 0px;
     transition: transform 0.3s ease;
+
 }
 
 .project:hover {
@@ -315,8 +326,14 @@ th:nth-child(4) {
 
 .project-info {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     margin-bottom: 10px;
+    align-items: center;
+}
+
+.project-info p:nth-of-type(2) {
+    margin-left: auto;
+    text-align: right;
 }
 
 /* I DONT THINK THESE ARE NEEDED
@@ -328,7 +345,7 @@ th:nth-child(4) {
     color: orange;
 }
 
-.red {
+.red { 
     color: red;
 }
 */

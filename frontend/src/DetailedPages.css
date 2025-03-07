@@ -133,7 +133,7 @@ th:nth-child(3) {
     cursor: default;
 }
 
-.project-info {
+.project-info-card {
     display: flex;
     width: 80%;
     gap: 20px;
