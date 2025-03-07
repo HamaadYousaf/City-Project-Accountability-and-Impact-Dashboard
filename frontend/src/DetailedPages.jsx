@@ -129,13 +129,13 @@ export default function DetailedPages() {
                             </table>
                         </div>
                     </div>
-                    <div className='project-info'>
+                    <div className='project-info-card'>
                         <div className='project-description'>
                             <h4 className='card-header'>
                                 <FaCircle className='circle' />
                                 Project Description
                             </h4>
-                            <p>{project.description}</p>
+                            <p className='description'>{project.description}</p>
                         </div>
                         <div className='project-budget-change'>
                             <h4 className='card-header'>

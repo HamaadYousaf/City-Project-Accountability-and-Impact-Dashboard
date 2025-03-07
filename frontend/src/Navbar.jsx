@@ -21,8 +21,8 @@ export default function Navbar() {
                         placeholder='Search for projects'
                         className='search-box' />
                 </div> */}
-                <div>
-                    <p>Username</p> {/*here do something like if isSignedIn then show*/}
+                {/*<div>
+                    <p>Username</p> 
                 </div>
                 <div className='nav-links'>
                     <ul>
@@ -37,7 +37,7 @@ export default function Navbar() {
                             </Link>
                         </li>
                     </ul>
-                </div>
+                </div>*/}
             </nav>
         </>
     )
