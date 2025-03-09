@@ -7,6 +7,8 @@ import { FaCircle } from "react-icons/fa6";
 import { ImCheckboxChecked, ImCheckboxUnchecked } from "react-icons/im";
 import { AiFillQuestionCircle } from "react-icons/ai";
 import { FaLink } from "react-icons/fa6";
+import { GoGraph } from "react-icons/go";
+import { BsGraphDown } from "react-icons/bs";
 import axios from 'axios';
 
 export default function DetailedPages() {
@@ -79,6 +81,16 @@ export default function DetailedPages() {
         /*return value === "Improving" ? 'rgb(74, 191, 74)' : 'red';*/
     };
 
+    const getTrendIcon = (value) => {
+        const color = value >= 50 ? 'rgb(7, 222, 140)' : 'red';
+        const Icon = value >= 50 ? GoGraph : BsGraphDown;
+        return (
+            <span style={{ color }}>
+                <Icon />
+            </span>
+        );
+    };
+
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
     if (!project) {
@@ -130,12 +142,36 @@ export default function DetailedPages() {
                         </div>
                     </div>
                     <div className='project-info-card'>
-                        <div className='project-description'>
+                        <div className='project-cost-trends'>
                             <h4 className='card-header'>
                                 <FaCircle className='circle' />
-                                Project Description
-                            </h4>
-                            <p className='description'>{project.description}</p>
+                                Cost Trends</h4>
+                            <div className='trends'>
+                                <section className='cost-trend'>
+                                    <h4>Economic Costs</h4>
+                                    <div className="tooltip-container">
+                                        <AiFillQuestionCircle className="question-mark" />
+                                        <span className="tooltip-text">Indicates the delay in months of the project.</span>
+                                    </div>
+                                    <p>{project.Construction}% {getTrendIcon(project.Construction)}</p>
+                                </section>
+                                <section className='cost-trend'>
+                                    <h4>Human Costs</h4>
+                                    <div className="tooltip-container">
+                                        <AiFillQuestionCircle className="question-mark" />
+                                        <span className="tooltip-text">Indicates the delay in months of the project.</span>
+                                    </div>
+                                    <p>{project.Transit}% {getTrendIcon(project.Transit)}</p>
+                                </section>
+                                <section className='cost-trend'>
+                                    <h4>Opportunity Costs</h4>
+                                    <div className="tooltip-container">
+                                        <AiFillQuestionCircle className="question-mark" />
+                                        <span className="tooltip-text">Indicates the delay in months of the project.</span>
+                                    </div>
+                                    <p>{project.Transportation}% {getTrendIcon(project.Transportation)}</p>
+                                </section>
+                            </div>
                         </div>
                         <div className='project-budget-change'>
                             <h4 className='card-header'>
@@ -198,13 +234,16 @@ export default function DetailedPages() {
                 </div>
                 <div className='project-right'>
                     <Timeline />
-                    <div className='project-link'>
+                    <div className='project-information'>
                         <h4 className='card-header'>
                             <FaCircle className='circle' />
-                            Project Website
+                            Project Details
                         </h4>
-                        <FaLink className='link-icon' />
-                        <a href={project.website} target='_blank'>{project.website}</a>
+                        <p className='description'>{project.description}</p>
+                        <div className='project-link'>
+                            <FaLink className='link-icon' />
+                            <a href={project.website} target='_blank'>{project.website}</a>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -8,6 +8,8 @@ import { GoGraph } from "react-icons/go";
 import { BsGraphDown } from "react-icons/bs";
 import { AiFillQuestionCircle } from "react-icons/ai";
 import axios from 'axios';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 export default function Dashboard({ projects }) {
     const [loading, setLoading] = useState(true);
@@ -149,7 +151,25 @@ export default function Dashboard({ projects }) {
                                 </table>
                             </div>
                         </div>
-
+                        <div className='cost-trends'>
+                            <h3 className='card-header'>
+                                <FaCircle className='circle' />
+                                Cost Trends</h3>
+                            <div className='trends'>
+                                <section className='cost-trend'>
+                                    <h4>Construction</h4>
+                                    <p>{cityData.Construction}% {getTrendIcon(cityData.Construction)}</p>
+                                </section>
+                                <section className='cost-trend'>
+                                    <h4>Transit</h4>
+                                    <p>{cityData.Transit}% {getTrendIcon(cityData.Transit)}</p>
+                                </section>
+                                <section className='cost-trend'>
+                                    <h4>Transportation</h4>
+                                    <p>{cityData.Transportation}% {getTrendIcon(cityData.Transportation)}</p>
+                                </section>
+                            </div>
+                        </div>
                     </div>
                 )}
                 <div className='projects-section'>
@@ -279,6 +299,11 @@ export default function Dashboard({ projects }) {
                             </li>
                         ))}
                     </ul>
+                </div>
+                <div className='pagination'>
+                    <Stack spacing={2}>
+                        <Pagination className='custom-pagination' count={12} />
+                    </Stack>
                 </div>
             </div>
         </>
