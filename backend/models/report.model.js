@@ -25,7 +25,8 @@ const ReportSchema = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: "users",
         required: true
-    }
+    },
+    approved: { type: Boolean, required: true, default: false },
 }, { timestamps: true });
 
 
