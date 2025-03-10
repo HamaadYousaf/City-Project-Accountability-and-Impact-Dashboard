@@ -11,7 +11,7 @@ import axios from 'axios';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 
-export default function Dashboard({ projects }) {
+export default function Dashboard({ projects, pageNum, setPageNum }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [cityData, setCityData] = useState(null); // State to hold the city data
@@ -157,15 +157,15 @@ export default function Dashboard({ projects }) {
                                 Cost Trends</h3>
                             <div className='trends'>
                                 <section className='cost-trend'>
-                                    <h4>Construction</h4>
+                                    <h4>Economic Costs</h4>
                                     <p>{cityData.Construction}% {getTrendIcon(cityData.Construction)}</p>
                                 </section>
                                 <section className='cost-trend'>
-                                    <h4>Transit</h4>
+                                    <h4>Human Costs</h4>
                                     <p>{cityData.Transit}% {getTrendIcon(cityData.Transit)}</p>
                                 </section>
                                 <section className='cost-trend'>
-                                    <h4>Transportation</h4>
+                                    <h4>Opportunity Costs</h4>
                                     <p>{cityData.Transportation}% {getTrendIcon(cityData.Transportation)}</p>
                                 </section>
                             </div>
@@ -302,7 +302,12 @@ export default function Dashboard({ projects }) {
                 </div>
                 <div className='pagination'>
                     <Stack spacing={2}>
-                        <Pagination className='custom-pagination' count={12} />
+                        <Pagination
+                            className='custom-pagination'
+                            count={15}
+                            page={pageNum}
+                            onChange={(e, value) => setPageNum(value)} //we call setPageNum from sidebar file and value represents the page number
+                        />
                     </Stack>
                 </div>
             </div>

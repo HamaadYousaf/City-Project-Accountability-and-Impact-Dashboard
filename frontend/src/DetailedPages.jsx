@@ -151,7 +151,7 @@ export default function DetailedPages() {
                                     <h4>Economic Costs</h4>
                                     <div className="tooltip-container">
                                         <AiFillQuestionCircle className="question-mark" />
-                                        <span className="tooltip-text">Indicates the delay in months of the project.</span>
+                                        <span className="tooltip-text">Economic impacts from delays.</span>
                                     </div>
                                     <p>{project.Construction}% {getTrendIcon(project.Construction)}</p>
                                 </section>
@@ -159,7 +159,7 @@ export default function DetailedPages() {
                                     <h4>Human Costs</h4>
                                     <div className="tooltip-container">
                                         <AiFillQuestionCircle className="question-mark" />
-                                        <span className="tooltip-text">Indicates the delay in months of the project.</span>
+                                        <span className="tooltip-text">Human costs due to accidents or hazards caused by unfinished infrastructure.</span>
                                     </div>
                                     <p>{project.Transit}% {getTrendIcon(project.Transit)}</p>
                                 </section>
@@ -167,7 +167,7 @@ export default function DetailedPages() {
                                     <h4>Opportunity Costs</h4>
                                     <div className="tooltip-container">
                                         <AiFillQuestionCircle className="question-mark" />
-                                        <span className="tooltip-text">Indicates the delay in months of the project.</span>
+                                        <span className="tooltip-text">Opportunity costs from delays.</span>
                                     </div>
                                     <p>{project.Transportation}% {getTrendIcon(project.Transportation)}</p>
                                 </section>
@@ -197,10 +197,10 @@ export default function DetailedPages() {
                         </div>
                     </div>
                     <div className='project-funding'>
-                        <h3 className='card-header'>
+                        <h4 className='card-header'>
                             <FaCircle className='circle' />
                             Project Funding
-                        </h3>
+                        </h4>
                         <table className='funding-table'>
                             <tbody>
                                 <tr>

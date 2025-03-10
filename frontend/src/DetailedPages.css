@@ -41,6 +41,7 @@
     border: none;
     cursor: default;
     margin-bottom: 20px;
+    padding-top: 10px;
     padding-bottom: 10px;
     transition: transform 0.3s ease;
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.05),
@@ -327,5 +328,17 @@ td {
 
 .cost-trend .question-mark {
     color: #2a50cf;
+    margin-right: 20px;
+}
+
+.trends .cost-trend:nth-of-type(1) .question-mark {
+    margin-right: 35px;
+}
+
+.trends .cost-trend:nth-of-type(2) .question-mark {
+    margin-right: 60px;
+}
+
+.trends .cost-trend:nth-of-type(3) .question-mark {
     margin-right: 20px;
 }

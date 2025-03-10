@@ -6,4 +6,4 @@ router.route('/').get(getReports).post(createReport)
 router.route('/project/:projectId').get(getReportsByProject)
 router.route('/:id').put(updateReport).delete(deleteReport)
 
-export default router
+export default router 
