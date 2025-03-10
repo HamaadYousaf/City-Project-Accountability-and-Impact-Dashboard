@@ -19,12 +19,13 @@ export const getProjects = async (req, res) => {
             filter.category = { $regex: new RegExp(`^${category}$`, 'i') };
         }
 
+        const totalProjects = await Project.countDocuments(filter);
         const projects = await Project.find(filter)
             .skip(skip)
             .limit(limit)
             .exec();
 
-        res.status(200).json({ data: projects });
+        res.status(200).json({ data: projects, total: totalProjects });
     } catch (error) {
         res.status(500).json({ msg: error.message });
     }
