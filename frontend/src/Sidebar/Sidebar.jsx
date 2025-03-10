@@ -11,12 +11,13 @@ export default function Sidebar() {
     const [selectedFilter, setSelectedFilter] = useState({ type: "", value: "" });
     const [filteredProjects, setFilteredProjects] = useState([]);
     const [projects, setProjects] = useState([]);
+    const [pageNum, setPageNum] = useState(1);
 
     // Fetch all projects initially
     useEffect(() => {
         const fetchProjects = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/projects`);
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/projects?page=${pageNum}`);
                 setProjects(response.data.data);
                 setFilteredProjects(response.data.data); // Set filteredProjects to the full list initially
             } catch (error) {
@@ -24,7 +25,7 @@ export default function Sidebar() {
             }
         };
         fetchProjects();
-    }, []);
+    }, [pageNum]);
 
     // Update filtered projects whenever filters change
     useEffect(() => {
@@ -70,7 +71,12 @@ export default function Sidebar() {
                 <Region handleChange={handleFilterChange} selectedOption={selectedFilter} />
                 <Type handleChange={handleFilterChange} selectedOption={selectedFilter} />
             </div>
-            <Dashboard projects={filteredProjects} /> {/* Display filtered projects */}
+            <Dashboard
+                projects={filteredProjects}
+                pageNum={pageNum}
+                setPageNum={setPageNum}
+
+            /> {/* Display filtered projects */}
         </>
     );
 }
