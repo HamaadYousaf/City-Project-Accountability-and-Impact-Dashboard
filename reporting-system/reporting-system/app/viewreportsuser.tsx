@@ -37,30 +37,26 @@ export default function ViewReportsUser() {
     
     try {
       const projectIdString = String(projectId);
-      const url = `http://192.168.2.38:5000/api/reports?project=${encodeURIComponent(projectIdString)}`;
+      const url = `http://192.168.2.38:5000/api/reports/project/${encodeURIComponent(projectIdString)}`;
       
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        }
-      });
+      console.log('Fetching reports from:', url);
+
+      const response = await fetch(url);
+
+      console.log('Response status:', response.status);
+      const responseData = await response.json();
+      console.log('Response data:', responseData);
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const responseData = await response.json();
-      const filteredReports = responseData.data?.filter(
-        (report: Report) => report.project === projectIdString
-      ) || [];
-      
-      setReports(filteredReports);
-      if (filteredReports.length === 0) {
+      setReports(responseData.data || []);
+      if (!responseData.data?.length) {
         setError("No reports found for this project");
       }
     } catch (error) {
+      console.error('Error details:', error);
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
       setError(`Failed to fetch reports: ${errorMessage}`);
     }

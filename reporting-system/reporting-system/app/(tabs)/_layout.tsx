@@ -55,6 +55,14 @@ export default function TabLayout() {
           headerShown: false,
         }}
       />
+      <Tabs.Screen
+        name="login"
+        options={{
+          title: "Login",
+          tabBarLabel: "Login",
+          headerShown: false,
+        }}
+      />
     </Tabs>
   );
 }

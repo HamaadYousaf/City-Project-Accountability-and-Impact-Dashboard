@@ -29,11 +29,16 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
         <Stack.Screen name="createreport" options={{ headerShown: false }} />
         <Stack.Screen name="viewreports" options={{ headerShown: false }} />
+        <Stack.Screen name="viewreportsuser" options={{ headerShown: false }} />
         <Stack.Screen name="addcomment" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="auto" />

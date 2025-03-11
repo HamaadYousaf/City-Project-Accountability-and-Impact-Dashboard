@@ -8,11 +8,13 @@ import {
   ScrollView,
   Image,
   Platform,
+  Alert,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Camera } from "expo-camera";
 import { router, useLocalSearchParams } from 'expo-router';
 import * as Location from 'expo-location';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const DEV_API_URL = __DEV__ 
   ? 'http://192.168.2.38:5000'  // Development server (your computer's IP)
@@ -26,6 +28,7 @@ const ReportCreationPage = () => {
   const [cameraPermission, setCameraPermission] = useState<boolean | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const takePhoto = async () => {
     const { status } = await Camera.requestCameraPermissionsAsync();
@@ -78,6 +81,22 @@ const ReportCreationPage = () => {
     })();
   }, []);
 
+  useEffect(() => {
+    const checkUserRole = async () => {
+      try {
+        const userData = await AsyncStorage.getItem('userData');
+        if (userData) {
+          const { role } = JSON.parse(userData);
+          setIsAdmin(role === 'admin');
+        }
+      } catch (error) {
+        console.error('Error checking user role:', error);
+      }
+    };
+    
+    checkUserRole();
+  }, []);
+
   const handleCreateReport = async () => {
     try {
         if (!title || !mainText) {
@@ -115,15 +134,22 @@ const ReportCreationPage = () => {
         const responseText = await response.text();
         console.log('Response:', responseText);
 
-        if (!response.ok) {
+        if (response.ok) {
+            Alert.alert(
+                "Success", 
+                isAdmin 
+                    ? "Report created successfully!"
+                    : "Report created successfully! Your report is awaiting admin approval.",
+                [
+                    {
+                        text: "OK",
+                        onPress: () => router.replace('/projectselection') // Navigate to project selection
+                    }
+                ]
+            );
+        } else {
             throw new Error(`Server error: ${response.status}\nDetails: ${responseText}`);
         }
-
-        alert("Report Created Successfully!");
-        router.push({
-            pathname: '/viewreports',
-            params: { projectId, projectName }
-        });
     } catch (error: any) {
         console.error('Error details:', error);
         setErrorMessage(`Error: ${error.message}`);
