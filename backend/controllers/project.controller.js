@@ -121,7 +121,11 @@ export const insertManyProjects = async (req, res) => {
                 other_funding: project.other_funding,
                 performance_metric: project.performance_metric,
                 efficiency: project.efficiency,
-                website: project.website
+                website: project.website,
+                economic_cost: project.economic_cost,
+                opportunity_cost: project.opportunity_cost,
+                human_cost: project.human_cost,
+                total_cost: project.total_cost
             })
         }
 
@@ -143,11 +147,19 @@ export const getSummary = async (req, res) => {
         let original_budget = 0
         let current_budget = 0
         let delays = 0
+        let economic_cost = 0
+        let opportunity_cost = 0
+        let human_cost = 0
+        let total_cost = 0
 
         for (const p of projects) {
             performance += p.performance_metric
             original_budget += p.original_budget
             current_budget += p.current_budget
+            economic_cost += p.economic_cost
+            opportunity_cost += p.opportunity_cost
+            human_cost += p.human_cost
+            total_cost += p.total_cost
 
             const yearDiff = p.current_completion_date.getFullYear() - p.original_completion_date.getFullYear();
             const monthDiff = p.current_completion_date.getMonth() - p.original_completion_date.getMonth();
@@ -157,6 +169,10 @@ export const getSummary = async (req, res) => {
 
         performance /= projects.length
         delays /= projects.length
+        economic_cost /= projects.length
+        opportunity_cost /= projects.length
+        human_cost /= projects.length
+        total_cost /= projects.length
         let budget_change = (current_budget - original_budget) / original_budget
 
         const result = await Project.aggregate([
@@ -185,7 +201,11 @@ export const getSummary = async (req, res) => {
             current_budget: current_budget,
             budget_change: budget_change,
             delays: delays,
-            efficiency: result[0]._id
+            efficiency: result[0]._id,
+            economic_cost: economic_cost,
+            opportunity_cost: opportunity_cost,
+            human_cost: human_cost,
+            total_cost: total_cost
         });
     } catch (error) {
         res.status(500).json({ msg: error.message });
