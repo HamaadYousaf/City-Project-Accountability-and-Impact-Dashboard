@@ -33,6 +33,10 @@ const ProjectSchema = mongoose.Schema({
     efficiency: {
         type: String, enum: ['Improving', 'Moderate', 'Declining'], required: true, default: 'Moderate'
     },
+    economic_cost: { type: Number }, // Delay days * $10,000
+    opportunity_cost: { type: Number }, // % of original budget * delay days
+    human_cost: { type: Number }, // Delay days * $2000
+    total_cost: { type: Number }, // Sum of all costs
     website: { type: String }
 }, {
     timestamps: true // Adds `createdAt` and `updatedAt` fields
