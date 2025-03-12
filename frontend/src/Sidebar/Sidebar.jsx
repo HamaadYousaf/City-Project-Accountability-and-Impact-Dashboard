@@ -75,7 +75,6 @@ export default function Sidebar() {
                 projects={filteredProjects}
                 pageNum={pageNum}
                 setPageNum={setPageNum}
-
             /> {/* Display filtered projects */}
         </>
     );
