@@ -14,8 +14,14 @@ BACKEND_API_URL = "http://localhost:5000/api/projects/insertMany"
 
 DEFAULT_WEBSITE = "https://www.ontario.ca/page/building-ontario"
 
-def fetch_api_data(api_url):
-    """Fetch data from the Ontario API."""
+# Cost constants
+ECONOMIC_COST_PER_DAY = 1000  # $1000/day
+HUMAN_COST_PER_DAY = 500      # $500/day
+OPPORTUNITY_COST_RATE = 0.0006   # 0.06% of original budget per delay day
+
+
+def fetch_api_data(api_url, target_statuses):
+    """Fetch and filter data from the Ontario API based on target statuses."""
     try:
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
@@ -27,64 +33,45 @@ def fetch_api_data(api_url):
             # Debugging: Print first few records to verify API response
             print(f"Raw API Response Sample: {json.dumps(data['result']['records'][:3], indent=2)}")
 
-            limited_data = data["result"]["records"][:5000]
-            processed_data = transform_data(limited_data)
-            # Add the manually defined Eglinton Crosstown LRT project
-            processed_data.append(add_manual_project())
+            limited_data = data["result"]["records"][:5190]  # Limit to 5190 records
+            processed_data = transform_data(limited_data, target_statuses)
             return processed_data
     except Exception as e:
         raise Exception(f"Failed to fetch data from {api_url}: {e}")
 
-def transform_data(data):
-    """Process fetched data and exclude invalid entries."""
+def transform_data(data, target_statuses):
+    """Process fetched data and filter based on target statuses, adding cost estimation."""
     projects = []
-    
-    # GTA Boundary
+
     gta_bounds = {
-        "min_lat": 43.29,  
-        "max_lat": 44.52,  
-        "min_lon": -80.16,  
-        "max_lon": -78.32,  
+        "min_lat": 43.29,
+        "max_lat": 44.52,
+        "min_lon": -80.16,
+        "max_lon": -78.32,
     }
 
+    today = datetime.today()
+
     for item in data:
+        status = item.get("Status", "").strip().lower()
+        if status not in target_statuses:
+            continue
+
+        category = item.get("Category", "Other").lower()
+        if category in ["child care", "health care"]:
+            continue
+
         project_name = item.get("Project", "Unknown Project Name")
-        category = item.get("Category", "Other")  
         description = item.get("Description", "No description available.")
-        
-        # Handle missing address & postal code
-        address = item.get("Address", "Unknown Address")
-        postal_code = item.get("Postal Code", "Unknown Postal Code")
-
-        if address is None or address.strip() == "":
-            address = "Unknown Address"
-
-        if postal_code is None or postal_code.strip() == "":
-            postal_code = "Unknown Postal Code"
-
-        # **Ensure website is valid, otherwise set to DEFAULT_WEBSITE**
+        address = item.get("Address", "Unknown Address") or "Unknown Address"
+        postal_code = item.get("Postal Code", "Unknown Postal Code") or "Unknown Postal Code"
         website = item.get("Website", "").strip() if item.get("Website") else DEFAULT_WEBSITE
 
-        # **Exclude projects with category "Child care" and "Health care"**
-        if category.lower() in ["child care", "health care"]:
-            print(f"Skipping Project: {project_name} (Category: {category})")
-            continue
-        
-        # **Filter status to only include "Under construction" and "Planning"**
-        status = item.get("Status", "").strip().lower()
-        if status not in ["under construction", "planning"]:
-            print(f"Skipping Project: {project_name} (Invalid status: {status})")
-            continue
-
-        print(f"Processing Project: {project_name}")
-        
         longitude = item.get("Longitude")
         latitude = item.get("Latitude")
         original_budget = float(item.get("Estimated Total Budget ($)", 0))
 
-        # Skip invalid projects
         if not longitude or not latitude or original_budget == 0:
-            print(f"Skipping Project: {project_name} (Invalid criteria)")
             continue
 
         try:
@@ -93,55 +80,48 @@ def transform_data(data):
         except (ValueError, TypeError):
             continue
 
-        # Exclude projects outside GTA
-        if not (
-            gta_bounds["min_lon"] <= longitude <= gta_bounds["max_lon"]
-            and gta_bounds["min_lat"] <= latitude <= gta_bounds["max_lat"]
-        ):
+        if not (gta_bounds["min_lon"] <= longitude <= gta_bounds["max_lon"] and gta_bounds["min_lat"] <= latitude <= gta_bounds["max_lat"]):
             continue
-        
+
         original_completion_date_str = item.get("Target Completion Date") or None
+        if not original_completion_date_str:
+            continue
 
-        # Parse original_completion_date
         try:
-            if original_completion_date_str:
+            original_completion_date = datetime.strptime(original_completion_date_str[:10], "%Y-%m-%d")
+        except ValueError:
+            try:
                 original_completion_date = datetime.strptime(original_completion_date_str, "%d-%b")
-                original_completion_date = original_completion_date.replace(year=datetime.now().year)
-            else:
-                original_completion_date = None
-        except (ValueError, TypeError):
-            original_completion_date = None
+                original_completion_date = original_completion_date.replace(year=today.year)
+            except ValueError:
+                continue
 
-        # Generate dates
-        if original_completion_date:
-            planning_start_date = original_completion_date - timedelta(days=random.randint(730, 1095))
-            planning_complete_date = planning_start_date + timedelta(days=random.randint(60, 180))
-            construction_start_date = planning_complete_date + timedelta(days=random.randint(30, 120))
+        # Adjust dates
+        if status == "complete":
+            if original_completion_date > today:
+                original_completion_date = today - timedelta(days=random.randint(365, 1095))
+            current_completion_date = original_completion_date
+        else:
             months_to_add = random.randint(1, 12)
             current_completion_date = original_completion_date + timedelta(days=30 * months_to_add)
-        else:
-            planning_start_date = planning_complete_date = construction_start_date = current_completion_date = None
 
-        # **Skip projects if any required date is missing**
-        if not all([original_completion_date, current_completion_date, planning_start_date, planning_complete_date, construction_start_date]):
-            print(f"Skipping Project: {project_name} (Missing date fields)")
-            continue
+        # Planning dates
+        planning_start_date = original_completion_date - timedelta(days=random.randint(730, 1095))
+        planning_complete_date = planning_start_date + timedelta(days=random.randint(60, 180))
+        construction_start_date = planning_complete_date + timedelta(days=random.randint(30, 120))
 
-        # **Calculate Efficiency and Performance**
-        delay = (current_completion_date - original_completion_date).days // 30  # Convert to months
-
-        if delay > 8:
-            efficiency = "Declining"
-            performance_metric = 60
-        elif delay < 3:
-            efficiency = "Improving"
-            performance_metric = 90
-        else:
-            efficiency = "Moderate"
-            performance_metric = 75
-
-        # Generate current budget
+        # Efficiency
+        delay_days = max((current_completion_date - original_completion_date).days, 0)
+        delay_months = delay_days // 30
+        efficiency = "Declining" if delay_months > 8 else "Improving" if delay_months < 3 else "Moderate"
+        performance_metric = 60 if delay_months > 8 else 90 if delay_months < 3 else 75
         current_budget = original_budget + random.randint(10000, 50000)
+
+        # Dynamic Cost Estimation:
+        economic_cost = delay_days * ECONOMIC_COST_PER_DAY
+        opportunity_cost = delay_days * OPPORTUNITY_COST_RATE * original_budget
+        human_cost = delay_days * HUMAN_COST_PER_DAY
+        total_cost = economic_cost + opportunity_cost + human_cost
 
         project = {
             "project_name": project_name,
@@ -155,7 +135,7 @@ def transform_data(data):
             "status": item.get("Status", "Planning"),
             "original_budget": original_budget,
             "current_budget": current_budget,
-            "category": category,
+            "category": item.get("Category", "Other"),
             "result": item.get("Result", "No result available."),
             "area": item.get("Area", "Unknown Area"),
             "region": item.get("Region", "Unknown Region"),
@@ -165,45 +145,136 @@ def transform_data(data):
             "provincial_funding": item.get("Provincial Funding", "No") == "Yes",
             "federal_funding": item.get("Federal Funding", "No") == "Yes",
             "other_funding": item.get("Other Funding", "No") == "Yes",
-            "website": website,  # **Updated website handling**
+            "website": website,
             "efficiency": efficiency,
-            "performance_metric": performance_metric
+            "performance_metric": performance_metric,
+            "delay_days": delay_days,
+            "economic_cost": economic_cost,
+            "opportunity_cost": opportunity_cost,
+            "human_cost": human_cost,
+            "total_cost": total_cost
         }
+
         projects.append(project)
+
     return projects
 
+from datetime import datetime
 
-def add_manual_project():
-    """Create the Eglinton Crosstown LRT Project manually"""
+def create_manual_project(
+    project_name,
+    description,
+    longitude,
+    latitude,
+    original_completion_date_str,
+    current_completion_date_str,
+    planning_start_date,
+    planning_complete_date,
+    construction_start_date,
+    status,
+    original_budget,
+    current_budget,
+    category,
+    result,
+    area,
+    region,
+    address,
+    postal_code,
+    municipal_funding,
+    provincial_funding,
+    federal_funding,
+    other_funding,
+    website,
+    efficiency,
+    performance_metric
+):
+    # Constants for Dynamic Cost Estimator (DCE)
+    ECONOMIC_COST_PER_DAY = 1000  # $1000/day
+    HUMAN_COST_PER_DAY = 500      # $500/day
+    OPPORTUNITY_COST_RATE = 0.0006   # 0.06% of original budget per delay day
+
+    # Parse dates
+    original_date = datetime.strptime(original_completion_date_str, "%Y-%m-%d")
+    current_date = datetime.strptime(current_completion_date_str, "%Y-%m-%d")
+
+    # Calculate delay in days
+    delay_days = max((current_date - original_date).days, 0)
+
+    # Cost calculations
+    economic_cost = delay_days * ECONOMIC_COST_PER_DAY
+    opportunity_cost = delay_days * OPPORTUNITY_COST_RATE * original_budget
+    human_cost = delay_days * HUMAN_COST_PER_DAY
+    total_cost = economic_cost + opportunity_cost + human_cost
+
+    # Return project dict with costs
     return {
-        "project_name": "Eglinton Crosstown LRT Project",
-        "description": "A new light rail transit (LRT) system along Eglinton Avenue to improve connectivity in Toronto.",
-        "location": {"type": "Point", "coordinates": [-79.39861127113538, 43.70542969100466]},
-        "original_completion_date": "2022-12-31",
-        "current_completion_date": "2025-12-31",
-        "planning_start_date": "2011-06-01",
-        "planning_complete_date": "2013-12-31",
-        "construction_start_date": "2015-06-01",
-        "status": "Under construction",
-        "original_budget": 5600000000.0,
-        "current_budget": 6800000000.0,
-        "category": "Transit",
-        "result": "Improved transit access across Toronto's East & West ends.",
-        "area": "Toronto",
-        "region": "Central",
-        "address": "Eglinton Avenue, Toronto, ON",
-        "postal_code": "M4S2B8",
-        "municipal_funding": False,
-        "provincial_funding": True,
-        "federal_funding": True,
-        "other_funding": False,
-        "website": "https://www.metrolinx.com/en/projects-and-programs/eglinton-crosstown-lrt",
-        "efficiency": "Declining",
-        "performance_metric": 60
+        "project_name": project_name,
+        "description": description,
+        "location": {"type": "Point", "coordinates": [longitude, latitude]},
+        "original_completion_date": original_completion_date_str,
+        "current_completion_date": current_completion_date_str,
+        "planning_start_date": planning_start_date,
+        "planning_complete_date": planning_complete_date,
+        "construction_start_date": construction_start_date,
+        "status": status,
+        "original_budget": original_budget,
+        "current_budget": current_budget,
+        "category": category,
+        "result": result,
+        "area": area,
+        "region": region,
+        "address": address,
+        "postal_code": postal_code,
+        "municipal_funding": municipal_funding,
+        "provincial_funding": provincial_funding,
+        "federal_funding": federal_funding,
+        "other_funding": other_funding,
+        "website": website,
+        "efficiency": efficiency,
+        "performance_metric": performance_metric,
+        # --- Cost Estimation Fields ---
+        "delay_days": delay_days,
+        "economic_cost": economic_cost,
+        "opportunity_cost": opportunity_cost,
+        "human_cost": human_cost,
+        "total_cost": total_cost
     }
+manual_projects = [
+    create_manual_project(
+        "Eglinton Crosstown LRT Project",
+        "A new light rail transit (LRT) system along Eglinton Avenue to improve connectivity in Toronto.",
+        -79.39861127113538, 43.70542969100466,
+        "2022-12-31", "2025-12-31",
+        "2011-06-01", "2013-12-31", "2015-06-01",
+        "Under construction",
+        5300000000.0, 12800000000.0,
+        "Transit",
+        "Improved transit access across Toronto's East & West ends.",
+        "Toronto", "Central",
+        "Eglinton Avenue, Toronto, ON", "M4S2B8",
+        False, True, True, False,
+        "https://www.metrolinx.com/en/projects-and-programs/eglinton-crosstown-lrt",
+        "Declining", 60
+    ),
+    create_manual_project(
+        "Ontario Line Subway",
+        "A new subway line that will provide faster and more reliable transit in Toronto.",
+        -79.3729, 43.65107,
+        "2027-12-31", "2030-12-31",
+        "2019-01-01", "2021-12-31", "2022-06-01",
+        "Under construction",
+        11000000000.0, 13000000000.0,
+        "Transit",
+        "Increase public transport accessibility and reduce congestion.",
+        "Toronto", "Central",
+        "Ontario Line Route, Toronto, ON", "M5A1A1",
+        False, True, True, False,
+        "https://www.metrolinx.com/en/projects-and-programs/ontario-line",
+        "Moderate", 75
+    )
+]
 
 def push_to_backend(projects):
-    """Send projects to backend."""
     try:
         response = requests.post(
             BACKEND_API_URL,
@@ -215,29 +286,26 @@ def push_to_backend(projects):
         else:
             print(f"Failed to push projects. Status code: {response.status_code}, Message: {response.text}")
     except Exception as e:
-        print(f"Error occurred while pushing projects to backend: {e}")
+        print(f"Error while pushing projects: {e}")
 
 def remove_duplicates(projects):
-    """Remove duplicate projects based on project_name."""
-    seen = set()
-    unique_projects = []
-    for project in projects:
-        if project["project_name"] not in seen:
-            seen.add(project["project_name"])
-            unique_projects.append(project)
-    return unique_projects
+    seen, unique = set(), []
+    for p in projects:
+        if p['project_name'] not in seen:
+            seen.add(p['project_name'])
+            unique.append(p)
+    return unique
 
 if __name__ == "__main__":
-    api_url = "https://data.ontario.ca/api/3/action/datastore_search?resource_id=35dc5416-2b86-4a79-b3e6-acbfe004c81a&limit=5000"
-    fetched_data = fetch_api_data(api_url)
-    print(f"Total projects fetched: {len(fetched_data)}")
+    api_url = "https://data.ontario.ca/api/3/action/datastore_search?resource_id=35dc5416-2b86-4a79-b3e6-acbfe004c81a&limit=5190"
 
-    unique_projects = remove_duplicates(fetched_data)
-    projects_to_push = unique_projects[:100]
-    print(f"Pushing {len(projects_to_push)} projects to backend.")
-    push_to_backend(projects_to_push)
+    active_projects = fetch_api_data(api_url, ["under construction", "planning"])
+    completed_projects = fetch_api_data(api_url, ["complete"])[:20]
+    all_projects = remove_duplicates(active_projects + completed_projects + manual_projects)
 
-    with open("fetched_data.json", "w") as json_file:
-        json.dump(unique_projects, json_file, indent=4)
+    print(f"Pushing {len(all_projects)} projects to backend.")
+    push_to_backend(all_projects)
 
-    print("\nData saved to fetched_data.json")
+    with open("fetched_data.json", "w") as file:
+        json.dump(all_projects, file, indent=4)
+        print("Data saved to fetched_data.json\n")
