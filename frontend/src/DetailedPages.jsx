@@ -10,6 +10,7 @@ import { FaLink } from "react-icons/fa6";
 import { GoGraph } from "react-icons/go";
 import { BsGraphDown } from "react-icons/bs";
 import axios from 'axios';
+import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
 
 export default function DetailedPages() {
     const { id } = useParams(); // This extracts the "id" from the URL like "/projects/:id"
@@ -102,6 +103,19 @@ export default function DetailedPages() {
     return (
         <>
             <h1 className='detailed-page-header'>{project.project_name}</h1>
+            <div className='map-container'>
+                <MapContainer center={[project.location.coordinates[1], project.location.coordinates[0]]} zoom={13} scrollWheelZoom={true}>
+                    <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <Marker position={[project.location.coordinates[1], project.location.coordinates[0]]}>
+                        <Popup>
+                            {project.address} <br /> {project.postal_code}
+                        </Popup>
+                    </Marker>
+                </MapContainer>
+            </div>
             <div className='project-details'>
                 <div className='project-left'>
                     <div className='project-metrics-card'>

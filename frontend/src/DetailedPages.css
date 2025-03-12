@@ -342,3 +342,9 @@ td {
 .trends .cost-trend:nth-of-type(3) .question-mark {
     margin-right: 20px;
 }
+
+.map-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}

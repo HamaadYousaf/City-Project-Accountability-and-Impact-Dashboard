@@ -46,7 +46,7 @@ export default function Dashboard({ projects, pageNum, setPageNum }) {
     };
 
     const getArrowIcon = (value) => {
-        const color = value >= 50 ? 'red' : 'rgb(7, 222, 140)';
+        const color = value >= 50 ? 'rgb(7, 222, 140)' : 'red';
         const Icon = value >= 50 ? IoIosArrowUp : IoArrowDownSharp
         return (
             <span style={{ color }}>

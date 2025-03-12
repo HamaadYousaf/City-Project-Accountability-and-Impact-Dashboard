@@ -55,3 +55,8 @@ body {
   /*margin-left: NApx; */
   /*IN CASE I WANT TO ALIGN THE PAGE CONTENTS*/
 }
+
+.leaflet-container {
+  width: 60vw;
+  height: 50vh;
+}
