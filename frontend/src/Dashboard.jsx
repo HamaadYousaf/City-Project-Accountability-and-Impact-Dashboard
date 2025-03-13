@@ -10,11 +10,14 @@ import { AiFillQuestionCircle } from "react-icons/ai";
 import axios from 'axios';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
+import CityPieChart from './Components/CityPieChart';
+
 
 export default function Dashboard({ projects, pageNum, setPageNum }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [cityData, setCityData] = useState(null); // State to hold the city data
+    const [allProjects, setAllProjects] = useState([]);
 
     const getPerformanceColor = (value) => {
         if (value >= 70) {
@@ -34,16 +37,6 @@ export default function Dashboard({ projects, pageNum, setPageNum }) {
             return 'rgb(7, 222, 140)'
         }
     }
-
-    const getTrendIcon = (value) => {
-        const color = value >= 50 ? 'rgb(7, 222, 140)' : 'red';
-        const Icon = value >= 50 ? GoGraph : BsGraphDown;
-        return (
-            <span style={{ color }}>
-                <Icon />
-            </span>
-        );
-    };
 
     const getArrowIcon = (value) => {
         const color = value >= 50 ? 'rgb(7, 222, 140)' : 'red';
@@ -71,7 +64,7 @@ export default function Dashboard({ projects, pageNum, setPageNum }) {
         const fetchCityData = async () => {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/projects/summary`);
-                setCityData(response.data);
+                setCityData(response.data); //response.data since its 
                 setLoading(false);
             } catch (error) {
                 console.error("Error fetching city data:", error);
@@ -81,6 +74,19 @@ export default function Dashboard({ projects, pageNum, setPageNum }) {
         };
         fetchCityData();
     }, []);
+
+    useEffect(() => {
+        const fetchAllProjects = async () => {
+            try {
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/projects`)
+                setAllProjects(response.data.data)
+            } catch (err) {
+                console.log(err)
+                setError("No data available")
+            }
+        };
+        fetchAllProjects();
+    }, [])
 
     if (loading) {
         return <p>Loading...</p>;
@@ -93,6 +99,16 @@ export default function Dashboard({ projects, pageNum, setPageNum }) {
     const completedProjects = projects.filter(project => project.status === "Completed");
     const notStartedProjects = projects.filter(project => project.status === "Planning Started");
     const inProgressProjects = projects.filter(project => project.status === "Planning Complete" || project.status === "Construction Started");
+
+    const totalEconomicCost = allProjects.reduce((sum, project) => sum + project.economic_cost, 0); //sum starts at 0 and added with the economic cost
+    const totalOpportunityCost = allProjects.reduce((sum, project) => sum + project.opportunity_cost, 0);
+    const totalHumanCost = allProjects.reduce((sum, project) => sum + project.human_cost, 0);
+
+    const totalPieData = [
+        { name: 'Economic Cost', value: totalEconomicCost },
+        { name: 'Opportunity Cost', value: totalOpportunityCost },
+        { name: 'Human Cost', value: totalHumanCost }
+    ];
 
     return (
         <>
@@ -153,21 +169,10 @@ export default function Dashboard({ projects, pageNum, setPageNum }) {
                         </div>
                         <div className='cost-trends'>
                             <h3 className='card-header'>
-                                <FaCircle className='circle' />
-                                Cost Trends</h3>
-                            <div className='trends'>
-                                <section className='cost-trend'>
-                                    <h4>Economic Costs</h4>
-                                    <p>{cityData.Construction}% {getTrendIcon(cityData.Construction)}</p>
-                                </section>
-                                <section className='cost-trend'>
-                                    <h4>Human Costs</h4>
-                                    <p>{cityData.Transit}% {getTrendIcon(cityData.Transit)}</p>
-                                </section>
-                                <section className='cost-trend'>
-                                    <h4>Opportunity Costs</h4>
-                                    <p>{cityData.Transportation}% {getTrendIcon(cityData.Transportation)}</p>
-                                </section>
+                                <FaCircle className='circle' />Cost Trends</h3>
+                            <CityPieChart pieData={totalPieData} />
+                            <div className='legend'>
+                                <p><FaCircle className='circle' />Economic <FaCircle className='circle' />Opportunity <FaCircle className='circle' />Human</p>
                             </div>
                         </div>
                     </div>

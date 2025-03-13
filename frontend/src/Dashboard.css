@@ -40,6 +40,10 @@
     transition: transform 0.3s ease;
 }
 
+.city-metrics .card-header {
+    margin-bottom: 3rem;
+}
+
 .city-metrics:hover {
     transform: translateY(-5px);
 }
@@ -47,6 +51,7 @@
 .city-metrics-card:hover {
     transform: translateY(-5px);
 }
+
 
 .city-metrics-table table {
     border-collapse: collapse;
@@ -125,16 +130,33 @@ th:nth-child(4) {
         0px 0px 3px rgba(0, 0, 0, 0.08);
     cursor: default;
     transition: transform 0.3s ease;
+    padding: 0.2rem;
 }
 
 .cost-trends:hover {
     transform: translateY(-5px);
 }
 
+.cost-trends p {
+    font-size: small;
+}
+
+.cost-trends p .circle:nth-of-type(1) {
+    color: #00c49f;
+}
+
+.cost-trends p .circle:nth-of-type(2) {
+    color: #0088fe;
+}
+
+.cost-trends p .circle:nth-of-type(3) {
+    color: #ff8042;
+}
+
 .card-header {
     text-align: center;
     margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 1rem;
 }
 
 .cost-trend {

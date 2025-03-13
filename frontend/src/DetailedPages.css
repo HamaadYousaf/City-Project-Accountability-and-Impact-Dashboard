@@ -178,6 +178,10 @@ th:nth-child(3) {
     transform: translateY(-5px);
 }
 
+.project-budget-change .card-header {
+    margin-bottom: 1.8rem;
+}
+
 .project-budget-change p {
     font-weight: bold;
     text-align: center;
@@ -346,5 +350,28 @@ td {
 .map-container {
     display: flex;
     justify-content: center;
-    margin-bottom: 40px;
+    margin-top: 2rem;
+    margin-bottom: 5rem;
+}
+
+.project-cost-trends p {
+    font-size: small;
+}
+
+.project-cost-trends p .circle:nth-of-type(1) {
+    color: #00c49f;
+}
+
+.project-cost-trends p .circle:nth-of-type(2) {
+    color: #0088fe;
+}
+
+.project-cost-trends p .circle:nth-of-type(3) {
+    color: #ff8042;
+}
+
+.legend {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
 }

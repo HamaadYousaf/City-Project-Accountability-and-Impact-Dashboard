@@ -10,7 +10,9 @@ import { FaLink } from "react-icons/fa6";
 import { GoGraph } from "react-icons/go";
 import { BsGraphDown } from "react-icons/bs";
 import axios from 'axios';
-import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import ProjectPieChart from './Components/ProjectPieChart';
+
 
 export default function DetailedPages() {
     const { id } = useParams(); // This extracts the "id" from the URL like "/projects/:id"
@@ -100,11 +102,20 @@ export default function DetailedPages() {
 
     const budget_change = project.current_budget - project.original_budget
 
+    const pieData = [
+        { name: 'Economic Cost', value: project.economic_cost },
+        { name: 'Opportunity Cost', value: project.opportunity_cost },
+        { name: 'Human Cost', value: project.human_cost },
+    ];
+
+    const COLORS = ['#0088FE', '#00C49F', '#FF8042']; // You can customize these colors
+
+
     return (
         <>
             <h1 className='detailed-page-header'>{project.project_name}</h1>
             <div className='map-container'>
-                <MapContainer center={[project.location.coordinates[1], project.location.coordinates[0]]} zoom={13} scrollWheelZoom={true}>
+                <MapContainer center={[project.location.coordinates[1], project.location.coordinates[0]]} zoom={13} scrollWheelZoom={false}>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -157,35 +168,20 @@ export default function DetailedPages() {
                     </div>
                     <div className='project-info-card'>
                         <div className='project-cost-trends'>
-                            <h4 className='card-header'>
+                            {/*<h4 className='card-header'>
                                 <FaCircle className='circle' />
-                                Cost Trends</h4>
-                            <div className='trends'>
-                                <section className='cost-trend'>
-                                    <h4>Economic Costs</h4>
-                                    <div className="tooltip-container">
-                                        <AiFillQuestionCircle className="question-mark" />
-                                        <span className="tooltip-text">Economic impacts from delays.</span>
-                                    </div>
-                                    <p>{project.Construction}% {getTrendIcon(project.Construction)}</p>
-                                </section>
-                                <section className='cost-trend'>
-                                    <h4>Human Costs</h4>
-                                    <div className="tooltip-container">
-                                        <AiFillQuestionCircle className="question-mark" />
-                                        <span className="tooltip-text">Human costs due to accidents or hazards caused by unfinished infrastructure.</span>
-                                    </div>
-                                    <p>{project.Transit}% {getTrendIcon(project.Transit)}</p>
-                                </section>
-                                <section className='cost-trend'>
-                                    <h4>Opportunity Costs</h4>
-                                    <div className="tooltip-container">
-                                        <AiFillQuestionCircle className="question-mark" />
-                                        <span className="tooltip-text">Opportunity costs from delays.</span>
-                                    </div>
-                                    <p>{project.Transportation}% {getTrendIcon(project.Transportation)}</p>
-                                </section>
+                                Cost Trends</h4>*/}
+                            {/*<div className='trends'>
+                                <div className='project-cost-piechart'>*/}
+                            <h4 className='card-header'>
+                                <FaCircle className='circle' />Cost Trends</h4>
+                            <ProjectPieChart pieData={pieData} />
+                            <div className='legend'>
+                                <p><FaCircle className='circle' />Economic <FaCircle className='circle' />Opportunity <FaCircle className='circle' />Human</p>
                             </div>
+                            {/*} </div>
+
+                            </div>*/}
                         </div>
                         <div className='project-budget-change'>
                             <h4 className='card-header'>
