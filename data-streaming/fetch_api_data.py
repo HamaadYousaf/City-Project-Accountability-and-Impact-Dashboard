@@ -17,8 +17,8 @@ DEFAULT_WEBSITE = "https://www.ontario.ca/page/building-ontario"
 # Cost constants
 ECONOMIC_COST_PER_DAY = 1000  # $1000/day
 HUMAN_COST_PER_DAY = 500      # $500/day
-OPPORTUNITY_COST_RATE = 0.0006   # 0.06% of original budget per delay day
-
+#OPPORTUNITY_COST_RATE = 0.0006   # 0.06% of original budget per delay day
+OPPORTUNITY_COST_PER_DAY = 6000  # Lost growth, revenue, etc.
 
 def fetch_api_data(api_url, target_statuses):
     """Fetch and filter data from the Ontario API based on target statuses."""
@@ -119,7 +119,8 @@ def transform_data(data, target_statuses):
 
         # Dynamic Cost Estimation:
         economic_cost = delay_days * ECONOMIC_COST_PER_DAY
-        opportunity_cost = delay_days * OPPORTUNITY_COST_RATE * original_budget
+        #opportunity_cost = delay_days * OPPORTUNITY_COST_RATE * original_budget
+        opportunity_cost = delay_days * OPPORTUNITY_COST_PER_DAY
         human_cost = delay_days * HUMAN_COST_PER_DAY
         total_cost = economic_cost + opportunity_cost + human_cost
 
@@ -191,7 +192,8 @@ def create_manual_project(
     # Constants for Dynamic Cost Estimator (DCE)
     ECONOMIC_COST_PER_DAY = 1000  # $1000/day
     HUMAN_COST_PER_DAY = 500      # $500/day
-    OPPORTUNITY_COST_RATE = 0.0006   # 0.06% of original budget per delay day
+    #OPPORTUNITY_COST_RATE = 0.0006   # 0.06% of original budget per delay day
+    OPPORTUNITY_COST_PER_DAY = 6000  # Lost growth, revenue, etc.
 
     # Parse dates
     original_date = datetime.strptime(original_completion_date_str, "%Y-%m-%d")
@@ -202,7 +204,8 @@ def create_manual_project(
 
     # Cost calculations
     economic_cost = delay_days * ECONOMIC_COST_PER_DAY
-    opportunity_cost = delay_days * OPPORTUNITY_COST_RATE * original_budget
+    #opportunity_cost = delay_days * OPPORTUNITY_COST_RATE * original_budget
+    opportunity_cost = delay_days * OPPORTUNITY_COST_PER_DAY
     human_cost = delay_days * HUMAN_COST_PER_DAY
     total_cost = economic_cost + opportunity_cost + human_cost
 
@@ -263,7 +266,7 @@ manual_projects = [
         "2027-12-31", "2030-12-31",
         "2019-01-01", "2021-12-31", "2022-06-01",
         "Under construction",
-        11000000000.0, 13000000000.0,
+        10900000000.0, 12000000000.0,
         "Transit",
         "Increase public transport accessibility and reduce congestion.",
         "Toronto", "Central",
