@@ -2,12 +2,6 @@ import React from 'react';
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 export default function CostPieChart({ pieData }) { //passed project from detailedpages.jsx 
-    /*const data = [
-        { name: 'Economic Cost', value: project.economic_cost },
-        { name: 'Opportunity Cost', value: project.opportunity_cost },
-        { name: 'Human Cost', value: project.human_cost },
-    ];*/
-
     const colors = ['#00c49f', '#0088fe', '#ff8042'];
 
     const label = ({ cx, cy, midAngle, outerRadius, index }) => {

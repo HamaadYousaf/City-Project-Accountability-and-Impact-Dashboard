@@ -19,7 +19,7 @@ export default function Sidebar() {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/projects?page=${pageNum}`);
                 setProjects(response.data.data);
-                setFilteredProjects(response.data.data); // Set filteredProjects to the full list initially
+                //setFilteredProjects(response.data.data); 
             } catch (error) {
                 console.error("Error fetching project data:", error);
             }
@@ -29,7 +29,7 @@ export default function Sidebar() {
 
     // Update filtered projects whenever filters change
     useEffect(() => {
-        const applyFilters = () => {
+        const applyFilters = async () => {
             let updatedProjects = [...projects];
             if (searchInput) {
                 updatedProjects = updatedProjects.filter(project =>
@@ -55,7 +55,9 @@ export default function Sidebar() {
         setSelectedFilter({ type, value });
     };
 
-    const handleInputChange = (e) => setSearchInput(e.target.value);
+    const handleInputChange = (e) => {
+        setSearchInput(e.target.value);
+    }
 
     return (
         <>

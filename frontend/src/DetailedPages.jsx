@@ -7,8 +7,6 @@ import { FaCircle } from "react-icons/fa6";
 import { ImCheckboxChecked, ImCheckboxUnchecked } from "react-icons/im";
 import { AiFillQuestionCircle } from "react-icons/ai";
 import { FaLink } from "react-icons/fa6";
-import { GoGraph } from "react-icons/go";
-import { BsGraphDown } from "react-icons/bs";
 import axios from 'axios';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import ProjectPieChart from './Components/ProjectPieChart';
@@ -84,16 +82,6 @@ export default function DetailedPages() {
         /*return value === "Improving" ? 'rgb(74, 191, 74)' : 'red';*/
     };
 
-    const getTrendIcon = (value) => {
-        const color = value >= 50 ? 'rgb(7, 222, 140)' : 'red';
-        const Icon = value >= 50 ? GoGraph : BsGraphDown;
-        return (
-            <span style={{ color }}>
-                <Icon />
-            </span>
-        );
-    };
-
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
     if (!project) {
@@ -108,8 +96,7 @@ export default function DetailedPages() {
         { name: 'Human Cost', value: project.human_cost },
     ];
 
-    const COLORS = ['#0088FE', '#00C49F', '#FF8042']; // You can customize these colors
-
+    const status = project.status;
 
     return (
         <>
@@ -175,9 +162,9 @@ export default function DetailedPages() {
                                 <div className='project-cost-piechart'>*/}
                             <h4 className='card-header'>
                                 <FaCircle className='circle' />Cost Trends</h4>
-                            <ProjectPieChart pieData={pieData} />
+                            {status === "Completed" ? "Project is completed" : <ProjectPieChart pieData={pieData} />}
                             <div className='legend'>
-                                <p><FaCircle className='circle' />Economic <FaCircle className='circle' />Opportunity <FaCircle className='circle' />Human</p>
+                                {status === "Completed" ? null : <p><FaCircle className='circle' />Economic <FaCircle className='circle' />Opportunity <FaCircle className='circle' />Human</p>}
                             </div>
                             {/*} </div>
 
