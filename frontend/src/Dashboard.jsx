@@ -4,8 +4,6 @@ import { IoIosArrowUp } from "react-icons/io";
 import { IoArrowDownSharp } from "react-icons/io5";
 import { Link } from 'react-router-dom';
 import { FaCircle } from "react-icons/fa6";
-import { GoGraph } from "react-icons/go";
-import { BsGraphDown } from "react-icons/bs";
 import { AiFillQuestionCircle } from "react-icons/ai";
 import axios from 'axios';
 import Pagination from '@mui/material/Pagination';
@@ -39,7 +37,7 @@ export default function Dashboard({ projects, pageNum, setPageNum }) {
     }
 
     const getArrowIcon = (value) => {
-        const color = value >= 50 ? 'rgb(7, 222, 140)' : 'red';
+        const color = value >= 50 ? 'red' : 'rgb(7, 222, 140)';
         const Icon = value >= 50 ? IoIosArrowUp : IoArrowDownSharp
         return (
             <span style={{ color }}>
@@ -80,8 +78,8 @@ export default function Dashboard({ projects, pageNum, setPageNum }) {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/projects`)
                 setAllProjects(response.data.data)
-            } catch (err) {
-                console.log(err)
+            } catch (error) {
+                console.log(error)
                 setError("No data available")
             }
         };
