@@ -95,10 +95,10 @@ th:nth-child(4) {
 .tooltip-text {
     visibility: hidden;
     width: 180px;
-    background-color: #2a50cf;
-    color: white;
+    background-color: white;
+    color: black;
     text-align: center;
-    border-radius: 6px;
+    border: 1px solid lightgray;
     padding: 5px;
     position: absolute;
     z-index: 1;
@@ -393,4 +393,135 @@ th:nth-child(4) {
 
 .custom-pagination .MuiPaginationItem-root:hover {
     background-color: lightgray;
+}
+
+/*tablets*/
+@media (max-width: 1024px) and (min-width: 769px) {
+    .dashboard {
+        margin-left: 0;
+        width: 100%;
+        padding: 20px;
+    }
+
+    .city-section {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        padding-right: 0;
+    }
+
+    .city-metrics,
+    .cost-trends {
+        width: 45%;
+        padding: 15px;
+    }
+
+    .metrics-table th,
+    .metrics-table td {
+        font-size: 0.95rem;
+        padding: 6px;
+    }
+
+    .project-list {
+        justify-content: center;
+    }
+
+    .project {
+        width: 48%;
+        margin: 1%;
+    }
+
+    .project-info {
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .card-header {
+        font-size: 1.4rem;
+    }
+
+    .pagination {
+        padding: 15px 0;
+    }
+
+    .project-button button {
+        font-size: 0.9rem;
+        padding: 8px 18px;
+    }
+}
+
+
+/*phones*/
+@media (max-width: 768px) {
+    .dashboard {
+        margin-left: 0;
+        width: 100%;
+        padding: 10px;
+    }
+
+    .dashboard-header {
+        font-size: 1.5rem;
+        text-align: center;
+        padding: 0 10px;
+    }
+
+    .city-section {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        padding-right: 0;
+    }
+
+    .city-metrics,
+    .cost-trends {
+        width: 90%;
+        padding: 10px;
+    }
+
+    .metrics-table th,
+    .metrics-table td {
+        font-size: 0.85rem;
+        padding: 6px;
+    }
+
+    .tooltip-text {
+        font-size: 0.75rem;
+        width: 160px;
+    }
+
+    .project-list {
+        justify-content: center;
+    }
+
+    .project {
+        width: 48%;
+        margin: 1%;
+    }
+
+    .project-info {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .project-info p {
+        font-size: 0.85rem;
+    }
+
+    .card-header {
+        font-size: 1.2rem;
+    }
+
+    .cost-trends p {
+        font-size: 0.8rem;
+        text-align: center;
+    }
+
+    .pagination {
+        padding: 10px 0;
+    }
+
+    .project-button button {
+        padding: 6px 16px;
+        font-size: 0.85rem;
+    }
 }
