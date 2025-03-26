@@ -230,7 +230,9 @@ export default function DetailedPages() {
                     </div>
                 </div>
                 <div className='project-right'>
-                    <Timeline />
+                    <div className='project-timeline'>
+                        <Timeline />
+                    </div>
                     <div className='project-information'>
                         <h4 className='card-header'>
                             <FaCircle className='circle' />

@@ -376,3 +376,140 @@ td {
     justify-content: center;
     margin-bottom: 1rem;
 }
+
+/*mobile*/
+@media (max-width: 768px) {
+    .project-details {
+        flex-direction: column;
+        padding: 0 20px;
+    }
+
+    .project-left,
+    .project-right {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    /* Force order: left comes first, then right */
+    .project-left {
+        order: 1;
+    }
+
+    .project-right {
+        order: 2;
+
+    }
+
+    .project-info-card {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .project-cost-trends,
+    .project-budget-change,
+    .project-metrics-card,
+    .project-funding,
+    .project-information {
+        width: 90%;
+    }
+
+    .project-timeline {
+        width: 112%;
+        margin-top: -0.5rem;
+    }
+
+    .project-information {
+        margin-bottom: 2rem;
+    }
+
+    .project-metrics-card {
+        margin-top: -2rem;
+    }
+
+    .detailed-page-header {
+        font-size: 1.5rem;
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    .map-container {
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+    }
+}
+
+
+/*tablets*/
+@media (max-width: 1024px) and (min-width: 769px) {
+    .project-details {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 0 20px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .project-left,
+    .project-right {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    /* Force order: left comes first, then right */
+    .project-left {
+        order: 1;
+    }
+
+    .project-right {
+        order: 2;
+
+    }
+
+    .project-info-card {
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+    }
+
+    .project-cost-trends,
+    .project-budget-change,
+    .project-metrics-card,
+    .project-funding,
+    .project-information {
+        width: 50%;
+        margin: 0 auto;
+    }
+
+    .project-metrics-card {
+        margin-bottom: 1rem;
+    }
+
+    .project-timeline {
+        width: 62.5%;
+        margin: -0.5rem 0rem 1.5rem 14.5rem;
+
+    }
+
+    .project-information {
+        margin-bottom: 2rem;
+        margin-left: 14.5rem;
+    }
+
+    .project-metrics-card {
+        margin-top: -2rem;
+    }
+
+    .detailed-page-header {
+        font-size: 1.5rem;
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    .map-container {
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+    }
+}
