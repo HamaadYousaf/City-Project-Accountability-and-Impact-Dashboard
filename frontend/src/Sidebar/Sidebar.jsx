@@ -5,6 +5,7 @@ import "./Sidebar.css";
 import { useState, useEffect } from "react";
 import Dashboard from "../Dashboard";
 import axios from "axios";
+import { FaBars } from "react-icons/fa";
 
 export default function Sidebar() {
     const [searchInput, setSearchInput] = useState("");
@@ -12,6 +13,7 @@ export default function Sidebar() {
     const [filteredProjects, setFilteredProjects] = useState([]);
     const [projects, setProjects] = useState([]);
     const [pageNum, setPageNum] = useState(1);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     // Fetch all projects initially
     useEffect(() => {
@@ -59,25 +61,39 @@ export default function Sidebar() {
         setSearchInput(e.target.value);
     }
 
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);
+    };
+
     return (
         <>
-            <div className="inner-sidebar">
-                <input
-                    type="text"
-                    placeholder="Search for projects..."
-                    className="search-box"
-                    value={searchInput}
-                    onChange={handleInputChange}
+            <div className="layout-container">
+                <div className="hamburger-icon" onClick={toggleSidebar}>
+                    <FaBars />
+                </div>
+
+                <div className={`inner-sidebar ${isSidebarOpen ? "open" : ""}`}>
+                    <div className="sidebar-content">
+                        <input
+                            type="text"
+                            placeholder="Search for projects..."
+                            className="search-box"
+                            value={searchInput}
+                            onChange={handleInputChange}
+                        />
+                        <Status handleChange={handleFilterChange} selectedOption={selectedFilter} />
+                        <Region handleChange={handleFilterChange} selectedOption={selectedFilter} />
+                        <Type handleChange={handleFilterChange} selectedOption={selectedFilter} />
+                    </div>
+                </div>
+
+
+                <Dashboard
+                    projects={filteredProjects}
+                    pageNum={pageNum}
+                    setPageNum={setPageNum}
                 />
-                <Status handleChange={handleFilterChange} selectedOption={selectedFilter} />
-                <Region handleChange={handleFilterChange} selectedOption={selectedFilter} />
-                <Type handleChange={handleFilterChange} selectedOption={selectedFilter} />
-            </div>
-            <Dashboard
-                projects={filteredProjects}
-                pageNum={pageNum}
-                setPageNum={setPageNum}
-            /> {/* Display filtered projects */}
+            </div> {/* Display filtered projects */}
         </>
     );
 }

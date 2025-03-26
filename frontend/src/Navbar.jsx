@@ -12,7 +12,7 @@ export default function Navbar() {
                 <div className="nav-logo">
                     <Link to="/">
                         {/*<PiLetterCirclePFill className='logo' size={35} /> */}
-                        <div className='logo'>Logo</div>
+                        <div className='logo'><span>CityScope</span> Toronto</div>
                     </Link>
                 </div>
                 {/*<div className='nav-input'>

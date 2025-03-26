@@ -18,6 +18,7 @@
     height: 85vh;
     position: fixed;
     transition: transform 0.3s ease;
+    top: 50px;
 }
 
 .inner-sidebar:hover {
@@ -90,3 +91,54 @@
         0px -4px 6px rgba(0, 0, 0, 0.15),
         0px 1px 3px rgba(0, 0, 0, 0.08);
 }*/
+
+
+.hamburger-icon {
+    display: none;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1100;
+    font-size: 1.5rem;
+    color: white;
+    background-color: #2a50cf;
+    padding: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* Responsive for tablet and mobile */
+@media (max-width: 1024px) {
+    .inner-sidebar {
+        transform: translateX(-100%);
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 150px;
+        height: 100vh;
+        z-index: 1000;
+        margin: 0;
+        border-radius: 0;
+        padding: 10px;
+    }
+
+    .inner-sidebar.open {
+        transform: translateX(0);
+    }
+
+    .hamburger-icon {
+        display: block;
+    }
+
+    .sidebar-icons {
+        display: none;
+    }
+
+    .sidebar-content {
+        margin-top: 60px;
+    }
+
+    .search-box {
+        width: 105%;
+    }
+}
