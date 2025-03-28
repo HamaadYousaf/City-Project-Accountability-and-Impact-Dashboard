@@ -107,6 +107,53 @@ export default function ViewReportsUser() {
           <Text style={styles.reportDate}>
             Created: {new Date(report.createdAt).toLocaleDateString()}
           </Text>
+          
+          <View style={styles.buttonRow}>
+            <TouchableOpacity 
+              style={styles.commentButton}
+              onPress={() => router.push({
+                pathname: '/addcomment',
+                params: { reportId: report._id, projectId, projectName }
+              })}
+            >
+              <Text style={styles.commentButtonText}>Add a Comment</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={styles.viewCommentsButton}
+              onPress={() => toggleComments(report._id)}
+            >
+              <Text style={styles.commentButtonText}>
+                {report.showComments ? 'Hide Comments' : 'View Comments'}
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          {report.showComments && (
+            <View style={styles.commentsSection}>
+              <Text style={styles.commentsSectionTitle}>Comments</Text>
+              {comments[report._id]?.length > 0 ? (
+                comments[report._id].map((comment, idx) => (
+                  <View key={idx} style={styles.commentItem}>
+                    <Text style={styles.commentText}>{comment.body}</Text>
+                    {comment.image && (
+                      <View style={styles.commentImageContainer}>
+                        <Image 
+                          source={{ uri: comment.image }} 
+                          style={styles.commentImage}
+                          resizeMode="cover"
+                        />
+                      </View>
+                    )}
+                    <Text style={styles.commentDate}>
+                      {new Date(comment.createdAt).toLocaleDateString()}
+                    </Text>
+                  </View>
+                ))
+              ) : (
+                <Text style={styles.noComments}>No comments yet</Text>
+              )}
+            </View>
+          )}
         </View>
       ))}
     </ScrollView>
