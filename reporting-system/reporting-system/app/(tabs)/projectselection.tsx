@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, PermissionsAndroid, Platform, ActivityIndicator, Alert } from "react-native";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, PermissionsAndroid, Platform, ActivityIndicator, Alert, TextInput } from "react-native";
 import { router } from 'expo-router';
 import * as Location from 'expo-location';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -61,6 +61,42 @@ export default function App() {
   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
   const [hasMoreProjects, setHasMoreProjects] = useState<boolean>(true);
   const pageRef = useRef<number>(1);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [filteredProjects, setFilteredProjects] = useState<ProjectData[]>([]);
+  const [totalProjects, setTotalProjects] = useState<number>(0);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [userRole, setUserRole] = useState<string>('');
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const userData = await AsyncStorage.getItem('userData');
+        if (!userData) {
+          router.replace('/');
+          return;
+        }
+        // Add expiry check if you have token expiration
+        const parsedData = JSON.parse(userData);
+        if (parsedData.expiresAt && new Date(parsedData.expiresAt) < new Date()) {
+          await AsyncStorage.removeItem('userData');
+          router.replace('/');
+          return;
+        }
+      } catch (error) {
+        console.error('Error checking authentication:', error);
+        router.replace('/');
+      }
+    };
+
+    checkAuth();
+    
+    // Set up an interval to periodically check authentication
+    const authCheckInterval = setInterval(checkAuth, 60000); // Check every minute
+    
+    return () => {
+      clearInterval(authCheckInterval);
+    };
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -98,20 +134,13 @@ export default function App() {
         return;
       }
 
-      console.log('User coordinates:', {
-        latitude: userCoords.latitude,
-        longitude: userCoords.longitude
-      });
-
       const url = new URL(`http://192.168.2.38:5000/api/projects`);
       url.searchParams.append('page', page.toString());
-      url.searchParams.append('limit', '50'); // Increased limit to get more projects
+      url.searchParams.append('limit', '50');
       url.searchParams.append('lat', userCoords.latitude.toString());
       url.searchParams.append('lng', userCoords.longitude.toString());
-      url.searchParams.append('radius', '10'); // Increased radius to get more potential projects
+      url.searchParams.append('radius', '10');
       
-      console.log('API URL:', url.toString());
-
       const response = await fetch(url.toString());
       
       if (!response.ok) {
@@ -119,67 +148,15 @@ export default function App() {
       }
       
       const responseData = await response.json();
-      
-      console.log('Total projects received:', responseData.data?.length || 0);
 
       if (responseData && Array.isArray(responseData.data)) {
-        // Log all projects before filtering
-        console.log('All projects before filtering:', responseData.data.map((p: ProjectData) => ({
-          name: p.project_name,
-          coordinates: p.location?.coordinates
-        })));
-
-        const nearbyProjects = responseData.data.filter((project: ProjectData) => {
-          // Validate project data
-          if (!project.location?.coordinates || 
-              !Array.isArray(project.location.coordinates) || 
-              project.location.coordinates.length !== 2) {
-            console.log('Project with invalid coordinates:', project.project_name);
-            return false;
-          }
-
-          // MongoDB stores coordinates as [longitude, latitude]
-          const projectLat = project.location.coordinates[1];
-          const projectLng = project.location.coordinates[0];
-
-          if (typeof projectLat !== 'number' || typeof projectLng !== 'number') {
-            console.log('Project with non-numeric coordinates:', project.project_name);
-            return false;
-          }
-
-          const distance = calculateDistance(
-            userCoords.latitude,
-            userCoords.longitude,
-            projectLat,
-            projectLng
-          );
-
-          console.log(`Project "${project.project_name}" - Distance: ${distance}km`);
-          
-          return distance <= 5; // 5km radius
-        });
-
-        console.log('Filtered projects:', {
-          total: responseData.data.length,
-          nearby: nearbyProjects.length,
-          projects: nearbyProjects.map((p: ProjectData) => ({
-            name: p.project_name,
-            distance: calculateDistance(
-              userCoords.latitude,
-              userCoords.longitude,
-              p.location.coordinates[1],
-              p.location.coordinates[0]
-            )
-          }))
-        });
-
         if (isLoadMore) {
-          setProjects(prevProjects => [...prevProjects, ...nearbyProjects]);
+          setProjects(prevProjects => [...prevProjects, ...responseData.data]);
         } else {
-          setProjects(nearbyProjects);
+          setProjects(responseData.data);
         }
-        
-        setHasMoreProjects(nearbyProjects.length >= projectsPerPage);
+        // Only set hasMoreProjects to true if we received the full page of results
+        setHasMoreProjects(responseData.data.length >= 50); // 50 is the limit we're requesting
       } else {
         console.error('Invalid API response structure:', responseData);
         setErrorMsg('Error loading projects');
@@ -203,23 +180,115 @@ export default function App() {
   const handleLogout = async () => {
     try {
       await AsyncStorage.removeItem('userData');
-      router.replace('/login');
+      router.replace('/');
     } catch (error) {
       console.error('Error logging out:', error);
       Alert.alert('Error', 'Failed to log out');
     }
   };
 
+  const filterAndSortProjects = (projects: ProjectData[], query: string, userCoords: { latitude: number; longitude: number } | null) => {
+    let filteredProjects = [...projects];
+    
+    // Filter by search query if one exists
+    if (query.trim()) {
+      filteredProjects = projects.filter(project => 
+        project.project_name.toLowerCase().startsWith(query.toLowerCase())
+      );
+    }
+    // If no search query, filter by distance
+    else if (userCoords) {
+      filteredProjects = projects.filter((project: ProjectData) => {
+        if (!project.location?.coordinates || 
+            !Array.isArray(project.location.coordinates) || 
+            project.location.coordinates.length !== 2) {
+          return false;
+        }
+
+        const projectLat = project.location.coordinates[1];
+        const projectLng = project.location.coordinates[0];
+
+        if (typeof projectLat !== 'number' || typeof projectLng !== 'number') {
+          return false;
+        }
+
+        const distance = calculateDistance(
+          userCoords.latitude,
+          userCoords.longitude,
+          projectLat,
+          projectLng
+        );
+        
+        return distance <= 5; // 5km radius
+      });
+    }
+
+    // Always sort alphabetically
+    return filteredProjects.sort((a, b) => a.project_name.localeCompare(b.project_name));
+  };
+
+  useEffect(() => {
+    const userCoords = location?.coords || null;
+    const filtered = filterAndSortProjects(projects, searchQuery, userCoords);
+    setFilteredProjects(filtered);
+  }, [projects, searchQuery, location]);
+
+  const [debouncedSearchQuery] = useState(() => {
+    let timeoutId: NodeJS.Timeout;
+    return (value: string) => {
+      clearTimeout(timeoutId);
+      setSearchQuery(value); // Update search query immediately
+      timeoutId = setTimeout(() => {
+        setCurrentPage(1);
+        if (location) {
+          fetchProjects(1, location.coords);
+        }
+      }, 500);
+    };
+  });
+
+  useEffect(() => {
+    const checkUserRole = async () => {
+      try {
+        const userData = await AsyncStorage.getItem('userData');
+        if (!userData) {
+          router.replace('/');
+          return;
+        }
+        
+        const { role } = JSON.parse(userData);
+        console.log('Current user role:', role); // Debug log
+        
+        // Set both states
+        setUserRole(role);
+        setIsAdmin(role === 'admin');
+      } catch (error) {
+        console.error('Error checking user role:', error);
+        router.replace('/');
+      }
+    };
+    
+    checkUserRole();
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Nearby Projects</Text>
         <TouchableOpacity 
           style={styles.logoutButton}
           onPress={handleLogout}
         >
           <Text style={styles.logoutText}>Logout</Text>
         </TouchableOpacity>
+        <Text style={styles.title}>Projects</Text>
+      </View>
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search all projects..."
+          onChangeText={debouncedSearchQuery}
+          clearButtonMode="while-editing"
+        />
       </View>
       {location ? (
         <View>
@@ -227,9 +296,11 @@ export default function App() {
             Location: Latitude {location.coords.latitude.toFixed(8)}, 
             Longitude {location.coords.longitude.toFixed(8)}
           </Text>
-          <Text style={styles.radiusText}>
-            Showing projects within 5 km
-          </Text>
+          {!searchQuery.trim() && (
+            <Text style={styles.radiusText}>
+              Showing projects within 5 km
+            </Text>
+          )}
         </View>
       ) : errorMsg ? (
         <Text style={styles.text}>Error: {errorMsg}</Text>
@@ -256,11 +327,11 @@ export default function App() {
             }}
             scrollEventThrottle={200}
           >
-            {Array.isArray(projects) && projects.length > 0 ? (
+            {Array.isArray(filteredProjects) && filteredProjects.length > 0 ? (
               <>
-                {projects.map((project: ProjectData, index: number) => (
-                  <View key={project._id} style={styles.panel}>
-                    <View style={styles.header}>
+                {filteredProjects.map((project: ProjectData, index: number) => (
+                  <View key={`${project._id}-${index}`} style={styles.panel}>
+                    <View style={styles.panelHeader}>
                       <Text style={styles.headerText}>{project.project_name}</Text>
                     </View>
                     <View style={styles.subheadingContainer}>
@@ -286,14 +357,35 @@ export default function App() {
                     <View style={styles.buttonContainer}>
                       <TouchableOpacity 
                         style={[styles.button, styles.viewButton]}
-                        onPress={() => {
-                          router.push({
-                            pathname: '/viewreports',
-                            params: { 
-                              projectId: project._id,
-                              projectName: project.project_name
-                            }
-                          });
+                        onPress={async () => {
+                          // Double-check role before navigation
+                          const userData = await AsyncStorage.getItem('userData');
+                          if (!userData) {
+                            router.replace('/');
+                            return;
+                          }
+
+                          const { role } = JSON.parse(userData);
+                          console.log('Navigating with role:', role); // Debug log
+
+                          // Strict routing based on role
+                          if (role === 'admin') {
+                            router.push({
+                              pathname: '/viewreports',
+                              params: { 
+                                projectId: project._id,
+                                projectName: project.project_name
+                              }
+                            });
+                          } else {
+                            router.push({
+                              pathname: '/viewreportsuser',
+                              params: { 
+                                projectId: project._id,
+                                projectName: project.project_name
+                              }
+                            });
+                          }
                         }}
                       >
                         <Text style={styles.buttonText}>View Reports</Text>
@@ -322,19 +414,15 @@ export default function App() {
                     <Text style={styles.loadingMoreText}>Loading more projects...</Text>
                   </View>
                 )}
-                
-                {!hasMoreProjects && projects.length > projectsPerPage && (
-                  <Text style={styles.endOfListText}>
-                    No more projects available
-                  </Text>
-                )}
               </>
             ) : (
               <Text style={styles.noProjects}>
-                No projects found within 5 km of your location
+                {searchQuery 
+                  ? "No projects found matching your search"
+                  : "No projects found within 5 km of your location"}
               </Text>
             )}
-            {hasMoreProjects && !isLoadingMore && (
+            {hasMoreProjects && !isLoadingMore && filteredProjects.length > 0 && projects.length < totalProjects && (
               <Text style={styles.scrollIndicatorText}>
                 Scroll for more projects...
               </Text>
@@ -380,17 +468,20 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: "row",
-    justifyContent: "flex-end",
+    justifyContent: "center",
     alignItems: "center",
     marginBottom: 8,
+    paddingHorizontal: 20,
+    position: 'relative',
+    marginTop: 20,
   },
   title: {
     color: "#000",
     fontSize: 24,
     textAlign: "center",
     marginBottom: 20,
-    flex: 1,
     fontWeight: "bold",
+    marginTop: 10,
   },
   text: {
     color: "#000",
@@ -415,21 +506,28 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     position: 'absolute',
-    right: 20,
-    top: 20,
+    left: 20,
+    top: 15,
     backgroundColor: '#dc3545',
-    padding: 8,
+    padding: 6,
     borderRadius: 5,
+    zIndex: 1,
   },
   logoutText: {
     color: '#fff',
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: 'bold',
+  },
+  panelHeader: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    marginBottom: 8,
   },
   headerText: {
     fontSize: 14,
     fontWeight: "bold",
-    textAlign: "right",
+    textAlign: "left",
   },
   subheadingContainer: {
     flexDirection: "row",
@@ -521,5 +619,18 @@ const styles = StyleSheet.create({
     padding: 10,
     color: '#007BFF',
     fontSize: 14,
+  },
+  searchContainer: {
+    paddingHorizontal: 20,
+    paddingBottom: 10,
+  },
+  searchInput: {
+    height: 40,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    backgroundColor: '#fff',
+    fontSize: 16,
   },
 });

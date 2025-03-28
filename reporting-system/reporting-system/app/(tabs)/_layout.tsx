@@ -1,66 +1,62 @@
 import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform } from 'react-native';
-
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
+import React, { useEffect, useState } from 'react';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const userData = await AsyncStorage.getItem('userData');
+      setIsAuthenticated(!!userData);
+    };
+    
+    checkAuth();
+    const interval = setInterval(checkAuth, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
-          },
-          default: {},
-        }),
+        tabBarShowLabel: true,
+        tabBarLabelPosition: 'below-icon',
+        tabBarIconStyle: { display: 'none' },
+        tabBarStyle: {
+          height: 60,
+          paddingBottom: 0,
+          justifyContent: 'center',
+        },
+        tabBarLabelStyle: {
+          marginBottom: 0,
+          marginTop: 0,
+          fontSize: 14,
+          textAlign: 'center',
+          width: '100%',
+          paddingHorizontal: 0,
+          paddingVertical: 5,
+          flex: 1,
+          lineHeight: 35,
+        },
       }}>
-      <Tabs.Screen
-        name="projectselection"
-        options={{
-          title: 'Projects (Test)',
-          headerShown: false,
-        }}
-      />
-      <Tabs.Screen
-        name="createreport"
-        options={{
-          title: 'Create Report',
-          headerShown: false,
-        }}
-      />
-      <Tabs.Screen
-        name="viewreports"
-        options={{
-          title: 'View Reports',
-          headerShown: false,
-        }}
-      />
       <Tabs.Screen
         name="index"
         options={{
-          title: "Projects (Final)",
-          tabBarLabel: "Projects (Final)",
+          title: "Login",
           headerShown: false,
         }}
       />
       <Tabs.Screen
-        name="login"
+        name="projectselection"
         options={{
-          title: "Login",
-          tabBarLabel: "Login",
+          title: "Projects",
           headerShown: false,
+          href: isAuthenticated ? undefined : null, // Only allow access when authenticated
         }}
       />
     </Tabs>

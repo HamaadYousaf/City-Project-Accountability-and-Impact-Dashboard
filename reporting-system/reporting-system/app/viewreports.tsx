@@ -33,41 +33,32 @@ export default function ViewReports() {
   const { projectId, projectName } = useLocalSearchParams();
   const [reports, setReports] = useState<Report[]>([]);
   const [error, setError] = useState<string>("");
+  const [userRole, setUserRole] = useState<string>('');
   const router = useRouter();
   const [comments, setComments] = useState<{ [key: string]: Comment[] }>({});
 
+  useEffect(() => {
+    const getUserRole = async () => {
+      const userData = await AsyncStorage.getItem('userData');
+      console.log('ViewReports - Raw userData:', userData);
+      if (userData) {
+        const parsed = JSON.parse(userData);
+        console.log('ViewReports - Parsed userData:', parsed);
+        console.log('ViewReports - User role:', parsed.role);
+        setUserRole(parsed.role);
+      }
+    };
+    getUserRole();
+  }, []);
+
   const fetchReports = async () => {
-    if (!projectId) return;
-    
     try {
-      const projectIdString = String(projectId);
-      const url = `http://192.168.2.38:5000/api/reports/project/admin/${encodeURIComponent(projectIdString)}`;
-      
-      const response = await fetch(url);
-      const responseData = await response.json();
-      
-      // Add this debug log to see the full report structure
-      console.log('First report data:', responseData.data?.[0]);
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      // Transform the data to ensure status is set
-      const reportsWithStatus = responseData.data?.map((report: Report) => ({
-        ...report,
-        status: report.approved ? 'approved' : 'pending'
-      })) || [];
-
-      setReports(reportsWithStatus);
-      
-      if (!responseData.data?.length) {
-        setError("No reports found for this project");
-      }
+      // Admin endpoint that returns ALL reports
+      const response = await fetch(`http://192.168.2.38:5000/api/reports/project/admin/${projectId}`);
+      const data = await response.json();
+      setReports(data.data);
     } catch (error) {
-      console.error('Fetch error:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-      setError(`Failed to fetch reports: ${errorMessage}`);
+      console.error('Error fetching reports:', error);
     }
   };
 
@@ -252,116 +243,104 @@ export default function ViewReports() {
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Reports for {projectName}</Text>
-      {error ? (
-        <Text style={styles.errorText}>{error}</Text>
-      ) : reports.length === 0 ? (
-        <Text style={styles.noReports}>No reports available for this project</Text>
-      ) : (
-        reports.map((report, index) => {
-          console.log('Report status:', report.status);
-          return (
-            <View key={index} style={styles.reportCard}>
-              <View style={styles.reportHeader}>
-                <Text style={styles.reportTitle}>{report.title}</Text>
-                <View style={styles.headerRight}>
-                  <Text style={[
-                    styles.statusBadge,
-                    report.approved ? styles.statusApproved : styles.statusPending
-                  ]}>
-                    {report.approved ? 'APPROVED' : 'PENDING'}
-                  </Text>
-                  <View style={styles.headerButtons}>
-                    {!report.approved && (
-                      <TouchableOpacity 
-                        style={[styles.headerButton, styles.approveButton]}
-                        onPress={() => handleApproval(report._id, 'approve')}
-                      >
-                        <Text style={styles.buttonText}>Approve</Text>
-                      </TouchableOpacity>
-                    )}
-                    <TouchableOpacity 
-                      style={[styles.headerButton, styles.deleteButton]}
-                      onPress={() => handleDeleteReport(report._id)}
-                    >
-                      <Text style={styles.buttonText}>Delete</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </View>
-              <Text style={styles.reportBody}>{report.body}</Text>
-              {report.image && (
-                <View style={styles.imageContainer}>
-                  <Image 
-                    source={{ uri: report.image }} 
-                    style={styles.reportImage}
-                    resizeMode="cover"
-                  />
-                </View>
-              )}
-              <Text style={styles.reportDate}>
-                Created: {new Date(report.createdAt).toLocaleDateString()}
+      {reports.map((report, index) => (
+        <View key={index} style={styles.reportCard}>
+          <View style={styles.reportHeader}>
+            <Text style={styles.reportTitle}>{report.title}</Text>
+            <View style={styles.headerRight}>
+              <Text style={[styles.statusBadge, report.approved ? styles.statusApproved : styles.statusPending]}>
+                {report.approved ? 'APPROVED' : 'PENDING'}
               </Text>
-              <Text style={styles.reportLocation}>
-                Location: {report.location.coordinates.join(', ')}
-              </Text>
-              <View style={styles.buttonRow}>
+              <View style={styles.headerButtons}>
+                {!report.approved && (
+                  <TouchableOpacity 
+                    style={[styles.headerButton, styles.approveButton]}
+                    onPress={() => handleApproval(report._id, 'approve')}
+                  >
+                    <Text style={styles.buttonText}>Approve</Text>
+                  </TouchableOpacity>
+                )}
                 <TouchableOpacity 
-                  style={styles.commentButton}
-                  onPress={() => router.push({
-                    pathname: '/addcomment',
-                    params: { reportId: report._id, projectId, projectName }
-                  })}
+                  style={[styles.headerButton, styles.deleteButton]}
+                  onPress={() => handleDeleteReport(report._id)}
                 >
-                  <Text style={styles.commentButtonText}>Add a Comment</Text>
-                </TouchableOpacity>
-                <TouchableOpacity 
-                  style={styles.viewCommentsButton}
-                  onPress={() => toggleComments(report._id)}
-                >
-                  <Text style={styles.commentButtonText}>
-                    {report.showComments ? 'Hide Comments' : 'View Comments'}
-                  </Text>
+                  <Text style={styles.buttonText}>Delete</Text>
                 </TouchableOpacity>
               </View>
+            </View>
+          </View>
+          <Text style={styles.reportBody}>{report.body}</Text>
+          {report.image && (
+            <View style={styles.imageContainer}>
+              <Image 
+                source={{ uri: report.image }} 
+                style={styles.reportImage}
+                resizeMode="cover"
+              />
+            </View>
+          )}
+          <Text style={styles.reportDate}>
+            Created: {new Date(report.createdAt).toLocaleDateString()}
+          </Text>
+          <Text style={styles.reportLocation}>
+            Location: {report.location.coordinates.join(', ')}
+          </Text>
+          <View style={styles.buttonRow}>
+            <TouchableOpacity 
+              style={styles.commentButton}
+              onPress={() => router.push({
+                pathname: '/addcomment',
+                params: { reportId: report._id, projectId, projectName }
+              })}
+            >
+              <Text style={styles.commentButtonText}>Add a Comment</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={styles.viewCommentsButton}
+              onPress={() => toggleComments(report._id)}
+            >
+              <Text style={styles.commentButtonText}>
+                {report.showComments ? 'Hide Comments' : 'View Comments'}
+              </Text>
+            </TouchableOpacity>
+          </View>
 
-              {report.showComments && (
-                <View style={styles.commentsSection}>
-                  <Text style={styles.commentsSectionTitle}>Comments</Text>
-                  {comments[report._id]?.length > 0 ? (
-                    comments[report._id].map((comment, idx) => (
-                      <View key={idx} style={styles.commentItem}>
-                        <View style={styles.commentHeader}>
-                          <Text style={styles.commentText}>{comment.body}</Text>
-                          <TouchableOpacity 
-                            style={styles.deleteCommentButton}
-                            onPress={() => handleDeleteComment(comment._id, report._id)}
-                          >
-                            <Text style={styles.buttonText}>Delete</Text>
-                          </TouchableOpacity>
-                        </View>
-                        {comment.image && (
-                          <View style={styles.commentImageContainer}>
-                            <Image 
-                              source={{ uri: comment.image }} 
-                              style={styles.commentImage}
-                              resizeMode="cover"
-                            />
-                          </View>
-                        )}
-                        <Text style={styles.commentDate}>
-                          {new Date(comment.createdAt).toLocaleDateString()}
-                        </Text>
+          {report.showComments && (
+            <View style={styles.commentsSection}>
+              <Text style={styles.commentsSectionTitle}>Comments</Text>
+              {comments[report._id]?.length > 0 ? (
+                comments[report._id].map((comment, idx) => (
+                  <View key={idx} style={styles.commentItem}>
+                    <View style={styles.commentHeader}>
+                      <Text style={styles.commentText}>{comment.body}</Text>
+                      <TouchableOpacity 
+                        style={styles.deleteCommentButton}
+                        onPress={() => handleDeleteComment(comment._id, report._id)}
+                      >
+                        <Text style={styles.buttonText}>Delete</Text>
+                      </TouchableOpacity>
+                    </View>
+                    {comment.image && (
+                      <View style={styles.commentImageContainer}>
+                        <Image 
+                          source={{ uri: comment.image }} 
+                          style={styles.commentImage}
+                          resizeMode="cover"
+                        />
                       </View>
-                    ))
-                  ) : (
-                    <Text style={styles.noComments}>No comments yet</Text>
-                  )}
-                </View>
+                    )}
+                    <Text style={styles.commentDate}>
+                      {new Date(comment.createdAt).toLocaleDateString()}
+                    </Text>
+                  </View>
+                ))
+              ) : (
+                <Text style={styles.noComments}>No comments yet</Text>
               )}
             </View>
-          );
-        })
-      )}
+          )}
+        </View>
+      ))}
     </ScrollView>
   );
 }
