@@ -9,8 +9,8 @@
 }
 
 .project-left {
-    flex: 0 0 60%;
-    max-width: 60%;
+    flex: 0 0 50rem;
+    max-width: 50rem;
     height: auto;
     box-sizing: border-box;
     /*display: flex;
@@ -19,9 +19,9 @@
 }
 
 .project-right {
-    flex: 0 0 40%;
+    flex: 0 0 34rem;
     /* 40% width */
-    max-width: 40%;
+    max-width: 34rem;
     /* Ensure it doesn’t grow beyond 40% */
     height: auto;
     /* Let it grow based on content */
@@ -35,7 +35,7 @@
 }
 
 .project-metrics-card {
-    width: 80%;
+    width: 40rem;
     background-color: white;
     border-radius: 15px;
     border: none;
