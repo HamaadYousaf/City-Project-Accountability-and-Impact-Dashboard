@@ -13,9 +13,9 @@
     color: #aaabf4;
     border: none;
     border-radius: 15px;
-    margin: 20px 15px 15px 15px;
+    margin: 1.25rem 0.95rem 0.95rem 0.95rem;
     padding: 10px;
-    height: 85vh;
+    max-height: 90vh;
     position: fixed;
     transition: transform 0.3s ease;
     top: 50px;
