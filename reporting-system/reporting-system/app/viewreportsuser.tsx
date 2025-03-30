@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, Modal, Dimensions } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 
 type Comment = {
@@ -32,6 +32,7 @@ export default function ViewReportsUser() {
   const [error, setError] = useState<string>("");
   const router = useRouter();
   const [comments, setComments] = useState<{ [key: string]: Comment[] }>({});
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const fetchReports = async () => {
     try {
@@ -100,9 +101,12 @@ export default function ViewReportsUser() {
           <Text style={styles.reportTitle}>{report.title}</Text>
           <Text style={styles.reportBody}>{report.body}</Text>
           {report.image && (
-            <View style={styles.imageContainer}>
+            <TouchableOpacity 
+              style={styles.imageContainer}
+              onPress={() => setSelectedImage(report.image || null)}
+            >
               <Image source={{ uri: report.image }} style={styles.reportImage} />
-            </View>
+            </TouchableOpacity>
           )}
           <Text style={styles.reportDate}>
             Created: {new Date(report.createdAt).toLocaleDateString()}
@@ -156,6 +160,24 @@ export default function ViewReportsUser() {
           )}
         </View>
       ))}
+
+      <Modal
+        visible={!!selectedImage}
+        transparent={true}
+        onRequestClose={() => setSelectedImage(null)}
+      >
+        <TouchableOpacity 
+          style={styles.modalBackground}
+          activeOpacity={1}
+          onPress={() => setSelectedImage(null)}
+        >
+          <Image
+            source={{ uri: selectedImage || '' }}
+            style={styles.modalImage}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+      </Modal>
     </ScrollView>
   );
 }
@@ -286,5 +308,22 @@ const styles = StyleSheet.create({
   commentImage: {
     width: '100%',
     height: '100%',
+  },
+  modalBackground: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 9999,
+    elevation: 5,
+    height: '100%',
+  },
+  modalImage: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height * 0.8,
   },
 });

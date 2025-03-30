@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Image, Modal, Dimensions, SafeAreaView } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
@@ -36,6 +36,7 @@ export default function ViewReports() {
   const [userRole, setUserRole] = useState<string>('');
   const router = useRouter();
   const [comments, setComments] = useState<{ [key: string]: Comment[] }>({});
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
     const getUserRole = async () => {
@@ -271,13 +272,16 @@ export default function ViewReports() {
           </View>
           <Text style={styles.reportBody}>{report.body}</Text>
           {report.image && (
-            <View style={styles.imageContainer}>
+            <TouchableOpacity 
+              style={styles.imageContainer}
+              onPress={() => setSelectedImage(report.image || null)}
+            >
               <Image 
                 source={{ uri: report.image }} 
                 style={styles.reportImage}
                 resizeMode="cover"
               />
-            </View>
+            </TouchableOpacity>
           )}
           <Text style={styles.reportDate}>
             Created: {new Date(report.createdAt).toLocaleDateString()}
@@ -341,6 +345,27 @@ export default function ViewReports() {
           )}
         </View>
       ))}
+
+      <Modal
+        visible={!!selectedImage}
+        transparent={true}
+        onRequestClose={() => setSelectedImage(null)}
+        statusBarTranslucent={true}
+      >
+        <SafeAreaView style={styles.modalContainer}>
+          <TouchableOpacity 
+            style={styles.modalBackground}
+            activeOpacity={1}
+            onPress={() => setSelectedImage(null)}
+          >
+            <Image
+              source={{ uri: selectedImage || '' }}
+              style={styles.modalImage}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        </SafeAreaView>
+      </Modal>
     </ScrollView>
   );
 }
@@ -533,5 +558,18 @@ const styles = StyleSheet.create({
   commentImage: {
     width: '100%',
     height: '100%',
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
+  modalBackground: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalImage: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height * 0.8,
   },
 }); 

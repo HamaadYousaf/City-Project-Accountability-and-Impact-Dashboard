@@ -36,7 +36,7 @@ const ReportCreationPage = () => {
       let result = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
         aspect: [4, 3],
-        quality: 0.05,  // Extremely reduced quality
+        quality: 0.7,  // Increased from 0.05 to 0.7
         base64: true,
         exif: false,    // Exclude EXIF data
       });
