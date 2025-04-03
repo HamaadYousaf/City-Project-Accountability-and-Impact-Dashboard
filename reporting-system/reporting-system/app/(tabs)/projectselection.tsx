@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, PermissionsAndroi
 import { router } from 'expo-router';
 import * as Location from 'expo-location';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Picker } from '@react-native-picker/picker';
 
 type Location = {
   latitude: number;
@@ -20,7 +21,9 @@ type ProjectData = {
   region: string;
   status: string;
   current_completion_date: string;
-
+  construction_start_date: string;
+  original_completion_date: string;
+  address: string;
 };
 
 type PanelData = {
@@ -51,6 +54,16 @@ type Report = {
   updatedAt: string;
 };
 
+const PREDEFINED_REGIONS = [
+  "---",
+  "All Regions",
+  "Central",
+  "Downtown",
+  "East",
+  "North York",
+  "Peel"
+];
+
 export default function App() {
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
   const [errorMsg, setErrorMsg] = useState<string>("");
@@ -66,6 +79,14 @@ export default function App() {
   const [totalProjects, setTotalProjects] = useState<number>(0);
   const [isAdmin, setIsAdmin] = useState(false);
   const [userRole, setUserRole] = useState<string>('');
+  const [categoryFilter, setCategoryFilter] = useState<string>("null");
+  const [regionFilter, setRegionFilter] = useState<string>("null");
+  const [statusFilter, setStatusFilter] = useState<string>("null");
+  const [uniqueCategories, setUniqueCategories] = useState<string[]>([]);
+  const [uniqueRegions, setUniqueRegions] = useState<string[]>([]);
+  const [uniqueStatuses, setUniqueStatuses] = useState<string[]>([]);
+  const [showAllProjects, setShowAllProjects] = useState(false);
+  const [showCoordinates, setShowCoordinates] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -134,12 +155,13 @@ export default function App() {
         return;
       }
 
+      // Increase the limit to ensure we get all projects in one request
       const url = new URL(`http://192.168.2.38:5000/api/projects`);
-      url.searchParams.append('page', page.toString());
-      url.searchParams.append('limit', '50');
+      url.searchParams.append('page', '1');
+      url.searchParams.append('limit', '1000');  // Increased from 50 to 1000
       url.searchParams.append('lat', userCoords.latitude.toString());
       url.searchParams.append('lng', userCoords.longitude.toString());
-      url.searchParams.append('radius', '10');
+      url.searchParams.append('radius', '100');  // Increased from 10 to 100
       
       const response = await fetch(url.toString());
       
@@ -150,16 +172,19 @@ export default function App() {
       const responseData = await response.json();
 
       if (responseData && Array.isArray(responseData.data)) {
-        if (isLoadMore) {
-          setProjects(prevProjects => [...prevProjects, ...responseData.data]);
-        } else {
-          setProjects(responseData.data);
-        }
-        // Only set hasMoreProjects to true if we received the full page of results
-        setHasMoreProjects(responseData.data.length >= 50); // 50 is the limit we're requesting
-      } else {
-        console.error('Invalid API response structure:', responseData);
-        setErrorMsg('Error loading projects');
+        const allProjects = responseData.data;
+        setProjects(allProjects);
+        
+        // Extract and set unique regions immediately
+        const uniqueRegions = [...new Set(allProjects.map((p: ProjectData) => p.region))] as string[];
+        console.log('Initial unique regions:', uniqueRegions);
+        setUniqueRegions(uniqueRegions);
+        
+        // Extract other unique values
+        const uniqueCategories = [...new Set(allProjects.map((p: ProjectData) => p.category))] as string[];
+        const uniqueStatuses = [...new Set(allProjects.map((p: ProjectData) => p.status))] as string[];
+        setUniqueCategories(uniqueCategories);
+        setUniqueStatuses(uniqueStatuses);
       }
     } catch (error) {
       console.error('Error fetching projects:', error);
@@ -187,51 +212,90 @@ export default function App() {
     }
   };
 
-  const filterAndSortProjects = (projects: ProjectData[], query: string, userCoords: { latitude: number; longitude: number } | null) => {
-    let filteredProjects = [...projects];
-    
-    // Filter by search query if one exists
-    if (query.trim()) {
-      filteredProjects = projects.filter(project => 
-        project.project_name.toLowerCase().startsWith(query.toLowerCase())
+  // Update the helper function to compare full names
+  const compareProjectNames = (a: string, b: string) => {
+    const nameA = a.trim().toLowerCase();
+    const nameB = b.trim().toLowerCase();
+    return nameA.localeCompare(nameB);
+  };
+
+  const filterProjects = () => {
+    if (showAllProjects) {
+      const allSorted = [...projects].sort((a, b) => 
+        compareProjectNames(a.project_name, b.project_name)
       );
-    }
-    // If no search query, filter by distance
-    else if (userCoords) {
-      filteredProjects = projects.filter((project: ProjectData) => {
-        if (!project.location?.coordinates || 
-            !Array.isArray(project.location.coordinates) || 
-            project.location.coordinates.length !== 2) {
-          return false;
-        }
-
-        const projectLat = project.location.coordinates[1];
-        const projectLng = project.location.coordinates[0];
-
-        if (typeof projectLat !== 'number' || typeof projectLng !== 'number') {
-          return false;
-        }
-
-        const distance = calculateDistance(
-          userCoords.latitude,
-          userCoords.longitude,
-          projectLat,
-          projectLng
-        );
-        
-        return distance <= 5; // 5km radius
-      });
+      setFilteredProjects(allSorted);
+      return;
     }
 
-    // Always sort alphabetically
-    return filteredProjects.sort((a, b) => a.project_name.localeCompare(b.project_name));
+    let filtered = [...projects];
+    
+    // Apply text search first on all projects
+    if (searchQuery.trim()) {
+      filtered = filtered
+        .filter(project => 
+          project.project_name.toLowerCase().startsWith(searchQuery.toLowerCase())
+        )
+        .sort((a, b) => compareProjectNames(a.project_name, b.project_name));
+      setFilteredProjects(filtered);
+      return;
+    }
+    
+    // If no search query, proceed with other filters
+    const shouldApplyLocationFilter = 
+      categoryFilter === "null" && 
+      regionFilter === "null" && 
+      statusFilter === "null" &&
+      location && 
+      location.coords;
+
+    if (shouldApplyLocationFilter) {
+      // Apply location-based filtering
+      filtered = filtered
+        .filter(project => {
+          if (!project.location?.coordinates || project.location.coordinates.length !== 2) {
+            return false;
+          }
+          const [longitude, latitude] = project.location.coordinates;
+          const distance = calculateDistance(
+            location.coords.latitude,
+            location.coords.longitude,
+            latitude,
+            longitude
+          );
+          return distance <= 5;
+        })
+        .sort((a, b) => compareProjectNames(a.project_name, b.project_name));
+    } else {
+      // Apply regular filters
+      if (categoryFilter && categoryFilter !== "null") {
+        filtered = filtered.filter(project => project.category === categoryFilter);
+      }
+      
+      if (regionFilter && regionFilter !== "null") {
+        console.log('Filtering by region:', regionFilter);
+        console.log('Available regions:', projects.map(p => p.region));
+        filtered = filtered.filter(project => {
+          const matches = project.region === regionFilter;
+          console.log(`Project ${project.project_name} region: "${project.region}" matches "${regionFilter}": ${matches}`);
+          return matches;
+        });
+      }
+      
+      if (statusFilter && statusFilter !== "null") {
+        filtered = filtered.filter(project => project.status === statusFilter);
+      }
+      
+      // Sort alphabetically after applying filters
+      filtered = filtered.sort((a, b) => compareProjectNames(a.project_name, b.project_name));
+    }
+    
+    setFilteredProjects(filtered);
   };
 
   useEffect(() => {
-    const userCoords = location?.coords || null;
-    const filtered = filterAndSortProjects(projects, searchQuery, userCoords);
-    setFilteredProjects(filtered);
-  }, [projects, searchQuery, location]);
+    filterProjects();
+  }, [projects, searchQuery, location, categoryFilter, regionFilter, statusFilter, showAllProjects]);
 
   const [debouncedSearchQuery] = useState(() => {
     let timeoutId: NodeJS.Timeout;
@@ -290,13 +354,94 @@ export default function App() {
           clearButtonMode="while-editing"
         />
       </View>
+      <View style={styles.filtersContainer}>
+        <View style={styles.checkboxContainer}>
+          <TouchableOpacity 
+            style={[styles.checkbox, showAllProjects && styles.checkboxChecked]}
+            onPress={() => setShowAllProjects(!showAllProjects)}
+          >
+            {showAllProjects && <Text style={styles.checkmark}>✓</Text>}
+          </TouchableOpacity>
+          <Text style={styles.checkboxLabel}>Show all projects</Text>
+          
+          {isAdmin && (
+            <>
+              <TouchableOpacity 
+                style={[styles.checkbox, showCoordinates && styles.checkboxChecked, { marginLeft: 50 }]}
+                onPress={() => setShowCoordinates(!showCoordinates)}
+              >
+                {showCoordinates && <Text style={styles.checkmark}>✓</Text>}
+              </TouchableOpacity>
+              <Text style={styles.checkboxLabel}>Show user location</Text>
+            </>
+          )}
+        </View>
+        
+        <View style={styles.filterItem}>
+          <Text style={styles.filterLabel}>Type:</Text>
+          <View style={styles.pickerContainer}>
+            <Picker
+              selectedValue={categoryFilter}
+              onValueChange={(value: string) => {
+                setCategoryFilter(value);
+                filterProjects();
+              }}
+              style={styles.picker}
+            >
+              <Picker.Item label="---" value="null" style={{ fontSize: 14 }} />
+              {uniqueCategories.map(category => (
+                <Picker.Item key={category} label={category} value={category} style={{ fontSize: 14 }} />
+              ))}
+            </Picker>
+          </View>
+        </View>
+        
+        <View style={styles.filterItem}>
+          <Text style={styles.filterLabel}>Region:</Text>
+          <View style={styles.pickerContainer}>
+            <Picker
+              selectedValue={regionFilter}
+              onValueChange={(value: string) => {
+                setRegionFilter(value);
+                filterProjects();
+              }}
+              style={styles.picker}
+            >
+              <Picker.Item label="---" value="null" style={{ fontSize: 14 }} />
+              {PREDEFINED_REGIONS.slice(2).map(region => (
+                <Picker.Item key={region} label={region} value={region} style={{ fontSize: 14 }} />
+              ))}
+            </Picker>
+          </View>
+        </View>
+        
+        <View style={styles.filterItem}>
+          <Text style={styles.filterLabel}>Status:</Text>
+          <View style={styles.pickerContainer}>
+            <Picker
+              selectedValue={statusFilter}
+              onValueChange={(value: string) => {
+                setStatusFilter(value);
+                filterProjects();
+              }}
+              style={styles.picker}
+            >
+              <Picker.Item label="---" value="null" style={{ fontSize: 14 }} />
+              {uniqueStatuses.map(status => (
+                <Picker.Item key={status} label={status} value={status} style={{ fontSize: 14 }} />
+              ))}
+            </Picker>
+          </View>
+        </View>
+      </View>
       {location ? (
         <View>
-          <Text style={styles.text}>
-            Location: Latitude {location.coords.latitude.toFixed(8)}, 
-            Longitude {location.coords.longitude.toFixed(8)}
-          </Text>
-          {!searchQuery.trim() && (
+          {isAdmin && showCoordinates && (
+            <Text style={styles.text}>
+              Location: Latitude {location.coords.latitude.toFixed(8)}, Longitude {location.coords.longitude.toFixed(8)}
+            </Text>
+          )}
+          {!showAllProjects && !searchQuery.trim() && categoryFilter === "null" && regionFilter === "null" && statusFilter === "null" && (
             <Text style={styles.radiusText}>
               Showing projects within 5 km
             </Text>
@@ -319,44 +464,63 @@ export default function App() {
             contentContainerStyle={styles.scrollContent}
             onScroll={({ nativeEvent }) => {
               const { layoutMeasurement, contentOffset, contentSize } = nativeEvent;
-              const isCloseToBottom = layoutMeasurement.height + contentOffset.y >= contentSize.height - 200;
+              const isCloseToBottom = layoutMeasurement.height + contentOffset.y >= contentSize.height - 50;
               
-              if (isCloseToBottom && hasMoreProjects && !isLoadingMore) {
-                loadMoreProjects();
+              if (isCloseToBottom && !isLoadingMore) {
+                // Only fetch more projects when user has explicitly scrolled to bottom
+                setIsLoadingMore(true);
+                fetchProjects(currentPage + 1, location?.coords, true)
+                  .finally(() => setIsLoadingMore(false));
               }
             }}
-            scrollEventThrottle={200}
+            scrollEventThrottle={400}  // Reduced from 200 to 400 to check less frequently
           >
             {Array.isArray(filteredProjects) && filteredProjects.length > 0 ? (
               <>
                 {filteredProjects.map((project: ProjectData, index: number) => (
-                  <View key={`${project._id}-${index}`} style={styles.panel}>
-                    <View style={styles.panelHeader}>
-                      <Text style={styles.headerText}>{project.project_name}</Text>
+                  <View key={`${project._id}-${index}`} style={styles.projectCard}>
+                    <Text style={styles.projectTitle}>{project.project_name}</Text>
+                    <View style={styles.projectDetails}>
+                      <Text style={styles.detailLabel}>Location:</Text>
+                      <Text style={styles.detailText}>
+                        {isAdmin && showCoordinates && project.location?.coordinates 
+                          ? `[${project.location.coordinates[1]}, ${project.location.coordinates[0]}]`
+                          : project.address}
+                      </Text>
                     </View>
-                    <View style={styles.subheadingContainer}>
-                      <Text style={styles.subheadingLabel}>Type:</Text>
-                      <Text style={styles.subheadingValue}>{project.category}</Text>
+                    <View style={styles.projectDetails}>
+                      <Text style={styles.detailLabel}>Type:</Text>
+                      <Text style={styles.detailText}>{project.category}</Text>
                     </View>
-                    <View style={styles.subheadingContainer}>
-                      <Text style={styles.subheadingLabel}>Location:</Text>
-                      <Text style={styles.subheadingValue}>{project.location?.coordinates?.[0]}, {project.location?.coordinates?.[1]}</Text>
+                    <View style={styles.projectDetails}>
+                      <Text style={styles.detailLabel}>Region:</Text>
+                      <Text style={styles.detailText}>{project.region}</Text>
                     </View>
-                    <View style={styles.subheadingContainer}>
-                      <Text style={styles.subheadingLabel}>Region:</Text>
-                      <Text style={styles.subheadingValue}>{project.region}</Text>
+                    <View style={styles.projectDetails}>
+                      <Text style={styles.detailLabel}>Status:</Text>
+                      <Text style={styles.detailText}>{project.status}</Text>
                     </View>
-                    <View style={styles.subheadingContainer}>
-                      <Text style={styles.subheadingLabel}>Status:</Text>
-                      <Text style={styles.subheadingValue}>{project.status}</Text>
+                    <View style={styles.projectDetails}>
+                      <Text style={styles.detailLabel}>Start Date:</Text>
+                      <Text style={styles.detailText}>
+                        {project.construction_start_date ? new Date(project.construction_start_date).toLocaleDateString() : 'Not set'}
+                      </Text>
                     </View>
-                    <View style={styles.subheadingContainer}>
-                      <Text style={styles.subheadingLabel}>Completion Date:</Text>
-                      <Text style={styles.subheadingValue}>{new Date(project.current_completion_date).toLocaleDateString()}</Text>
+                    <View style={styles.projectDetails}>
+                      <Text style={styles.detailLabel}>Original Completion:</Text>
+                      <Text style={styles.detailText}>
+                        {project.original_completion_date ? new Date(project.original_completion_date).toLocaleDateString() : 'Not set'}
+                      </Text>
                     </View>
-                    <View style={styles.buttonContainer}>
+                    <View style={styles.projectDetails}>
+                      <Text style={styles.detailLabel}>Current Completion:</Text>
+                      <Text style={styles.detailText}>
+                        {project.current_completion_date ? new Date(project.current_completion_date).toLocaleDateString() : 'Not set'}
+                      </Text>
+                    </View>
+                    <View style={styles.buttonRow}>
                       <TouchableOpacity 
-                        style={[styles.button, styles.viewButton]}
+                        style={styles.viewButton}
                         onPress={async () => {
                           // Double-check role before navigation
                           const userData = await AsyncStorage.getItem('userData');
@@ -366,7 +530,7 @@ export default function App() {
                           }
 
                           const { role } = JSON.parse(userData);
-                          console.log('Navigating with role:', role); // Debug log
+                          console.log('Navigating with role:', role);
 
                           // Strict routing based on role
                           if (role === 'admin') {
@@ -390,17 +554,16 @@ export default function App() {
                       >
                         <Text style={styles.buttonText}>View Reports</Text>
                       </TouchableOpacity>
+
                       <TouchableOpacity 
-                        style={[styles.button, styles.createButton]}
-                        onPress={() => {
-                          router.push({
-                            pathname: '/createreport',
-                            params: { 
-                              projectId: project._id,
-                              projectName: project.project_name
-                            }
-                          });
-                        }}
+                        style={[styles.viewButton, styles.createButton]}
+                        onPress={() => router.push({
+                          pathname: '/createreport',
+                          params: { 
+                            projectId: project._id,
+                            projectName: project.project_name
+                          }
+                        })}
                       >
                         <Text style={styles.buttonText}>Create Report</Text>
                       </TouchableOpacity>
@@ -417,14 +580,9 @@ export default function App() {
               </>
             ) : (
               <Text style={styles.noProjects}>
-                {searchQuery 
-                  ? "No projects found matching your search"
-                  : "No projects found within 5 km of your location"}
-              </Text>
-            )}
-            {hasMoreProjects && !isLoadingMore && filteredProjects.length > 0 && projects.length < totalProjects && (
-              <Text style={styles.scrollIndicatorText}>
-                Scroll for more projects...
+                {categoryFilter === "null" && regionFilter === "null" && statusFilter === "null" && location
+                  ? "No projects found within 5 km"
+                  : "No projects found"}
               </Text>
             )}
           </ScrollView>
@@ -476,11 +634,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   title: {
-    color: "#000",
-    fontSize: 24,
+    fontSize: 28,
+    fontWeight: '600',
+    color: '#2c3e50',
     textAlign: "center",
-    marginBottom: 20,
-    fontWeight: "bold",
+    marginBottom: 25,
     marginTop: 10,
   },
   text: {
@@ -494,76 +652,69 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingBottom: 80, // Increased to make room for pagination
   },
-  panel: {
+  projectCard: {
     width: "100%",
     maxWidth: 350,
     backgroundColor: "#fff",
-    borderRadius: 10,
+    borderRadius: 8,
     borderWidth: 1,
-    borderColor: "#000",
-    padding: 12,
+    borderColor: "#e1e4e8",
+    padding: 15,
     marginBottom: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  projectTitle: {
+    fontSize: 14,
+    fontWeight: "bold",
+    textAlign: "left",
+    marginBottom: 8,
+  },
+  projectDetails: {
+    flexDirection: "row",
+    marginBottom: 6,
+    alignItems: "center",
+  },
+  detailLabel: {
+    fontSize: 14,
+    fontWeight: "bold",
+    marginRight: 8,
+    width: 100,
+    color: '#333',
+  },
+  detailText: {
+    fontSize: 12,
+    fontWeight: "normal",
+    flex: 1,
   },
   logoutButton: {
     position: 'absolute',
     left: 20,
     top: 15,
     backgroundColor: '#dc3545',
-    padding: 6,
-    borderRadius: 5,
-    zIndex: 1,
+    padding: 8,
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
   },
   logoutText: {
     color: '#fff',
     fontSize: 12,
     fontWeight: 'bold',
   },
-  panelHeader: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    marginBottom: 8,
-  },
-  headerText: {
-    fontSize: 14,
-    fontWeight: "bold",
-    textAlign: "left",
-  },
-  subheadingContainer: {
-    flexDirection: "row",
-    marginBottom: 6,
-    alignItems: "center",
-  },
-  subheadingLabel: {
-    fontSize: 12,
-    fontWeight: "bold",
-    marginRight: 8,
-    width: 100,
-  },
-  subheadingValue: {
-    fontSize: 12,
-    fontWeight: "normal",
-    flex: 1,
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 8,
-  },
-  button: {
+  viewButton: {
     borderRadius: 20,
     paddingVertical: 12,
     paddingHorizontal: 20,
     alignItems: "center",
     flex: 1,
     marginHorizontal: 5,
-  },
-  viewButton: {
-    paddingVertical: 12,
-    backgroundColor: "#007BFF",
-  },
-  createButton: {
-    paddingVertical: 12,
     backgroundColor: "#007BFF",
   },
   buttonText: {
@@ -625,12 +776,84 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   searchInput: {
+    backgroundColor: '#f8f9fa',
     height: 40,
     borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    backgroundColor: '#fff',
+    borderColor: '#e1e4e8',
+    borderRadius: 25,
+    paddingHorizontal: 20,
     fontSize: 16,
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+    gap: 10,
+  },
+  createButton: {
+    backgroundColor: "#007BFF",
+  },
+  filtersContainer: {
+    marginVertical: 20,
+    paddingHorizontal: 20,
+    width: '100%',
+    alignSelf: 'center',
+  },
+  filterItem: {
+    marginBottom: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    height: 35,
+  },
+  filterLabel: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+    width: '30%',
+  },
+  pickerContainer: {
+    borderWidth: 1,
+    borderColor: '#e1e4e8',
+    borderRadius: 8,
+    overflow: 'hidden',
+    backgroundColor: '#fff',
+    width: '68%',
+    height: 35,
+  },
+  picker: {
+    width: '100%',
+    color: '#000',
+    marginTop: -8,
+    marginLeft: -8,
+  },
+  checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 15,
+    marginTop: -15,
+    marginLeft: 0,
+    paddingLeft: 0,
+  },
+  checkbox: {
+    width: 20,
+    height: 20,
+    borderWidth: 1,
+    borderColor: '#007BFF',
+    borderRadius: 4,
+    marginRight: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  checkboxChecked: {
+    backgroundColor: '#007BFF',
+  },
+  checkmark: {
+    color: 'white',
+    fontSize: 14,
+  },
+  checkboxLabel: {
+    fontSize: 16,
+    color: '#333',
   },
 });

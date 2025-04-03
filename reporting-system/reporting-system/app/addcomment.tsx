@@ -7,10 +7,12 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
+  Alert,
 } from "react-native";
 import { router, useLocalSearchParams } from 'expo-router';
 import * as ImagePicker from "expo-image-picker";
 import { Camera } from "expo-camera";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const DEV_API_URL = __DEV__ 
   ? 'http://192.168.2.38:5000'
@@ -58,15 +60,22 @@ const AddCommentPage = () => {
 
   const handleCreateComment = async () => {
     try {
+      const userData = await AsyncStorage.getItem('userData');
+      if (!userData) {
+        Alert.alert('Error', 'User data not found');
+        return;
+      }
+      const { id: userId, role } = JSON.parse(userData);
+
       if (!commentText) {
         alert("Comment text is required");
         return;
       }
 
-      const requestData = {
+      const commentData = {
         body: commentText,
         report: reportId,
-        user: "65f3c1d2f3c1d2f3c1d2f3c1",
+        user: userId,
         image: image || undefined
       };
 
@@ -75,7 +84,7 @@ const AddCommentPage = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(requestData)
+        body: JSON.stringify(commentData)
       });
 
       const rawResponse = await response.text();
@@ -95,15 +104,26 @@ const AddCommentPage = () => {
         throw new Error('Failed to parse server response');
       }
 
-      if (!response.ok) {
-        throw new Error(`Server error: ${response.status}\nDetails: ${JSON.stringify(responseData)}`);
+      if (response.ok) {
+        Alert.alert(
+          "Success",
+          "Comment added successfully!",
+          [
+            {
+              text: "OK",
+              onPress: () => {
+                const route = role === 'admin' ? '/viewreports' : '/viewreportsuser';
+                router.replace({
+                  pathname: route,
+                  params: { projectId, projectName }
+                });
+              }
+            }
+          ]
+        );
+      } else {
+        throw new Error(`Server error: ${response.status}\nDetails: ${responseData}`);
       }
-
-      alert("Comment Added Successfully!");
-      router.push({
-        pathname: '/viewreports',
-        params: { projectId, projectName }
-      });
     } catch (error: any) {
       console.error('Error details:', error);
       setErrorMessage(`Error: ${error.message}`);
@@ -135,7 +155,7 @@ const AddCommentPage = () => {
           </View>
           
           <TextInput
-            style={[styles.textInput, { 
+            style={[styles.commentInput, { 
               height: 150,
               textAlignVertical: 'top'
             }]}
@@ -177,7 +197,8 @@ const AddCommentPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    padding: 20,
+    backgroundColor: '#fff',
   },
   scrollContent: {
     flexGrow: 1,
@@ -198,9 +219,11 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   title: {
-    color: "#000",
-    fontSize: 24,
-    textAlign: "center",
+    fontSize: 28,
+    fontWeight: '600',
+    color: '#2c3e50',
+    marginBottom: 25,
+    textAlign: 'center',
   },
   panel: {
     width: '100%',
@@ -236,12 +259,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "normal",
   },
-  textInput: {
+  commentInput: {
+    backgroundColor: '#f8f9fa',
     borderWidth: 1,
-    borderColor: "#000",
-    borderRadius: 5,
-    padding: 10,
-    width: "100%",
+    borderColor: '#e1e4e8',
+    borderRadius: 8,
+    padding: 15,
+    fontSize: 16,
+    minHeight: 80,
+    marginBottom: 15,
   },
   errorContainer: {
     backgroundColor: '#ffcccc',
@@ -257,14 +283,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 15,
+    marginTop: 10,
   },
   imageButton: {
     backgroundColor: '#007BFF',
-    borderRadius: 20,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
+    borderRadius: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
     flex: 0.48,
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
   },
   imageContainer: {
     alignItems: 'center',

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, Modal, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, Modal, Dimensions, SafeAreaView, Alert } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import { DEV_API_URL } from '../constants';
 
 type Comment = {
   _id: string;
@@ -22,8 +23,9 @@ type Report = {
   };
   createdAt: string;
   project: string;
-  showComments?: boolean; // Added to track comment visibility
+  showComments?: boolean;
   approved: boolean;
+  user: string;
 };
 
 export default function ViewReportsUser() {
@@ -33,17 +35,51 @@ export default function ViewReportsUser() {
   const router = useRouter();
   const [comments, setComments] = useState<{ [key: string]: Comment[] }>({});
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [usernames, setUsernames] = useState<{ [key: string]: string }>({});
+
+  const fetchUsernames = async (reports: Report[]) => {
+    try {
+      const response = await fetch('http://192.168.2.38:5000/api/users');
+      const data = await response.json();
+      console.log('Users data:', data.data);
+      
+      const usernameMap = data.data.reduce((acc: { [key: string]: string }, user: any) => {
+        console.log('Adding user to map:', user._id, user.username);
+        acc[user._id] = user.username;
+        return acc;
+      }, {});
+      
+      console.log('Final username map:', usernameMap);
+      setUsernames(usernameMap);
+    } catch (error) {
+      console.error('Error fetching usernames:', error);
+    }
+  };
 
   const fetchReports = async () => {
     try {
-      const response = await fetch(`http://192.168.2.38:5000/api/reports/project/${projectId}`);
+      const response = await fetch(`${DEV_API_URL}/api/reports/project/${projectId}`);
       const data = await response.json();
       
-      // Only show approved reports
-      const approvedReports = data.data.filter((report: Report) => report.approved);
-      setReports(approvedReports);
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
+      }
+      
+      if (data && Array.isArray(data.data)) {
+        const sortedReports = data.data
+          .filter((report: Report) => report.approved)
+          .sort((a: Report, b: Report) => 
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+        setReports(sortedReports);
+        await fetchUsernames(sortedReports);
+      } else {
+        setReports([]);
+      }
     } catch (error) {
       console.error('Error fetching reports:', error);
+      setReports([]);
+      Alert.alert('Error', 'Failed to load reports');
     }
   };
 
@@ -73,12 +109,24 @@ export default function ViewReportsUser() {
       const data = await response.json();
       console.log('Received comments:', data);
       
-      // Make sure we're only storing comments for this specific report
+      // Get all unique user IDs from comments
+      const commentUserIds = [...new Set(data.data.map((comment: Comment) => comment.user))];
+      
+      // Fetch users data for these comments
+      const usersResponse = await fetch('http://192.168.2.38:5000/api/users');
+      const usersData = await usersResponse.json();
+      
+      // Update username map with any new users
+      const newUsernameMap = { ...usernames };
+      usersData.data.forEach((user: any) => {
+        newUsernameMap[user._id] = user.username;
+      });
+      setUsernames(newUsernameMap);
+      
+      // Filter and set comments
       const filteredComments = data.data?.filter(
         (comment: Comment) => comment.report === reportId
       ) || [];
-      
-      console.log('Filtered comments:', filteredComments);
       
       setComments(prev => ({ 
         ...prev, 
@@ -94,12 +142,18 @@ export default function ViewReportsUser() {
   }, [projectId]);
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView 
+      style={styles.container}
+      contentContainerStyle={{ paddingBottom: 30 }}
+    >
       <Text style={styles.title}>Reports for {projectName}</Text>
       {reports.map((report, index) => (
         <View key={index} style={styles.reportCard}>
-          <Text style={styles.reportTitle}>{report.title}</Text>
-          <Text style={styles.reportBody}>{report.body}</Text>
+          <View style={styles.reportHeader}>
+            <Text style={styles.reportTitle}>{report.title}</Text>
+            <Text style={[styles.reportAuthor, { marginTop: 4 }]}>by {usernames[report.user] || 'unknown'}</Text>
+          </View>
+          
           {report.image && (
             <TouchableOpacity 
               style={styles.imageContainer}
@@ -108,6 +162,9 @@ export default function ViewReportsUser() {
               <Image source={{ uri: report.image }} style={styles.reportImage} />
             </TouchableOpacity>
           )}
+          
+          <Text style={styles.reportBody}>{report.body}</Text>
+          
           <Text style={styles.reportDate}>
             Created: {new Date(report.createdAt).toLocaleDateString()}
           </Text>
@@ -138,16 +195,19 @@ export default function ViewReportsUser() {
               {comments[report._id]?.length > 0 ? (
                 comments[report._id].map((comment, idx) => (
                   <View key={idx} style={styles.commentItem}>
-                    <Text style={styles.commentText}>{comment.body}</Text>
+                    <Text style={styles.commentAuthor}>{usernames[comment.user] || 'Unknown'}</Text>
                     {comment.image && (
                       <View style={styles.commentImageContainer}>
-                        <Image 
-                          source={{ uri: comment.image }} 
-                          style={styles.commentImage}
-                          resizeMode="cover"
-                        />
+                        <TouchableOpacity onPress={() => setSelectedImage(comment.image as string)}>
+                          <Image 
+                            source={{ uri: comment.image }} 
+                            style={styles.commentImage}
+                            resizeMode="cover"
+                          />
+                        </TouchableOpacity>
                       </View>
                     )}
+                    <Text style={styles.commentText}>{comment.body}</Text>
                     <Text style={styles.commentDate}>
                       {new Date(comment.createdAt).toLocaleDateString()}
                     </Text>
@@ -165,18 +225,21 @@ export default function ViewReportsUser() {
         visible={!!selectedImage}
         transparent={true}
         onRequestClose={() => setSelectedImage(null)}
+        statusBarTranslucent={true}
       >
-        <TouchableOpacity 
-          style={styles.modalBackground}
-          activeOpacity={1}
-          onPress={() => setSelectedImage(null)}
-        >
-          <Image
-            source={{ uri: selectedImage || '' }}
-            style={styles.modalImage}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
+        <SafeAreaView style={styles.modalContainer}>
+          <TouchableOpacity 
+            style={styles.modalBackground}
+            activeOpacity={1}
+            onPress={() => setSelectedImage(null)}
+          >
+            <Image
+              source={{ uri: selectedImage || '' }}
+              style={styles.modalImage}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        </SafeAreaView>
       </Modal>
     </ScrollView>
   );
@@ -187,25 +250,38 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: '#fff',
+    paddingBottom: 80,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-    marginTop: 40,
+    marginTop: 20,
   },
   reportCard: {
     padding: 15,
     borderRadius: 10,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#fff',
     marginBottom: 15,
     borderWidth: 1,
     borderColor: '#ddd',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  reportHeader: {
+    marginBottom: 10,
   },
   reportTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 10,
+  },
+  reportAuthor: {
+    fontSize: 14,
+    color: '#666',
+    fontStyle: 'italic',
   },
   reportBody: {
     fontSize: 16,
@@ -224,11 +300,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     marginTop: 20,
-  },
-  reportLocation: {
-    fontSize: 14,
-    color: '#666',
-    marginTop: 5,
   },
   commentButton: {
     backgroundColor: '#007BFF',
@@ -271,6 +342,11 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     marginBottom: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 2,
   },
   commentText: {
     fontSize: 14,
@@ -299,31 +375,30 @@ const styles = StyleSheet.create({
   },
   commentImageContainer: {
     marginVertical: 8,
-    alignItems: 'center',
     width: '100%',
-    height: 150,
-    borderRadius: 6,
-    overflow: 'hidden',
+    height: 200,
   },
   commentImage: {
     width: '100%',
     height: '100%',
   },
-  modalBackground: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+  modalContainer: {
+    flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
+  modalBackground: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 9999,
-    elevation: 5,
-    height: '100%',
   },
   modalImage: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height * 0.8,
+  },
+  commentAuthor: {
+    fontSize: 12,
+    color: '#666',
+    fontStyle: 'italic',
+    marginTop: 4,
   },
 });

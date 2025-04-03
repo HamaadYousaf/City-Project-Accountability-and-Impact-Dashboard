@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Image, Mod
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
+import { DEV_API_URL } from '../constants';
 
 type Comment = {
   _id: string;
@@ -27,6 +28,7 @@ type Report = {
   status?: 'pending' | 'approved' | 'rejected';
   approved?: boolean;
   showComments?: boolean;
+  user: string;
 };
 
 export default function ViewReports() {
@@ -37,6 +39,7 @@ export default function ViewReports() {
   const router = useRouter();
   const [comments, setComments] = useState<{ [key: string]: Comment[] }>({});
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [usernames, setUsernames] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     const getUserRole = async () => {
@@ -52,14 +55,48 @@ export default function ViewReports() {
     getUserRole();
   }, []);
 
+  const fetchUsernames = async (reports: Report[]) => {
+    try {
+      const response = await fetch('http://192.168.2.38:5000/api/users');
+      const data = await response.json();
+      console.log('Users data:', data.data);
+      
+      const usernameMap = data.data.reduce((acc: { [key: string]: string }, user: any) => {
+        console.log('Adding user to map:', user._id, user.username);
+        acc[user._id] = user.username;
+        return acc;
+      }, {});
+      
+      console.log('Final username map:', usernameMap);
+      setUsernames(usernameMap);
+    } catch (error) {
+      console.error('Error fetching usernames:', error);
+    }
+  };
+
   const fetchReports = async () => {
     try {
-      // Admin endpoint that returns ALL reports
-      const response = await fetch(`http://192.168.2.38:5000/api/reports/project/admin/${projectId}`);
+      const response = await fetch(`${DEV_API_URL}/api/reports/project/admin/${projectId}`);
       const data = await response.json();
-      setReports(data.data);
+      
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
+      }
+      
+      if (data && Array.isArray(data.data)) {
+        const sortedReports = data.data
+          .sort((a: Report, b: Report) => 
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+        setReports(sortedReports);
+        await fetchUsernames(sortedReports);
+      } else {
+        setReports([]);
+      }
     } catch (error) {
       console.error('Error fetching reports:', error);
+      setReports([]);
+      Alert.alert('Error', 'Failed to load reports');
     }
   };
 
@@ -164,7 +201,6 @@ export default function ViewReports() {
 
   const fetchComments = async (reportId: string) => {
     try {
-      // Add console.log to debug
       console.log('Fetching comments for report:', reportId);
       
       const response = await fetch(`http://192.168.2.38:5000/api/comments?report=${reportId}`);
@@ -175,12 +211,24 @@ export default function ViewReports() {
       const data = await response.json();
       console.log('Received comments:', data);
       
-      // Make sure we're only storing comments for this specific report
+      // Get all unique user IDs from comments
+      const commentUserIds = [...new Set(data.data.map((comment: Comment) => comment.user))];
+      
+      // Fetch users data for these comments
+      const usersResponse = await fetch('http://192.168.2.38:5000/api/users');
+      const usersData = await usersResponse.json();
+      
+      // Update username map with any new users
+      const newUsernameMap = { ...usernames };
+      usersData.data.forEach((user: any) => {
+        newUsernameMap[user._id] = user.username;
+      });
+      setUsernames(newUsernameMap);
+      
+      // Filter and set comments
       const filteredComments = data.data?.filter(
         (comment: Comment) => comment.report === reportId
       ) || [];
-      
-      console.log('Filtered comments:', filteredComments);
       
       setComments(prev => ({ 
         ...prev, 
@@ -242,12 +290,18 @@ export default function ViewReports() {
   );
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView 
+      style={styles.container}
+      contentContainerStyle={{ paddingBottom: 30 }}
+    >
       <Text style={styles.title}>Reports for {projectName}</Text>
       {reports.map((report, index) => (
         <View key={index} style={styles.reportCard}>
           <View style={styles.reportHeader}>
-            <Text style={styles.reportTitle}>{report.title}</Text>
+            <View style={styles.titleContainer}>
+              <Text style={styles.reportTitle}>{report.title}</Text>
+              <Text style={[styles.reportAuthor, { marginTop: 4 }]}>by {usernames[report.user] || 'unknown'}</Text>
+            </View>
             <View style={styles.headerRight}>
               <Text style={[styles.statusBadge, report.approved ? styles.statusApproved : styles.statusPending]}>
                 {report.approved ? 'APPROVED' : 'PENDING'}
@@ -270,7 +324,7 @@ export default function ViewReports() {
               </View>
             </View>
           </View>
-          <Text style={styles.reportBody}>{report.body}</Text>
+
           {report.image && (
             <TouchableOpacity 
               style={styles.imageContainer}
@@ -283,11 +337,11 @@ export default function ViewReports() {
               />
             </TouchableOpacity>
           )}
+          
+          <Text style={styles.reportBody}>{report.body}</Text>
+          
           <Text style={styles.reportDate}>
             Created: {new Date(report.createdAt).toLocaleDateString()}
-          </Text>
-          <Text style={styles.reportLocation}>
-            Location: {report.location.coordinates.join(', ')}
           </Text>
           <View style={styles.buttonRow}>
             <TouchableOpacity 
@@ -316,7 +370,7 @@ export default function ViewReports() {
                 comments[report._id].map((comment, idx) => (
                   <View key={idx} style={styles.commentItem}>
                     <View style={styles.commentHeader}>
-                      <Text style={styles.commentText}>{comment.body}</Text>
+                      <Text style={styles.commentAuthor}>{usernames[comment.user] || 'Unknown'}</Text>
                       <TouchableOpacity 
                         style={styles.deleteCommentButton}
                         onPress={() => handleDeleteComment(comment._id, report._id)}
@@ -326,13 +380,16 @@ export default function ViewReports() {
                     </View>
                     {comment.image && (
                       <View style={styles.commentImageContainer}>
-                        <Image 
-                          source={{ uri: comment.image }} 
-                          style={styles.commentImage}
-                          resizeMode="cover"
-                        />
+                        <TouchableOpacity onPress={() => setSelectedImage(comment.image as string)}>
+                          <Image 
+                            source={{ uri: comment.image }} 
+                            style={styles.commentImage}
+                            resizeMode="cover"
+                          />
+                        </TouchableOpacity>
                       </View>
                     )}
+                    <Text style={styles.commentText}>{comment.body}</Text>
                     <Text style={styles.commentDate}>
                       {new Date(comment.createdAt).toLocaleDateString()}
                     </Text>
@@ -375,20 +432,26 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: '#fff',
+    paddingBottom: 80,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-    marginTop: 40,
+    marginTop: 20,
   },
   reportCard: {
     padding: 15,
     borderRadius: 10,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#fff',
     marginBottom: 15,
     borderWidth: 1,
     borderColor: '#ddd',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   reportHeader: {
     flexDirection: 'row',
@@ -396,10 +459,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
   },
+  titleContainer: {
+    flex: 1,
+  },
   reportTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    flex: 1,
+  },
+  reportAuthor: {
+    fontSize: 14,
+    color: '#666',
+    fontStyle: 'italic',
   },
   reportBody: {
     fontSize: 16,
@@ -408,11 +478,6 @@ const styles = StyleSheet.create({
   reportDate: {
     fontSize: 14,
     color: '#666',
-  },
-  reportLocation: {
-    fontSize: 14,
-    color: '#666',
-    marginTop: 5,
   },
   errorText: {
     color: 'red',
@@ -522,6 +587,11 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     marginBottom: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 2,
   },
   commentText: {
     fontSize: 14,
@@ -549,15 +619,18 @@ const styles = StyleSheet.create({
   },
   commentImageContainer: {
     marginVertical: 8,
-    alignItems: 'center',
     width: '100%',
-    height: 150,
-    borderRadius: 6,
-    overflow: 'hidden',
+    height: 200,
   },
   commentImage: {
     width: '100%',
     height: '100%',
+  },
+  commentAuthor: {
+    fontSize: 12,
+    color: '#666',
+    fontStyle: 'italic',
+    marginTop: 4,
   },
   modalContainer: {
     flex: 1,
@@ -571,5 +644,10 @@ const styles = StyleSheet.create({
   modalImage: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height * 0.8,
+  },
+  commentFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 }); 
