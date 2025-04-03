@@ -1,8 +1,6 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Image, Modal, Dimensions, SafeAreaView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, Modal, Dimensions, SafeAreaView, Alert } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useFocusEffect } from '@react-navigation/native';
 import { DEV_API_URL } from '../constants';
 
 type Comment = {
@@ -25,35 +23,19 @@ type Report = {
   };
   createdAt: string;
   project: string;
-  status?: 'pending' | 'approved' | 'rejected';
-  approved?: boolean;
   showComments?: boolean;
+  approved: boolean;
   user: string;
 };
 
-export default function ViewReports() {
+export default function ViewReportsUser() {
   const { projectId, projectName } = useLocalSearchParams();
   const [reports, setReports] = useState<Report[]>([]);
   const [error, setError] = useState<string>("");
-  const [userRole, setUserRole] = useState<string>('');
   const router = useRouter();
   const [comments, setComments] = useState<{ [key: string]: Comment[] }>({});
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [usernames, setUsernames] = useState<{ [key: string]: string }>({});
-
-  useEffect(() => {
-    const getUserRole = async () => {
-      const userData = await AsyncStorage.getItem('userData');
-      console.log('ViewReports - Raw userData:', userData);
-      if (userData) {
-        const parsed = JSON.parse(userData);
-        console.log('ViewReports - Parsed userData:', parsed);
-        console.log('ViewReports - User role:', parsed.role);
-        setUserRole(parsed.role);
-      }
-    };
-    getUserRole();
-  }, []);
 
   const fetchUsernames = async (reports: Report[]) => {
     try {
@@ -76,7 +58,7 @@ export default function ViewReports() {
 
   const fetchReports = async () => {
     try {
-      const response = await fetch(`${DEV_API_URL}/api/reports/project/admin/${projectId}`);
+      const response = await fetch(`${DEV_API_URL}/api/reports/project/${projectId}`);
       const data = await response.json();
       
       if (!response.ok) {
@@ -85,6 +67,7 @@ export default function ViewReports() {
       
       if (data && Array.isArray(data.data)) {
         const sortedReports = data.data
+          .filter((report: Report) => report.approved)
           .sort((a: Report, b: Report) => 
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
           );
@@ -98,91 +81,6 @@ export default function ViewReports() {
       setReports([]);
       Alert.alert('Error', 'Failed to load reports');
     }
-  };
-
-  const handleApproval = async (reportId: string, action: 'approve' | 'reject') => {
-    try {
-      const response = await fetch(`http://192.168.2.38:5000/api/reports/${reportId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          approved: true  // Simply update the approved field
-        })
-      });
-
-      if (!response.ok) {
-        const errorData = await response.text();
-        console.error('Approval error response:', errorData);
-        throw new Error(`Failed to approve report`);
-      }
-
-      // Update local state
-      setReports(prevReports => 
-        prevReports.map(report => 
-          report._id === reportId 
-            ? { ...report, status: 'approved', approved: true }
-            : report
-        )
-      );
-
-      Alert.alert('Success', 'Report approved successfully');
-    } catch (error) {
-      console.error('Approval error:', error);
-      Alert.alert('Error', 'Failed to approve report');
-    }
-  };
-
-  const handleDeleteReport = async (reportId: string) => {
-    Alert.alert(
-      "Delete Report",
-      "Are you sure you want to delete this report? This action cannot be undone.",
-      [
-        {
-          text: "Cancel",
-          style: "cancel"
-        },
-        {
-          text: "Delete",
-          style: "destructive",
-          onPress: async () => {
-            try {
-              const response = await fetch(`http://192.168.2.38:5000/api/reports/${reportId}`, {
-                method: 'DELETE',
-                headers: {
-                  'Content-Type': 'application/json',
-                }
-              });
-
-              if (!response.ok) {
-                // Try to parse as JSON first
-                const contentType = response.headers.get("content-type");
-                let errorMessage = '';
-                
-                if (contentType && contentType.includes("application/json")) {
-                  const errorData = await response.json();
-                  errorMessage = errorData.message || 'Failed to delete report';
-                } else {
-                  // If not JSON, get the text response
-                  errorMessage = await response.text();
-                }
-                
-                throw new Error(errorMessage);
-              }
-
-              // Remove the deleted report from the state
-              setReports(prevReports => prevReports.filter(report => report._id !== reportId));
-              Alert.alert("Success", "Report deleted successfully");
-            } catch (error) {
-              const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-              Alert.alert("Error", `Failed to delete report: ${errorMessage}`);
-              console.error('Delete report error:', error);
-            }
-          }
-        }
-      ]
-    );
   };
 
   const toggleComments = async (reportId: string) => {
@@ -239,55 +137,9 @@ export default function ViewReports() {
     }
   };
 
-  const handleDeleteComment = async (commentId: string, reportId: string) => {
-    Alert.alert(
-      "Delete Comment",
-      "Are you sure you want to delete this comment?",
-      [
-        {
-          text: "Cancel",
-          style: "cancel"
-        },
-        {
-          text: "Delete",
-          style: "destructive",
-          onPress: async () => {
-            try {
-              // Update URL to match backend route structure
-              const response = await fetch(`http://192.168.2.38:5000/api/comments/${commentId}`, {
-                method: 'DELETE',
-                headers: {
-                  'Content-Type': 'application/json',
-                }
-              });
-
-              if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(`Failed to delete comment: ${response.status}\n${errorText}`);
-              }
-
-              // Refresh comments for this report
-              fetchComments(reportId);
-              Alert.alert("Success", "Comment deleted successfully");
-            } catch (error) {
-              const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-              Alert.alert("Error", `Failed to delete comment: ${errorMessage}`);
-            }
-          }
-        }
-      ]
-    );
-  };
-
   useEffect(() => {
     fetchReports();
   }, [projectId]);
-
-  useFocusEffect(
-    useCallback(() => {
-      fetchReports();
-    }, [])
-  );
 
   return (
     <ScrollView 
@@ -298,43 +150,16 @@ export default function ViewReports() {
       {reports.map((report, index) => (
         <View key={index} style={styles.reportCard}>
           <View style={styles.reportHeader}>
-            <View style={styles.titleContainer}>
-              <Text style={styles.reportTitle}>{report.title}</Text>
-              <Text style={[styles.reportAuthor, { marginTop: 4 }]}>by {usernames[report.user] || 'unknown'}</Text>
-            </View>
-            <View style={styles.headerRight}>
-              <Text style={[styles.statusBadge, report.approved ? styles.statusApproved : styles.statusPending]}>
-                {report.approved ? 'APPROVED' : 'PENDING'}
-              </Text>
-              <View style={styles.headerButtons}>
-                {!report.approved && (
-                  <TouchableOpacity 
-                    style={[styles.headerButton, styles.approveButton]}
-                    onPress={() => handleApproval(report._id, 'approve')}
-                  >
-                    <Text style={styles.buttonText}>Approve</Text>
-                  </TouchableOpacity>
-                )}
-                <TouchableOpacity 
-                  style={[styles.headerButton, styles.deleteButton]}
-                  onPress={() => handleDeleteReport(report._id)}
-                >
-                  <Text style={styles.buttonText}>Delete</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
+            <Text style={styles.reportTitle}>{report.title}</Text>
+            <Text style={[styles.reportAuthor, { marginTop: 4 }]}>by {usernames[report.user] || 'unknown'}</Text>
           </View>
-
+          
           {report.image && (
             <TouchableOpacity 
               style={styles.imageContainer}
               onPress={() => setSelectedImage(report.image || null)}
             >
-              <Image 
-                source={{ uri: report.image }} 
-                style={styles.reportImage}
-                resizeMode="cover"
-              />
+              <Image source={{ uri: report.image }} style={styles.reportImage} />
             </TouchableOpacity>
           )}
           
@@ -343,6 +168,7 @@ export default function ViewReports() {
           <Text style={styles.reportDate}>
             Created: {new Date(report.createdAt).toLocaleDateString()}
           </Text>
+          
           <View style={styles.buttonRow}>
             <TouchableOpacity 
               style={styles.commentButton}
@@ -369,15 +195,7 @@ export default function ViewReports() {
               {comments[report._id]?.length > 0 ? (
                 comments[report._id].map((comment, idx) => (
                   <View key={idx} style={styles.commentItem}>
-                    <View style={styles.commentHeader}>
-                      <Text style={styles.commentAuthor}>{usernames[comment.user] || 'Unknown'}</Text>
-                      <TouchableOpacity 
-                        style={styles.deleteCommentButton}
-                        onPress={() => handleDeleteComment(comment._id, report._id)}
-                      >
-                        <Text style={styles.buttonText}>Delete</Text>
-                      </TouchableOpacity>
-                    </View>
+                    <Text style={styles.commentAuthor}>{usernames[comment.user] || 'Unknown'}</Text>
                     {comment.image && (
                       <View style={styles.commentImageContainer}>
                         <TouchableOpacity onPress={() => setSelectedImage(comment.image as string)}>
@@ -454,13 +272,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   reportHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
     marginBottom: 10,
-  },
-  titleContainer: {
-    flex: 1,
   },
   reportTitle: {
     fontSize: 18,
@@ -488,63 +300,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     marginTop: 20,
-  },
-  headerRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  statusBadge: {
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    borderRadius: 4,
-    fontSize: 12,
-    fontWeight: 'bold',
-  },
-  statusApproved: {
-    backgroundColor: '#28a745',
-    color: '#fff',
-  },
-  statusRejected: {
-    backgroundColor: '#dc3545',
-    color: '#fff',
-  },
-  statusPending: {
-    backgroundColor: '#ffc107',
-    color: '#000',
-  },
-  headerButtons: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  headerButton: {
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    borderRadius: 4,
-    marginLeft: 8,
-  },
-  approveButton: {
-    backgroundColor: '#28a745',
-  },
-  deleteButton: {
-    backgroundColor: '#dc3545',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 12,
-    fontWeight: 'bold',
-  },
-  imageContainer: {
-    marginVertical: 10,
-    alignItems: 'center',
-    width: '100%',
-    height: 200,
-    borderRadius: 8,
-    overflow: 'hidden',
-  },
-  reportImage: {
-    width: '100%',
-    height: '100%',
   },
   commentButton: {
     backgroundColor: '#007BFF',
@@ -606,16 +361,17 @@ const styles = StyleSheet.create({
     color: '#666',
     textAlign: 'center',
   },
-  commentHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
+  imageContainer: {
+    marginVertical: 10,
+    alignItems: 'center',
+    width: '100%',
+    height: 200,
+    borderRadius: 8,
+    overflow: 'hidden',
   },
-  deleteCommentButton: {
-    backgroundColor: '#dc3545',
-    padding: 4,
-    borderRadius: 4,
-    marginLeft: 8,
+  reportImage: {
+    width: '100%',
+    height: '100%',
   },
   commentImageContainer: {
     marginVertical: 8,
@@ -625,12 +381,6 @@ const styles = StyleSheet.create({
   commentImage: {
     width: '100%',
     height: '100%',
-  },
-  commentAuthor: {
-    fontSize: 12,
-    color: '#666',
-    fontStyle: 'italic',
-    marginTop: 4,
   },
   modalContainer: {
     flex: 1,
@@ -645,9 +395,10 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height * 0.8,
   },
-  commentFooter: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+  commentAuthor: {
+    fontSize: 12,
+    color: '#666',
+    fontStyle: 'italic',
+    marginTop: 4,
   },
-}); 
+});

@@ -8,11 +8,13 @@ import {
   ScrollView,
   Image,
   Platform,
+  Alert,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Camera } from "expo-camera";
 import { router, useLocalSearchParams } from 'expo-router';
 import * as Location from 'expo-location';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const DEV_API_URL = __DEV__ 
   ? 'http://192.168.2.38:5000'  // Development server (your computer's IP)
@@ -26,6 +28,7 @@ const ReportCreationPage = () => {
   const [cameraPermission, setCameraPermission] = useState<boolean | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const takePhoto = async () => {
     const { status } = await Camera.requestCameraPermissionsAsync();
@@ -33,7 +36,7 @@ const ReportCreationPage = () => {
       let result = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
         aspect: [4, 3],
-        quality: 0.05,  // Extremely reduced quality
+        quality: 0.7,  // Increased from 0.05 to 0.7
         base64: true,
         exif: false,    // Exclude EXIF data
       });
@@ -78,56 +81,87 @@ const ReportCreationPage = () => {
     })();
   }, []);
 
+  useEffect(() => {
+    const checkUserRole = async () => {
+      try {
+        const userData = await AsyncStorage.getItem('userData');
+        if (userData) {
+          const { role } = JSON.parse(userData);
+          setIsAdmin(role === 'admin');
+        }
+      } catch (error) {
+        console.error('Error checking user role:', error);
+      }
+    };
+    
+    checkUserRole();
+  }, []);
+
   const handleCreateReport = async () => {
     try {
-        if (!title || !mainText) {
-            alert("Title and main text are required");
-            return;
-        }
+      const userData = await AsyncStorage.getItem('userData');
+      if (!userData) {
+        Alert.alert('Error', 'User data not found');
+        return;
+      }
+      const { id: userId } = JSON.parse(userData);
+      console.log('Creating report with user ID:', userId);
 
-        setErrorMessage('Starting request...');
-        
-        // Create the report data object
-        const reportData = {
-            title: title,
-            body: mainText,
-            user: "65f3c1d2f3c1d2f3c1d2f3c1",
-            project: projectId,
-            location: {
-                type: "Point",
-                coordinates: location ? 
-                    [location.coords.longitude, location.coords.latitude] : 
-                    [-79.3832, 43.6532]
-            },
-            image: image || undefined
-        };
+      if (!title || !mainText) {
+        alert("Title and main text are required");
+        return;
+      }
 
-        console.log('Sending data:', JSON.stringify(reportData, null, 2));
+      setErrorMessage('Starting request...');
+      
+      const reportData = {
+        title,
+        body: mainText,
+        project: projectId,
+        user: userId,
+        image: image,
+        location: location ? {
+          type: 'Point',
+          coordinates: [
+            location.coords.longitude,
+            location.coords.latitude
+          ]
+        } : undefined
+      };
 
-        const response = await fetch(`${DEV_API_URL}/api/reports`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(reportData)
-        });
+      console.log('Sending data:', JSON.stringify(reportData, null, 2));
 
-        const responseText = await response.text();
-        console.log('Response:', responseText);
+      const response = await fetch(`${DEV_API_URL}/api/reports`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(reportData)
+      });
 
-        if (!response.ok) {
-            throw new Error(`Server error: ${response.status}\nDetails: ${responseText}`);
-        }
+      const responseData = await response.json();
+      console.log('Created report:', responseData);
 
-        alert("Report Created Successfully!");
-        router.push({
-            pathname: '/viewreports',
-            params: { projectId, projectName }
-        });
+      if (response.ok) {
+        Alert.alert(
+          "Success", 
+          isAdmin 
+            ? "Report created successfully!"
+            : "Report created successfully! Your report is awaiting admin approval.",
+          [
+            {
+              text: "OK",
+              onPress: () => router.replace('/projectselection') // Navigate to project selection
+            }
+          ]
+        );
+      } else {
+        throw new Error(`Server error: ${response.status}\nDetails: ${responseData}`);
+      }
     } catch (error: any) {
-        console.error('Error details:', error);
-        setErrorMessage(`Error: ${error.message}`);
-        alert(`Error: ${error.message}`);
+      console.error('Error details:', error);
+      setErrorMessage(`Error: ${error.message}`);
+      alert(`Error: ${error.message}`);
     }
   };
 
@@ -152,11 +186,7 @@ const ReportCreationPage = () => {
             </TouchableOpacity>
           </View>
           <TextInput
-            style={[styles.textInput, { 
-              height: 50,
-              fontWeight: 'bold',
-              marginTop: 15
-            }]}
+            style={styles.titleInput}
             placeholder="Enter report title"
             value={title}
             onChangeText={setTitle}
@@ -187,11 +217,7 @@ const ReportCreationPage = () => {
           )}
           
           <TextInput
-            style={[styles.textInput, { 
-              height: 350,
-              marginTop: 15,
-              textAlignVertical: 'top'
-            }]}
+            style={styles.bodyInput}
             multiline
             placeholder="Enter main text"
             value={mainText}
@@ -227,21 +253,27 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   title: {
-    color: "#000",
-    fontSize: 24,
+    fontSize: 28,
+    fontWeight: '600',
+    color: '#2c3e50',
     textAlign: "center",
   },
   panel: {
     width: '100%',
     maxWidth: 350,
     backgroundColor: "#fff",
-    borderRadius: 10,
+    borderRadius: 8,
     borderWidth: 1,
-    borderColor: "#000",
+    borderColor: "#e1e4e8",
     padding: 25,
     marginBottom: 20,
     alignSelf: 'center',
     minHeight: 600,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   panelHeader: {
     flexDirection: 'row',
@@ -261,13 +293,18 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   button: {
-    borderRadius: 20,
+    borderRadius: 8,
     paddingVertical: 12,
     paddingHorizontal: 20,
     alignItems: "center",
     flex: 1,
     marginHorizontal: 5,
     backgroundColor: "#007BFF",
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
   },
   createButton: {
     backgroundColor: "#28a745",
@@ -281,12 +318,29 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "normal",
   },
-  textInput: {
+  titleInput: {
+    backgroundColor: '#f8f9fa',
     borderWidth: 1,
-    borderColor: "#000",
-    borderRadius: 5,
-    padding: 10,
+    borderColor: '#e1e4e8',
+    borderRadius: 8,
+    padding: 15,
+    fontSize: 16,
     width: "100%",
+    height: 50,
+    fontWeight: 'bold',
+    marginTop: 15,
+  },
+  bodyInput: {
+    backgroundColor: '#f8f9fa',
+    borderWidth: 1,
+    borderColor: '#e1e4e8',
+    borderRadius: 8,
+    padding: 15,
+    fontSize: 16,
+    width: "100%",
+    height: 350,
+    marginTop: 15,
+    textAlignVertical: 'top',
   },
   imageContainer: {
     alignItems: 'center',

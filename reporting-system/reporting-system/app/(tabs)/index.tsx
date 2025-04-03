@@ -1,312 +1,159 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, PermissionsAndroid, Platform } from "react-native";
+// app/(tabs)/login.tsx
+
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { router } from 'expo-router';
-import * as Location from 'expo-location';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-type Location = {
-  latitude: number;
-  longitude: number;
-};
+export default function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-type ProjectData = {
-  _id: string;
-  project_name: string;
-  category: string;
-  location: {
-    type: string;
-    coordinates: number[];
-  };
-  region: string;
-  status: string;
-  current_completion_date: string;
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert('Error', 'Please fill in all fields');
+      return;
+    }
 
-};
-
-type PanelData = {
-  id: string;
-  heading: string;
-  subheading: {
-    type: string;
-    location: {
-      type: string;
-      coordinates: number[];
-    };
-    region: string;
-    status: string;
-    completionDate: string;
-  };
-};
-
-type Report = {
-  title: string;
-  body: string;
-  location: {
-    type: string;
-    coordinates: number[];
-  };
-  project: string;
-  user: string;
-  createdAt: string;
-  updatedAt: string;
-};
-
-export default function App() {
-  const [location, setLocation] = useState<Location.LocationObject | null>(null);
-  const [errorMsg, setErrorMsg] = useState<string>("");
-  const [projects, setProjects] = useState<ProjectData[]>([]);
-
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-        return;
-      }
-
-      try {
-        let location = await Location.getCurrentPositionAsync({});
-        setLocation(location);
-      } catch (error) {
-        setErrorMsg('Error fetching location');
-      }
-    })();
-  }, []);
-
-  const fetchProjects = async () => {
     try {
-      const response = await fetch('http://192.168.2.38:5000/api/projects');
-      const responseData = await response.json();
+      setIsLoading(true);
+      // First get all users to find the role
+      const usersResponse = await fetch('http://192.168.2.38:5000/api/users');
+      const usersData = await usersResponse.json();
       
-      if (responseData && Array.isArray(responseData.data)) {
-        setProjects(responseData.data);
-      } else {
-        console.error('Invalid data format:', responseData);
-        setProjects([]);
+      // Find the user by email to get their role
+      const user = usersData.data.find((u: any) => u.email.toLowerCase() === email.toLowerCase());
+      if (!user) {
+        throw new Error('User not found');
       }
-    } catch (error) {
-      console.error('Error fetching projects:', error);
-      setProjects([]);
+
+      // Then attempt login
+      const loginResponse = await fetch('http://192.168.2.38:5000/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      const loginData = await loginResponse.json();
+
+      if (!loginResponse.ok) {
+        throw new Error(loginData.msg || 'Login failed');
+      }
+
+      // Store user data with role from API
+      const userDataToStore = {
+        id: user._id,
+        email: user.email,
+        role: user.role
+      };
+
+      console.log('Storing user data with role:', userDataToStore);
+      await AsyncStorage.setItem('userData', JSON.stringify(userDataToStore));
+      router.replace('/projectselection');
+    } catch (error: any) {
+      console.error('Login error:', error);
+      Alert.alert('Error', error.message || 'Failed to login');
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchProjects();
-  }, []);
+  const goToRegister = () => {
+    router.push('../register');
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Project Selection</Text>
-      {location ? (
-        <Text style={styles.text}>
-          Location: Latitude {location.coords.latitude.toFixed(4)}, 
-          Longitude {location.coords.longitude.toFixed(4)}
+      <Text style={styles.title}>Login</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
+        keyboardType="email-address"
+        autoCapitalize="none"
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+      />
+      <TouchableOpacity 
+        style={styles.button}
+        onPress={handleLogin}
+        disabled={isLoading}
+      >
+        <Text style={styles.buttonText}>
+          {isLoading ? 'Logging in...' : 'Login'}
         </Text>
-      ) : errorMsg ? (
-        <Text style={styles.text}>Error: {errorMsg}</Text>
-      ) : (
-        <Text style={styles.text}>Fetching location...</Text>
-      )}
-
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        {Array.isArray(projects) && projects.length > 0 ? (
-          projects.map((project) => (
-            <Panel
-              key={project._id}
-              panelData={{
-                id: project._id,
-                heading: project.project_name,
-                subheading: {
-                  type: project.category,
-                  location: project.location,
-                  region: project.region,
-                  status: project.status,
-                  completionDate: new Date(project.current_completion_date).toLocaleDateString()
-                }
-              }}
-            />
-          ))
-        ) : (
-          <Text style={styles.noProjects}>No projects available</Text>
-        )}
-      </ScrollView>
+      </TouchableOpacity>
+      <TouchableOpacity 
+        style={styles.registerButton}
+        onPress={goToRegister}
+      >
+        <Text style={styles.registerText}>
+          Don't have an account? Register
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
-const Panel = ({ panelData }: { panelData: PanelData }) => {
-  const [panelReports, setPanelReports] = useState([]);
-
-  // Convert location object to string if it's an object
-  const formatLocation = (location: any) => {
-    if (typeof location === 'object' && location !== null) {
-      return `${location.coordinates?.[0]}, ${location.coordinates?.[1]}`;
-    }
-    return location?.toString() || 'N/A';
-  };
-
-  const viewReports = () => {
-    router.push({
-      pathname: '/viewreports',
-      params: { 
-        projectId: panelData.id,
-        projectName: panelData.heading
-      }
-    });
-  };
-
-  const createReport = () => {
-    router.push({
-      pathname: '/createreport',
-      params: { 
-        projectId: panelData.id,
-        projectName: panelData.heading
-      }
-    });
-  };
-
-  return (
-    <View style={styles.panel}>
-      <View style={styles.header}>
-        <View style={styles.circle} />
-        <Text style={styles.headerText}>
-          {panelData.heading}
-        </Text>
-      </View>
-      <View style={styles.subheadingContainer}>
-        <Text style={styles.subheadingLabel}>Type:</Text>
-        <Text style={styles.subheadingValue}>{panelData.subheading.type}</Text>
-      </View>
-      <View style={styles.subheadingContainer}>
-        <Text style={styles.subheadingLabel}>Location:</Text>
-        <Text style={styles.subheadingValue}>{formatLocation(panelData.subheading.location)}</Text>
-      </View>
-      <View style={styles.subheadingContainer}>
-        <Text style={styles.subheadingLabel}>Region:</Text>
-        <Text style={styles.subheadingValue}>{panelData.subheading.region}</Text>
-      </View>
-      <View style={styles.subheadingContainer}>
-        <Text style={styles.subheadingLabel}>Status:</Text>
-        <Text style={styles.subheadingValue}>{panelData.subheading.status}</Text>
-      </View>
-      <View style={styles.subheadingContainer}>
-        <Text style={styles.subheadingLabel}>Completion Date:</Text>
-        <Text style={styles.subheadingValue}>{panelData.subheading.completionDate}</Text>
-      </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity 
-          style={[styles.button, styles.viewButton]}
-          onPress={viewReports}
-        >
-          <Text style={styles.buttonText}>View Reports</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={[styles.button, styles.createButton]}
-          onPress={createReport}
-        >
-          <Text style={styles.buttonText}>Create Report</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-};
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    paddingTop: 40,
-    alignItems: "center",
+    padding: 20,
+    justifyContent: 'center',
+    backgroundColor: '#fff',
   },
   title: {
-    color: "#000",
-    fontSize: 24,
-    textAlign: "center",
-    marginBottom: 20,
+    fontSize: 28,
+    fontWeight: '600',
+    color: '#2c3e50',
+    marginBottom: 25,
+    textAlign: 'center',
   },
-  text: {
-    color: "#000",
-    fontSize: 18,
-    textAlign: "center",
-    marginBottom: 20,
-  },
-  scrollContent: {
-    paddingHorizontal: 20,
-    alignItems: "center",
-    paddingBottom: 60,
-    flexGrow: 1,
-  },
-  panel: {
-    width: "100%",
-    maxWidth: 350,
-    backgroundColor: "#fff",
-    borderRadius: 10,
+  input: {
+    backgroundColor: '#f8f9fa',
     borderWidth: 1,
-    borderColor: "#000",
-    padding: 12,
+    borderColor: '#e1e4e8',
+    padding: 15,
     marginBottom: 15,
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 8,
-  },
-  circle: {
-    width: 16,
-    height: 16,
     borderRadius: 8,
-    backgroundColor: "#007BFF",
-    marginRight: 8,
-  },
-  headerText: {
-    fontSize: 14,
-    fontWeight: "bold",
-  },
-  subheadingContainer: {
-    flexDirection: "row",
-    marginBottom: 6,
-    alignItems: "center",
-  },
-  subheadingLabel: {
-    fontSize: 12,
-    fontWeight: "bold",
-    marginRight: 8,
-    width: 100,
-  },
-  subheadingValue: {
-    fontSize: 12,
-    fontWeight: "normal",
-    flex: 1,
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 8,
+    fontSize: 16,
   },
   button: {
-    borderRadius: 20,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    alignItems: "center",
-    flex: 1,
-    marginHorizontal: 5,
-  },
-  viewButton: {
-    paddingVertical: 12,
-    backgroundColor: "#007BFF",
-  },
-  createButton: {
-    paddingVertical: 12,
-    backgroundColor: "#007BFF",
+    backgroundColor: '#007BFF',
+    padding: 15,
+    borderRadius: 8,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   buttonText: {
-    color: "#fff",
-    fontSize: 14,
-    fontWeight: "normal",
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
   },
-  noProjects: {
-    color: "#000",
-    fontSize: 18,
-    textAlign: "center",
-    marginBottom: 20,
+  registerButton: {
+    marginTop: 15,
+    padding: 10,
+  },
+  registerText: {
+    color: '#007BFF',
+    textAlign: 'center',
+    fontSize: 16,
   },
 });
