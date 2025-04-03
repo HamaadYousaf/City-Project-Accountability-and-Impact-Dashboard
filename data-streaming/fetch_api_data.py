@@ -16,9 +16,9 @@ DEFAULT_WEBSITE = "https://www.ontario.ca/page/building-ontario"
 
 # Cost constants
 ECONOMIC_COST_PER_DAY = 1000  # $1000/day
-HUMAN_COST_PER_DAY = 500      # $500/day
-OPPORTUNITY_COST_RATE = 0.0006   # 0.06% of original budget per delay day
-
+HUMAN_COST_PER_DAY = 500      # $2000/day
+#OPPORTUNITY_COST_RATE = 0.0006   # 0.06% of original budget per delay day
+OPPORTUNITY_COST_PER_DAY = 6000  # Lost growth, revenue, etc.
 
 def fetch_api_data(api_url, target_statuses):
     """Fetch and filter data from the Ontario API based on target statuses."""
@@ -119,7 +119,8 @@ def transform_data(data, target_statuses):
 
         # Dynamic Cost Estimation:
         economic_cost = delay_days * ECONOMIC_COST_PER_DAY
-        opportunity_cost = delay_days * OPPORTUNITY_COST_RATE * original_budget
+        #opportunity_cost = delay_days * OPPORTUNITY_COST_RATE * original_budget
+        opportunity_cost = delay_days * OPPORTUNITY_COST_PER_DAY
         human_cost = delay_days * HUMAN_COST_PER_DAY
         total_cost = economic_cost + opportunity_cost + human_cost
 
@@ -190,8 +191,9 @@ def create_manual_project(
 ):
     # Constants for Dynamic Cost Estimator (DCE)
     ECONOMIC_COST_PER_DAY = 1000  # $1000/day
-    HUMAN_COST_PER_DAY = 500      # $500/day
-    OPPORTUNITY_COST_RATE = 0.0006   # 0.06% of original budget per delay day
+    HUMAN_COST_PER_DAY = 2000      # $2000/day
+    #OPPORTUNITY_COST_RATE = 0.0006   # 0.06% of original budget per delay day
+    OPPORTUNITY_COST_PER_DAY = 6000  # Lost growth, revenue, etc.
 
     # Parse dates
     original_date = datetime.strptime(original_completion_date_str, "%Y-%m-%d")
@@ -202,7 +204,8 @@ def create_manual_project(
 
     # Cost calculations
     economic_cost = delay_days * ECONOMIC_COST_PER_DAY
-    opportunity_cost = delay_days * OPPORTUNITY_COST_RATE * original_budget
+    #opportunity_cost = delay_days * OPPORTUNITY_COST_RATE * original_budget
+    opportunity_cost = delay_days * OPPORTUNITY_COST_PER_DAY
     human_cost = delay_days * HUMAN_COST_PER_DAY
     total_cost = economic_cost + opportunity_cost + human_cost
 
@@ -249,7 +252,7 @@ manual_projects = [
         "Under construction",
         5300000000.0, 12800000000.0,
         "Transit",
-        "Improved transit access across Toronto's East & West ends.",
+        "Improved transit across Toronto's East & West ends.",
         "Toronto", "Central",
         "Eglinton Avenue, Toronto, ON", "M4S2B8",
         False, True, True, False,
@@ -263,7 +266,7 @@ manual_projects = [
         "2027-12-31", "2030-12-31",
         "2019-01-01", "2021-12-31", "2022-06-01",
         "Under construction",
-        11000000000.0, 13000000000.0,
+        10900000000.0, 12000000000.0,
         "Transit",
         "Increase public transport accessibility and reduce congestion.",
         "Toronto", "Central",
@@ -271,7 +274,142 @@ manual_projects = [
         False, True, True, False,
         "https://www.metrolinx.com/en/projects-and-programs/ontario-line",
         "Moderate", 75
-    )
+    ),
+    create_manual_project(
+        "Don Valley Parkway Bridge Rehabilitation",
+        "Rehabilitation of key bridge segments along the DVP to improve traffic safety and structural integrity.",
+        -79.351, 43.720,
+        "2023-09-01", "2024-11-01",
+        "2021-01-01", "2022-06-01", "2022-09-01",
+        "Under construction",
+        8500000.0, 8900000.0,
+        "Roads and bridges",
+        "Reduced traffic delays and improved bridge lifespan.",
+        "Toronto", "Central",
+        "Don Valley Parkway, Toronto, ON", "M4B1B3",
+        True, True, False, False,
+        "https://www.toronto.ca/dvp-bridge-rehab",
+        "Moderate", 75
+    ),
+   
+    create_manual_project(
+        "Lawrence Heights Community Centre",
+        "New community centre including gym, pool, and classrooms for local residents.",
+        -79.444, 43.719,
+        "2024-03-01", "2025-03-01",
+        "2022-01-01", "2022-10-01", "2023-01-01",
+        "Under construction",
+        29000000.0, 30500000.0,
+        "Communities",
+        "Enhanced access to local recreational and social spaces.",
+        "Toronto", "North York",
+        "Lawrence Avenue W, Toronto, ON", "M6A1A1",
+        True, True, False, False,
+        "https://www.toronto.ca/lawrence-heights-cc",
+        "Improving", 90
+    ),
+    create_manual_project(
+        "Gardiner Expressway Phase 3 Repairs",
+        "Ongoing structural maintenance to extend the Gardiner’s lifespan and ensure public safety.",
+        -79.387, 43.640,
+        "2025-01-01", "2026-06-01",
+        "2022-06-01", "2023-01-01", "2023-05-01",
+        "Planning",
+        9800000.0, 10400000.0,
+        "Roads and bridges",
+        "Improved structural stability and reduced future maintenance.",
+        "Toronto", "Central",
+        "Gardiner Expressway, Toronto, ON", "M5J2N1",
+        True, True, False, False,
+        "https://www.toronto.ca/gardiner-repairs",
+        "Moderate", 75
+    ),
+  
+    create_manual_project(
+        "Yonge Street Sidewalk Widening",
+        "Pedestrian safety enhancement via sidewalk expansion and updated intersections.",
+        -79.383, 43.652,
+        "2023-11-01", "2024-08-01",
+        "2021-11-01", "2022-08-01", "2023-01-01",
+        "Under construction",
+        5200000.0, 5450000.0,
+        "Roads and bridges",
+        "Better accessibility and improved street safety.",
+        "Toronto", "Downtown",
+        "Yonge Street, Toronto, ON", "M5B1N8",
+        True, True, False, False,
+        "https://www.toronto.ca/yonge-sidewalk-project",
+        "Improving", 90
+    ),
+  
+    create_manual_project(
+        "Wellesley Watermain Replacement",
+        "Replacement of aging watermain infrastructure to improve water service reliability.",
+        -79.379, 43.666,
+        "2023-06-01", "2024-04-01",
+        "2021-04-01", "2021-10-01", "2022-01-01",
+        "Under construction",
+        4800000.0, 5100000.0,
+        "Roads and bridges",
+        "Better water service and road durability.",
+        "Toronto", "Downtown",
+        "Wellesley Street, Toronto, ON", "M4Y1G7",
+        True, True, False, False,
+        "https://www.toronto.ca/wellesley-watermain",
+        "Moderate", 75
+    ),
+    create_manual_project(
+        "King Street Transit Priority Expansion",
+        "Expanding and modernizing King Street's dedicated streetcar corridor.",
+        -79.3832, 43.6487,
+        "2024-08-01", "2025-06-01",
+        "2022-01-01", "2022-12-31", "2023-03-01",
+        "Under construction",
+        14500000.0, 16000000.0,
+        "Transit",
+        "Improved commute times and reduced congestion on King Street.",
+        "Toronto", "Central",
+        "King Street W, Toronto, ON", "M5V1K1",
+        False, True, False, False,
+        "https://www.toronto.ca/services-payments/streets-parking-transportation/king-street-pilot/",
+        "Improving", 90
+    ),
+ 
+ 
+    create_manual_project(
+        "Bloor Street Bridge Strengthening",
+        "Reinforcement and seismic upgrade to the Bloor Street Viaduct.",
+        -79.3583, 43.6772,
+        "2023-12-01", "2025-06-01",
+        "2021-01-01", "2022-08-01", "2022-12-01",
+        "Under construction",
+        33000000.0, 35000000.0,
+        "Roads and bridges",
+        "Increased structural resilience and reduced risk of failure.",
+        "Toronto", "Central",
+        "Bloor St E, Toronto, ON", "M4W3Y4",
+        False, True, True, False,
+        "https://www.toronto.ca/bloorviaductupgrade",
+        "Declining", 60
+    ),
+    create_manual_project(
+        "East York Community Centre Renovation",
+        "Energy-efficient upgrades and accessibility improvements to the center.",
+        -79.3335, 43.6914,
+        "2024-03-01", "2025-02-01",
+        "2022-05-01", "2022-10-01", "2023-01-01",
+        "Under construction",
+        9200000.0, 9800000.0,
+        "Communities",
+        "Improved accessibility and services for residents of East York.",
+        "Toronto", "East",
+        "1081 ½ Pape Ave, Toronto, ON", "M4K3W4",
+        True, True, False, False,
+        "https://www.toronto.ca/eastyorkcc",
+        "Improving", 90
+    ),
+ 
+  
 ]
 
 def push_to_backend(projects):

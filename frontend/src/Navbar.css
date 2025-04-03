@@ -69,3 +69,26 @@ li {
 .nav-logo a:hover {
     letter-spacing: 1px;
 }
+
+/* --- NEW: Symbol + Logo Styling --- */
+.symbol-icon {
+    height: 45px;
+    width: auto;
+    margin-right: 12px;
+    object-fit: contain;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-logo a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-size: x-large;
+    font-weight: 900;
+    color: #2a50cf;
+}

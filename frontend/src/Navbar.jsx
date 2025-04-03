@@ -2,7 +2,7 @@ import React from 'react';
 import './Navbar.css';
 import { Link } from 'react-router-dom';
 import { PiLetterCirclePFill } from "react-icons/pi";
-
+import symbol from './logo.png';
 
 export default function Navbar() {
 
@@ -12,6 +12,7 @@ export default function Navbar() {
                 <div className="nav-logo">
                     <Link to="/">
                         {/*<PiLetterCirclePFill className='logo' size={35} /> */}
+                        <img src={symbol} alt="CityScope Symbol" className="symbol-icon" />
                         <div className='logo'><span>CityScope</span> Toronto</div>
                     </Link>
                 </div>
