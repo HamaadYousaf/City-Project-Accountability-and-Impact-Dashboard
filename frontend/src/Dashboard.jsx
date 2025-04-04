@@ -62,7 +62,7 @@ export default function Dashboard({ projects, pageNum, setPageNum }) {
         const fetchCityData = async () => {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/projects/summary`);
-                setCityData(response.data); //response.data since its 
+                setCityData(response.data);
                 setLoading(false);
             } catch (error) {
                 console.error("Error fetching city data:", error);

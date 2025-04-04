@@ -3,22 +3,12 @@
     padding-left: 0;
     position: relative;
     font-size: 0.875rem;
-    /* Smaller font size */
-    /*margin-left: 30px;*/
-    /* Add space for the timeline line */
-    /*margin-top: 40px; */
     background-color: #fff;
-    /* Set white background */
     padding: 20px;
-    /* Add padding so the border doesn't touch the edges */
     border-radius: 15px;
-    /* Add border radius for smoother edges */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    /* Optional: add shadow for effect */
     border: none;
-    /* Thin border to match the theme */
     width: 80%;
-    /*33%*/
     transition: transform 0.3s ease;
 }
 
@@ -30,19 +20,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* Center items vertically */
 }
 
 .timeline-box {
     background-color: rgba(193, 193, 205, 0.345);
     padding: 6px 12px;
-    /* Reduced padding */
     border: none;
-    /* Thinner border */
     border-radius: 6px;
-    /* Smaller border radius */
-    /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
-    /* Smaller shadow */
     margin-left: 40px;
     color: white;
 }
@@ -51,21 +35,9 @@
 .timeline-start,
 .timeline-end {
     width: 160px;
-    /* Reduced width */
     position: absolute;
-    /* Fixed width for boxes */
     text-align: center;
     top: 10px;
-}
-
-.timeline-middle {
-    /*display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-grow: 1;*/
-    /* doesnt do anything*/
-    /*margin-left: 20px;
-    margin-right: 20px; */
 }
 
 .timeline-end {
@@ -76,41 +48,29 @@
     display: block;
     margin: 0 auto;
     width: 50px;
-    /* Circle size */
     height: 50px;
-    /* Circle size */
     z-index: 1;
-    /* Higher z-index for checkmarks */
-    /* Ensure background behind checkmark */
     border-radius: 50%;
     margin-bottom: 30px;
     background-color: white;
     margin-left: 15px;
-    /*color: #2a50cf; */
 }
 
-/* Modify the timeline line to fit within the border */
 .timeline::before {
     content: '';
     position: absolute;
     left: 50%;
-    /* Center the line */
     top: 0;
-    /* Adjust to the top of the border */
     bottom: 0;
-    /* Adjust to the bottom of the border */
     width: 5px;
     background-color: #2a50cf;
-    /* Line color */
     transform: translateX(-50%);
     z-index: 0;
-    /* Ensure it's behind the content */
 }
 
 hr {
     border: 0;
     height: 1px;
-    /* Thinner line */
     background-color: #3490dc;
 }
 
@@ -118,12 +78,11 @@ hr {
     background-color: #3490dc;
 }
 
-/* Styling for timeline items */
+
 .timeline li {
     display: flex;
     align-items: center;
     margin-bottom: 50px;
-    /* Increased margin for larger gaps between items */
     position: relative;
 }
 
@@ -131,15 +90,12 @@ hr {
     margin-bottom: 0;
 }
 
-/* Position timeline items alternately */
 .timeline li:nth-child(odd) .timeline-start {
     left: -190px;
-    /* Position left for odd items */
 }
 
 .timeline li:nth-child(even) .timeline-end {
     right: -190px;
-    /* Position right for even items */
 }
 
 .timeline li:nth-child(even) .timeline-start {
@@ -184,17 +140,14 @@ hr {
 
 .timeline-gray::before {
     background-color: lightgrey;
-    /* Gray color for Not Started */
 }
 
 .timeline-lightblue::before {
     background-color: #a8b5de;
-    /* Light blue color for In Progress */
 }
 
 .timeline-blue::before {
     background-color: #2a50cf;
-    /* Blue color for Completed */
 }
 
 .label-wrapper {
@@ -206,5 +159,4 @@ hr {
 .timeline-text {
     margin-bottom: 0.25rem;
     color: white;
-    /*padding-right: 100px;*/
 }

@@ -1,6 +1,5 @@
 .dashboard {
     margin-left: 15rem;
-    /*20%*/
     margin-top: 1.25rem;
     width: 80%;
 }
@@ -250,20 +249,6 @@ th:nth-child(4) {
     margin-left: auto;
     text-align: right;
 }
-
-/* I DONT THINK THESE ARE NEEDED
-.green {
-    color: green;
-}
-
-.orange {
-    color: orange;
-}
-
-.red { 
-    color: red;
-}
-*/
 
 .pagination {
     display: flex;

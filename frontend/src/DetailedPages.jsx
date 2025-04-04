@@ -79,7 +79,6 @@ export default function DetailedPages() {
         else {
             return 'red';
         }
-        /*return value === "Improving" ? 'rgb(74, 191, 74)' : 'red';*/
     };
 
     if (loading) return <p>Loading...</p>;
@@ -155,20 +154,12 @@ export default function DetailedPages() {
                     </div>
                     <div className='project-info-card'>
                         <div className='project-cost-trends'>
-                            {/*<h4 className='card-header'>
-                                <FaCircle className='circle' />
-                                Cost Trends</h4>*/}
-                            {/*<div className='trends'>
-                                <div className='project-cost-piechart'>*/}
                             <h4 className='card-header'>
                                 <FaCircle className='circle' />Cost Trends</h4>
                             {status === "Completed" ? "Project is completed" : <ProjectPieChart pieData={pieData} />}
                             <div className='legend'>
                                 {status === "Completed" ? null : <p><FaCircle className='circle' />Economic <FaCircle className='circle' />Opportunity <FaCircle className='circle' />Human</p>}
                             </div>
-                            {/*} </div>
-
-                            </div>*/}
                         </div>
                         <div className='project-budget-change'>
                             <h4 className='card-header'>
