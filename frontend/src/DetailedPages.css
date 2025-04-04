@@ -13,20 +13,13 @@
     max-width: 50rem;
     height: auto;
     box-sizing: border-box;
-    /*display: flex;
-    justify-content: space-between;
-    align-items: flex-start; */
 }
 
 .project-right {
     flex: 0 0 34rem;
-    /* 40% width */
     max-width: 34rem;
-    /* Ensure it doesn’t grow beyond 40% */
     height: auto;
-    /* Let it grow based on content */
     box-sizing: border-box;
-    /* Ensure padding doesn’t affect width */
 }
 
 .timeline {
@@ -288,18 +281,6 @@ td {
     text-decoration: none;
     color: #2a50cf;
 }
-
-/*.project-link button {
-    background-color: #2a50cf;
-    border: none;
-    border-radius: 6px;
-    padding: 6px;
-    width: 70%;
-}
-
-.project-link button:hover {
-    background-color: #2546b2;
-}*/
 
 .link-icon {
     color: #2a50cf;

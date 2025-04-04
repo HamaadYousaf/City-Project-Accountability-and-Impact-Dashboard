@@ -52,8 +52,6 @@ body {
 
 .page-content {
   flex: 1;
-  /*margin-left: NApx; */
-  /*IN CASE I WANT TO ALIGN THE PAGE CONTENTS*/
 }
 
 .leaflet-container {
