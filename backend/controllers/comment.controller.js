@@ -63,3 +63,13 @@ export const deleteComment = async (req, res) => {
         res.status(500).json({ msg: error.message })
     }
 }
+
+export const deleteUserComments = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        await Comment.deleteMany({ user: userId });
+        res.status(200).json({ msg: 'All user comments deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
+};
