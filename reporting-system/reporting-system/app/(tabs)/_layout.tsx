@@ -7,13 +7,26 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
-      const userData = await AsyncStorage.getItem('userData');
-      setIsAuthenticated(!!userData);
+      try {
+        const userData = await AsyncStorage.getItem('userData');
+        if (!userData) {
+          setIsAuthenticated(false);
+          setIsAdmin(false);
+          return;
+        }
+        const { role } = JSON.parse(userData);
+        setIsAuthenticated(true);
+        setIsAdmin(role === 'admin');
+      } catch (error) {
+        setIsAuthenticated(false);
+        setIsAdmin(false);
+      }
     };
-    
+
     checkAuth();
     const interval = setInterval(checkAuth, 1000);
     return () => clearInterval(interval);
@@ -48,15 +61,23 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Login",
-          headerShown: false,
+          tabBarLabel: "Login",
         }}
       />
       <Tabs.Screen
         name="projectselection"
         options={{
-          title: "Projects",
-          headerShown: false,
-          href: isAuthenticated ? undefined : null, // Only allow access when authenticated
+          title: 'Projects',
+          tabBarLabel: 'Projects',
+          href: isAuthenticated ? undefined : null,
+        }}
+      />
+      <Tabs.Screen
+        name="usermanagement"
+        options={{
+          title: 'Users',
+          tabBarLabel: 'Users',
+          href: (isAuthenticated && isAdmin) ? undefined : null,
         }}
       />
     </Tabs>

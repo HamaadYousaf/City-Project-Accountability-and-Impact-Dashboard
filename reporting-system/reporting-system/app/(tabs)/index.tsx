@@ -1,6 +1,6 @@
 // app/(tabs)/login.tsx
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -9,6 +9,18 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const userData = await AsyncStorage.getItem('userData');
+      setIsAuthenticated(!!userData);
+    };
+
+    checkAuth();
+    const interval = setInterval(checkAuth, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -69,8 +81,27 @@ export default function Login() {
     router.push('../register');
   };
 
+  const handleLogout = async () => {
+    try {
+      await AsyncStorage.removeItem('userData');
+      setIsAuthenticated(false);
+      router.replace('/');
+    } catch (error) {
+      console.error('Error logging out:', error);
+      Alert.alert('Error', 'Failed to log out');
+    }
+  };
+
   return (
     <View style={styles.container}>
+      {isAuthenticated && (
+        <TouchableOpacity 
+          style={styles.logoutButton}
+          onPress={handleLogout}
+        >
+          <Text style={styles.logoutText}>Logout</Text>
+        </TouchableOpacity>
+      )}
       <Text style={styles.title}>Login</Text>
       <TextInput
         style={styles.input}
@@ -114,6 +145,7 @@ const styles = StyleSheet.create({
     padding: 20,
     justifyContent: 'center',
     backgroundColor: '#fff',
+    position: 'relative',
   },
   title: {
     fontSize: 28,
@@ -155,5 +187,23 @@ const styles = StyleSheet.create({
     color: '#007BFF',
     textAlign: 'center',
     fontSize: 16,
+  },
+  logoutButton: {
+    position: 'absolute',
+    left: 20,
+    top: 60,
+    backgroundColor: '#dc3545',
+    padding: 8,
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  logoutText: {
+    color: '#fff',
+    fontSize: 12,
+    fontWeight: 'bold',
   },
 });

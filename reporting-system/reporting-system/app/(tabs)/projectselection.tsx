@@ -205,6 +205,7 @@ export default function App() {
   const handleLogout = async () => {
     try {
       await AsyncStorage.removeItem('userData');
+      // Force a refresh of the tab layout by navigating to login
       router.replace('/');
     } catch (error) {
       console.error('Error logging out:', error);

@@ -105,31 +105,23 @@ const ReportCreationPage = () => {
         return;
       }
       const { id: userId } = JSON.parse(userData);
-      console.log('Creating report with user ID:', userId);
 
       if (!title || !mainText) {
-        alert("Title and main text are required");
+        alert("Title and description are required");
         return;
       }
 
-      setErrorMessage('Starting request...');
-      
       const reportData = {
         title,
         body: mainText,
         project: projectId,
         user: userId,
-        image: image,
-        location: location ? {
-          type: 'Point',
-          coordinates: [
-            location.coords.longitude,
-            location.coords.latitude
-          ]
-        } : undefined
+        image: image || undefined,
+        location: {
+          type: "Point",
+          coordinates: location ? [location.coords.longitude, location.coords.latitude] : [0, 0]
+        }
       };
-
-      console.log('Sending data:', JSON.stringify(reportData, null, 2));
 
       const response = await fetch(`${DEV_API_URL}/api/reports`, {
         method: 'POST',
@@ -139,29 +131,27 @@ const ReportCreationPage = () => {
         body: JSON.stringify(reportData)
       });
 
-      const responseData = await response.json();
-      console.log('Created report:', responseData);
-
-      if (response.ok) {
-        Alert.alert(
-          "Success", 
-          isAdmin 
-            ? "Report created successfully!"
-            : "Report created successfully! Your report is awaiting admin approval.",
-          [
-            {
-              text: "OK",
-              onPress: () => router.replace('/projectselection') // Navigate to project selection
-            }
-          ]
-        );
-      } else {
-        throw new Error(`Server error: ${response.status}\nDetails: ${responseData}`);
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Server error response:', errorData);
+        throw new Error(`Server error: ${response.status}\nDetails: ${JSON.stringify(errorData)}`);
       }
-    } catch (error: any) {
+
+      Alert.alert(
+        "Success",
+        "Report created successfully!",
+        [
+          {
+            text: "OK",
+            onPress: () => {
+              router.back();
+            }
+          }
+        ]
+      );
+    } catch (error) {
       console.error('Error details:', error);
-      setErrorMessage(`Error: ${error.message}`);
-      alert(`Error: ${error.message}`);
+      Alert.alert('Error', 'Failed to create report');
     }
   };
 
