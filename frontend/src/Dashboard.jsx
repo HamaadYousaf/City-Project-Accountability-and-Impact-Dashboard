@@ -214,7 +214,7 @@ export default function Dashboard({ projects, pageNum, setPageNum }) {
                                         <p className='info'>{new Date(project.current_completion_date).toISOString().split('T')[0]}</p>
                                     </section>
                                     <div className='project-button'>
-                                        <Link to={`/projects/${project._id}`}><button>{project.project_name}</button></Link>
+                                        <Link to={`/projects/${project._id}`}><button>View Project</button></Link>
                                     </div>
                                 </li>
                             ))}
@@ -258,7 +258,7 @@ export default function Dashboard({ projects, pageNum, setPageNum }) {
                                         <p>{new Date(project.current_completion_date).toISOString().split('T')[0]}</p>
                                     </section>
                                     <div className='project-button'>
-                                        <Link to={`/projects/${project._id}`}><button>{project.project_name}</button></Link>
+                                        <Link to={`/projects/${project._id}`}><button>View Project</button></Link>
                                     </div>
                                 </li>
                             ))}
@@ -298,7 +298,7 @@ export default function Dashboard({ projects, pageNum, setPageNum }) {
                                         <p>{new Date(project.current_completion_date).toISOString().split('T')[0]}</p>
                                     </section>
                                     <div className='project-button'>
-                                        <Link to={`/projects/${project._id}`}><button>{project.project_name}</button></Link>
+                                        <Link to={`/projects/${project._id}`}><button>View Project</button></Link>
                                     </div>
                                 </li>
                             ))}
