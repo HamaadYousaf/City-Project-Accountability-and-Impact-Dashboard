@@ -36,9 +36,9 @@ const ReportCreationPage = () => {
       let result = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
         aspect: [4, 3],
-        quality: 0.7,  // Increased from 0.05 to 0.7
+        quality: 1,
         base64: true,
-        exif: false,    // Exclude EXIF data
+        exif: false,
       });
 
       if (!result.canceled && result.assets[0].base64) {
@@ -54,9 +54,9 @@ const ReportCreationPage = () => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 0.05,  // Extremely reduced quality
+      quality: 1,
       base64: true,
-      exif: false,    // Exclude EXIF data
+      exif: false,
     });
 
     if (!result.canceled && result.assets[0].base64) {
