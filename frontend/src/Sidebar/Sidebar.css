@@ -117,4 +117,8 @@
     .search-box {
         width: 105%;
     }
+
+    .sidebar-label {
+        margin-bottom: 6px;
+    }
 }
